@@ -1,0 +1,27 @@
+.gen-glyph { display: block; overflow: visible; }
+.gen-glyph > * { transform-box: view-box; transform-origin: 10px 10px; }
+.gen-glyph-orbit { opacity: 0.55; stroke-dasharray: 16 40; stroke-dashoffset: 0; }
+.gen-glyph-star { transition: transform 420ms var(--ease-spring); }
+.gen-glyph-moon { transition: transform 420ms var(--ease-spring), opacity 200ms var(--ease-out); }
+
+/* Idle hover: the star turns, the companion slides along its orbit. */
+:hover > .gen-glyph:not(.working) .gen-glyph-star,
+.gen-glyph:not(.working):hover .gen-glyph-star { transform: rotate(45deg) scale(0.92); }
+:hover > .gen-glyph:not(.working) .gen-glyph-moon,
+.gen-glyph:not(.working):hover .gen-glyph-moon { transform: rotate(40deg); }
+
+.gen-glyph.working .gen-glyph-moon { animation: gen-orbit 1.6s linear infinite; }
+.gen-glyph.working .gen-glyph-star { animation: gen-breathe 1.6s ease-in-out infinite; }
+.gen-glyph.working .gen-glyph-orbit { animation: gen-trail 1.6s linear infinite; opacity: 0.8; }
+
+.gen-glyph.done .gen-glyph-star { animation: gen-burst 520ms var(--ease-spring) both; }
+.gen-glyph.done .gen-glyph-moon { animation: gen-burst 520ms var(--ease-spring) 80ms both; }
+
+@keyframes gen-orbit { to { transform: rotate(360deg); } }
+@keyframes gen-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(0.82) rotate(45deg); } }
+@keyframes gen-trail { to { stroke-dashoffset: -56; } }
+@keyframes gen-burst { 0% { transform: scale(0.4) rotate(-45deg); opacity: 0; } 60% { transform: scale(1.18); opacity: 1; } 100% { transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .gen-glyph * { animation: none !important; transition: none !important; }
+}

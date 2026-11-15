@@ -165,6 +165,8 @@ export interface VideoExportOptions {
   range?: ExportRange;
   /** Mix and encode the audio tracks (default true). */
   includeAudio?: boolean;
+  /** Encode only the mixed audio (no video track, no video decode): used by Save as Audio / Extract Audio. */
+  audioOnly?: boolean;
 }
 
 export interface ExportValidation {

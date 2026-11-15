@@ -8,6 +8,8 @@ import SkipBack from "lucide-solid/icons/skip-back";
 import SkipForward from "lucide-solid/icons/skip-forward";
 import StepBack from "lucide-solid/icons/step-back";
 import StepForward from "lucide-solid/icons/step-forward";
+import { setMeterSource } from "./audioMeter";
+import { setFrameSampler } from "./scopeFeed";
 import { For, Show, createMemo, createSignal, onCleanup, onMount, type JSX } from "solid-js";
 import type { Editor } from "../editor/editor";
 import { timelineTotalFrames, type Timeline } from "../model/timeline";
@@ -17,6 +19,7 @@ import {
   canvasFormats, canvasGrids, canvasGuides, canvasOverlays, canvasOverlaysEmpty, emptyCanvasOverlays, formatLabels, gridLabel,
   guideLabels, setCanvasOverlays, toggleGuide,
 } from "./overlays/canvasGuides";
+import { OfflinePreviewOverlay } from "./OfflinePreviewOverlay";
 import { PlaybackEngine } from "./playback";
 import type { PreviewSeekMode } from "./previewPlaybackRate";
 import type { PreviewQuality } from "./renderer";
@@ -168,12 +171,16 @@ export function PreviewView(props: PreviewViewProps) {
     const e = new PlaybackEngine({ editor, canvas, resolveUrl: props.resolveUrl, loadLut: props.loadLut });
     setEngine(e);
     props.onEngine?.(e);
+    setMeterSource(() => e.levels());
+    setFrameSampler((cols, rows, out) => e.sampleFrame(cols, rows, out));
     const ro = new ResizeObserver(([entry]) => {
       if (entry) setAreaSize({ width: entry.contentRect.width, height: entry.contentRect.height });
     });
     ro.observe(area);
     onCleanup(() => {
       ro.disconnect();
+      setMeterSource(null);
+      setFrameSampler(null);
       e.dispose();
     });
   });
@@ -336,6 +343,7 @@ export function PreviewView(props: PreviewViewProps) {
             </div>
           )}
         </Show>
+        <OfflinePreviewOverlay editor={editor} frame={frame} />
       </div>
 
       <div

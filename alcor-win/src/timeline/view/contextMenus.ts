@@ -6,6 +6,8 @@ import { removeKeyframe, setFadeInterpolation, setInterpolation } from "../../ed
 import { canLinkSelected, canUnlinkSelected, expandToLinkGroup, linkClips, unlinkClips } from "../../editor/mutations/linking";
 import { rippleDelete, rippleDeleteGapRefusal } from "../../editor/mutations/ripple";
 import { selectForward } from "../../editor/mutations/selection";
+import { beginMediaSwap } from "../../editor/mutations/mediaSwapSession";
+import { canExtractAudioFromClip, extractAudioFromClip, saveClipAsMedia, saveTimelineRangeAsMedia } from "../../editor/mutations/saveAsMedia";
 import { activateTimeline } from "../../editor/mutations/timelines";
 import { clearTimelineRange, timelineRangeContains, validSelectedTimelineRange } from "../../editor/mutations/timelineRange";
 import { selectAllClips } from "../../editor/mutations/tracks";
@@ -18,9 +20,8 @@ import { switchAngleInRangeItem } from "./multicamMenus";
 import type { TimelineInputController, TimelinePointer } from "./inputController";
 
 // The Swift context menus of TimelineView.menu(for:) and TimelineHeaderView.menu(for:).
-// Not ported (features absent in this port): Add to Chat / AI Edit, Swap Media,
-// Save as Media / Audio, Synchronize, Detect / Mark Beats, multicam Switch Angle / Layout / Ungroup,
-// Create AI Transition, Add Range to Chat, Save Range as Media.
+// Not ported: Add to Chat, Add Range to Chat. The media section (Swap Media, Save as Media / Audio) is built here;
+// AI Edit, Detect / Mark Beats, Synchronize and the multicam items come from `clipMenuSectionProviders`.
 
 /** Extension point: features that add clip-menu sections (AI, sync, multicam) register a provider here. */
 export const clipMenuSectionProviders: ((clipId: string) => ContextMenuItem[])[] = [];
@@ -55,7 +56,11 @@ function keyframeMenu(c: TimelineInputController, clipId: string, property: Anim
 
 function rangeItems(c: TimelineInputController): ContextMenuItem[] {
   const switchAngle = switchAngleInRangeItem(c.editor);
-  return [...(switchAngle ? [switchAngle] : []), item("Clear Range", () => clearTimelineRange(c.editor))];
+  return [
+    item("Save Range as Media", () => void saveTimelineRangeAsMedia(c.editor)),
+    ...(switchAngle ? [switchAngle] : []),
+    item("Clear Range", () => clearTimelineRange(c.editor)),
+  ];
 }
 
 /** Menu for a right-click at `p`, or undefined when the Swift view shows none. May change the selection like Swift. */
@@ -124,10 +129,23 @@ export function timelineContextMenu(c: TimelineInputController, p: TimelinePoint
   if (canLinkSelected(editor)) timelineItems.push(item("Link", () => linkClips(editor, editor.ui.selectedClipIds)));
   if (canUnlinkSelected(editor)) timelineItems.push(item("Unlink", () => unlinkClips(editor, editor.ui.selectedClipIds)));
 
+  const mediaItems: ContextMenuItem[] = [];
+  const selectedGroup = expandToLinkGroup(editor, new Set([clip.id]));
+  const singleLinkGroup = selected.size === selectedGroup.size && [...selected].every((id) => selectedGroup.has(id));
+  if (clip.mediaType !== "text" && clip.sourceClipType !== "sequence" && clip.multicamGroupId === undefined && singleLinkGroup) {
+    mediaItems.push(item("Swap Media", () => beginMediaSwap(editor, clip.id)));
+  }
+  if (clip.mediaType === "video" || clip.mediaType === "audio") {
+    mediaItems.push(item("Save as Media", () => void saveClipAsMedia(editor, clip.id)));
+  }
+  if (clip.mediaType === "video" && canExtractAudioFromClip(editor, clip.id)) {
+    mediaItems.push(item("Save as Audio", () => void extractAudioFromClip(editor, clip.id)));
+  }
+
   const nestItems: ContextMenuItem[] =
     clip.sourceClipType === "sequence" ? [item("Open Timeline", () => activateTimeline(editor, clip.mediaRef))] : [];
 
-  const menu = menuSections(timelineItems, ...clipMenuSectionProviders.map((provide) => provide(clip.id)), nestItems);
+  const menu = menuSections(timelineItems, mediaItems, ...clipMenuSectionProviders.map((provide) => provide(clip.id)), nestItems);
   const all = clickedRange ? menuSections(menu, rangeItems(c)) : menu;
   return all.length > 0 ? all : undefined;
 }

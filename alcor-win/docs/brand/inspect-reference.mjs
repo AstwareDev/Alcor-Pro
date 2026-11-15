@@ -1,0 +1,10 @@
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE);
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE,headless:true});
+const page=await browser.newPage({viewport:{width:1600,height:1000}});
+await page.goto('https://higgsfield.ai',{waitUntil:'domcontentloaded'});
+await page.locator('h1').first().waitFor({timeout:12000}).catch(()=>{});
+console.log(JSON.stringify(await page.evaluate(()=>({title:document.title,colors:[...new Set([...document.querySelectorAll('button,a,h1,main,header')].flatMap(e=>{const s=getComputedStyle(e);return[s.color,s.backgroundColor]}))].slice(0,100),font:getComputedStyle(document.body).fontFamily})),null,2));
+await page.screenshot({path:path.join(path.dirname(fileURLToPath(import.meta.url)),'higgsfield-reference.local.png')});
+await browser.close();

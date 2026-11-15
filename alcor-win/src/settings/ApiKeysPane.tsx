@@ -84,7 +84,7 @@ function KeyRow(props: { provider: Provider }) {
 }
 
 interface AgentKeyProvider {
-  secret: "freesound";
+  secret: "freesound" | "inception" | "openrouter";
   displayName: string;
   keyUrl: string;
   placeholder: string;
@@ -99,7 +99,19 @@ const agentKeyProviders: AgentKeyProvider[] = [
   },
 ];
 
-/** Key row for a non-generation service key (Freesound). */
+/** Keys used only by the prompt bar's routing models (Settings → Prompt bar). Google's key is the provider key above. */
+const routingKeyProviders: AgentKeyProvider[] = [
+  {
+    secret: "inception", displayName: "Inception (Mercury Decide)", keyUrl: "https://platform.inceptionlabs.ai/", placeholder: "Inception API key",
+    check: () => httpFetch({ url: "https://api.inceptionlabs.ai/v1/models", auth: { secret: "inception", header: "Authorization", prefix: "Bearer " } }),
+  },
+  {
+    secret: "openrouter", displayName: "OpenRouter (Jev)", keyUrl: "https://openrouter.ai/settings/keys", placeholder: "OpenRouter API key",
+    check: () => httpFetch({ url: "https://openrouter.ai/api/v1/key", auth: { secret: "openrouter", header: "Authorization", prefix: "Bearer " } }),
+  },
+];
+
+/** Key row for a non-generation service key (Freesound, routing models). */
 function AgentKeyRow(props: { provider: AgentKeyProvider }) {
   const [draft, setDraft] = createSignal("");
   const [has, setHas] = createSignal(false);
@@ -185,6 +197,12 @@ export function ApiKeysPane() {
           A free Freesound key lets the Library search sounds. Only high-quality MP3 previews are downloaded (full-quality downloads need OAuth).
         </div>
         <For each={agentKeyProviders}>{(p) => <AgentKeyRow provider={p} />}</For>
+      </SettingsSection>
+      <SettingsSection title="Prompt routing">
+        <div class="settings-row-subtitle">
+          Optional keys for the decision models that read prompt-bar requests. Gemini Decision 1 uses the Google key above.
+        </div>
+        <For each={routingKeyProviders}>{(p) => <AgentKeyRow provider={p} />}</For>
       </SettingsSection>
     </>
   );

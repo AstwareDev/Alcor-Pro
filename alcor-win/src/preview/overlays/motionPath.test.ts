@@ -39,6 +39,6 @@ describe("motion path", () => {
     const tl = topLeftForCenterPixel(clip, 60, p, size);
     expect(tl.x).toBeCloseTo(0.5, 9);
     expect(tl.y).toBeCloseTo(0.5, 9);
-    expect(topLeftForCenterPixel(clip, 60, { x: 500, y: 250 }, size)).toEqual({ x: 0.25, y: 0 });
+    expect(topLeftForCenterPixel(clip, 60, { x: 500, y: 250 }, size)).toEqual({ x: 0.25, y: 0.25 });
   });
 });

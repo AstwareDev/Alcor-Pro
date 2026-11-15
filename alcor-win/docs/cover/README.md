@@ -1,6 +1,6 @@
 # Alcor Pro cover assets
 
-Created 2026-11-15. All deliverables stay local; nothing was published or committed. Application source, dependencies, configuration, and existing saved projects were not changed. New files are confined to this directory.
+Created 2026-11-15; redesigned 2026-11-16 after the user explicitly chose black/white/green for the logo, cover, and app UI. All deliverables stay local; nothing was published or committed. App branding/theme changes are listed in `../brand/README.md`. Application dependencies and existing saved projects were not changed. Native icon resources, browser favicons and bundle descriptions were subsequently integrated; the full product name remains Alcor Pro. The native executable has not been rebuilt.
 
 ## Deliverables
 
@@ -8,7 +8,8 @@ Created 2026-11-15. All deliverables stay local; nothing was published or commit
 - `alcor-pro-cover@2x.png`: 3840 × 2160 cover.
 - `cover.html`: editable, responsive source for the cover.
 - `editor-screenshot.png`: 3840 × 1800 capture of actual editor components running in Chromium, with an in-memory demo document.
-- `native-app-screenshot.png`: separate screenshot of the actual Windows application's Home screen.
+- `native-app-screenshot.png`: separate screenshot of the actual Windows application's current view, captured without navigating or changing its preferences.
+- `editor-screenshot-light.png`: a light-theme visual check of the same in-memory editor demo.
 - `demo-landscape.png`: original procedural artwork generated for the demo. No stock photograph or Palmier imagery is used in the cover.
 - `capture-editor.mjs`, `render-cover.mjs`, `check-native.mjs`: capture and verification scripts.
 
@@ -18,7 +19,7 @@ The editor image is deliberately labeled **Editor preview · Demo project**. The
 
 Visited and visually inspected https://palmier.io/ on 2026-11-15, including a browser screenshot and computed styles. Observed warm near-black background (`rgb(13,12,10)`), off-white type (`rgb(236,236,236)`), muted gray secondary copy, large left-aligned sans-serif headlines, generous spacing, restrained controls and prominent product imagery. These are observed design cues, not a claim to possess Palmier's internal brand guidelines.
 
-The cover applies those cues with Alcor's own name, Segoe typography, an authentic editor capture and original artwork. It does not reuse Palmier's logo, endorsements or screenshots.
+The original composition used those cues. On 2026-11-16 the user changed direction to black, white and green inspired by Higgsfield, and explicitly included the app UI. The current cover uses Alcor's own logo and lime/black/white palette, Segoe typography, an authentic editor capture and original artwork. Higgsfield's homepage was visually inspected; its observed green was `rgb(209,254,23)`. Alcor retains the working tree's existing distinct lime `#c6f432`, unified across assets and UI. No reference-site logos, endorsements or screenshots are reused.
 
 ## What ran and what was verified
 
@@ -30,7 +31,7 @@ The cover applies those cues with Alcor's own name, Segoe typography, an authent
 3. Launched the **existing** `src-tauri/target/debug/alcor-pro.exe`, not a new build. Its WebView2 loaded `http://localhost:1420/`. Opened Home project search, filtered an existing generic project, cleared the search and dismissed it. No saved project was opened or modified. Captured and visually checked the native Home screen.
 4. Exported the cover at 1x and 2x and visually checked the 1920 × 1080 result.
 
-The existing native debug binary predates this session; current Rust source was **not rebuilt or validated**. No Tauri/build commands, tests or typecheck were run. This task only added visual assets/capture scripts; it is not a correctness audit.
+The existing native debug binary predates this session; current Rust source was **not rebuilt or validated**. No Tauri/build commands were run. After the palette/UI update, the focused brand, timeline-color, and appearance test files passed (15 tests total), and `pnpm typecheck` passed. Dark and light editor captures reported zero uncaught browser page errors. Native WebView2 reflected the new logo and brand tokens; its current view/preferences were preserved. An intermediate repeat of the older Home-search script timed out because its Home assumption no longer held; the final read-only branding check passed. See `../brand/README.md` for the scoped changes and verification history.
 
 At handoff, the native app and Vite server were left running. Native WebView2 was launched with a loopback CDP endpoint at port 9223 for this session. Closing that app ends this debug session. MCP also starts with the native app; it was not exercised.
 
@@ -53,7 +54,7 @@ Start-Process ./src-tauri/target/debug/alcor-pro.exe
 node docs/cover/check-native.mjs
 ```
 
-`check-native.mjs` expects the observed Home screen and its generic existing project, so it is a session check rather than a general test suite. For a reusable project launch/drive skill, consider `/run-skill-generator`.
+`check-native.mjs` checks the logo and theme tokens in the native window without navigating or modifying projects/preferences, then captures its current view. It is a visual smoke check, not a general end-to-end suite. For a reusable project launch/drive skill, consider `/run-skill-generator`.
 
 ## Context for the resuming agent
 

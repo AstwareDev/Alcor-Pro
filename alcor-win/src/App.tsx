@@ -198,19 +198,21 @@ function Workspace() {
               let engine: PlaybackEngine | undefined;
               const loadLut = lutLoader(() => engine?.invalidate());
               return (
-                <div class="app-preview-column">
-                  <PreviewView
-                    editor={current}
-                    loadLut={loadLut}
-                    onEngine={(e) => (engine = e)}
-                    overlay={(canvas, size) => <PreviewOverlays editor={current} canvas={canvas} size={size} engine={() => engine} />}
-                  />
-                  <PromptBar editor={current} onOpenSettings={openSettings} />
-                </div>
+                <PreviewView
+                  editor={current}
+                  loadLut={loadLut}
+                  onEngine={(e) => (engine = e)}
+                  overlay={(canvas, size) => <PreviewOverlays editor={current} canvas={canvas} size={size} engine={() => engine} />}
+                />
               );
             },
             inspector: () => <InspectorView editor={current} />,
-            timeline: () => <TimelinePane editor={current} />,
+            timeline: () => (
+              <div class="app-timeline-stack">
+                <TimelinePane editor={current} />
+                <PromptBar editor={current} onOpenSettings={openSettings} />
+              </div>
+            ),
           }}
         />
         <ExportDialog editor={current} />

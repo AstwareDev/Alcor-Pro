@@ -4,6 +4,7 @@ import CircleCheck from "lucide-solid/icons/circle-check";
 import Ellipsis from "lucide-solid/icons/ellipsis";
 import Images from "lucide-solid/icons/images";
 import LayoutGrid from "lucide-solid/icons/layout-grid";
+import ArrowLeftRight from "lucide-solid/icons/arrow-left-right";
 import ListFilter from "lucide-solid/icons/list-filter";
 import TriangleAlert from "lucide-solid/icons/triangle-exclamation-point";
 import { createEffect, createMemo, createSignal, For, on, onCleanup, onMount, Show, type JSX } from "solid-js";
@@ -14,6 +15,10 @@ import {
   mediaPanelSelectedKeys, moveMediaSelection, resolveTextDrop, selectAllMediaPanelItems, selectMediaPanelItem,
   type MediaSelectionDirection,
 } from "../editor/mutations/mediaPanel";
+import {
+  cancelMediaSwap, completeMediaSwap, isAssetCompatibleWithPendingSwap, pendingSwapClipName,
+} from "../editor/mutations/mediaSwapSession";
+import { canExtractAudio, extractAudioFromAssets } from "../editor/mutations/saveAsMedia";
 import { activateTimeline, duplicateTimeline, renameTimeline } from "../editor/mutations/timelines";
 import {
   folderPath, mediaPanelFolderIdFromKey, mediaPanelFolderKey, mediaPanelTimelineIdFromKey,
@@ -28,6 +33,7 @@ import type { MenuItem } from "../ui/Menu";
 import { mediaDropEventName, type MediaDropDetail } from "./dragSession";
 import { searchIndexFor } from "../visualsearch/searchService";
 import { SearchIndexStatus } from "../visualsearch/SearchIndexStatus";
+import { MatteSheet } from "./MatteSheet";
 import { MediaGrid } from "./MediaGrid";
 import { installOsFileDrop } from "./osFileDrop";
 import {
@@ -71,6 +77,7 @@ export function MediaTab(props: MediaTabProps) {
   const [renamingKey, setRenamingKey] = createSignal<string | null>(null);
   const [collapsedKeys, setCollapsedKeys] = createSignal<ReadonlySet<string>>(new Set());
   const [osDropHover, setOsDropHover] = createSignal(false);
+  const [showMatteSheet, setShowMatteSheet] = createSignal(false);
   const [menu, setMenu] = createSignal<{ x: number; y: number; items: ContextMenuItem[] } | null>(null);
   let root!: HTMLDivElement;
 
@@ -244,6 +251,9 @@ export function MediaTab(props: MediaTabProps) {
           ]
         : [],
       [
+        ...(targets.some((a) => canExtractAudio(editor, a))
+          ? [{ kind: "item" as const, label: "Extract Audio", onSelect: () => void extractAudioFromAssets(editor, ids) }]
+          : []),
         { kind: "item", label: "Show in Explorer", onSelect: () => void services.revealInExplorer(targets.map((a) => a.url)) },
         { kind: "item", label: "Copy Path", onSelect: () => void services.copyText(targets.map((a) => a.url).join("\n")) },
       ],
@@ -340,6 +350,7 @@ export function MediaTab(props: MediaTabProps) {
   const overflowItems = (): MenuItem[] => [
     { kind: "item", label: "New Folder", onSelect: newFolderInCurrent },
     { kind: "item", label: "Import Folder…", onSelect: () => void importFolder() },
+    { kind: "item", label: "Create Matte", onSelect: () => setShowMatteSheet(true) },
   ];
 
   // ---- keyboard, paste, drops ----
@@ -349,7 +360,10 @@ export function MediaTab(props: MediaTabProps) {
     const plain = !e.ctrlKey && !e.altKey && !e.shiftKey && !e.metaKey;
     const direction = arrowDirections[e.key];
     const handled = (): void => e.preventDefault();
-    if (direction && plain) {
+    if (e.key === "Escape" && editor.ui.pendingSwapClipId !== null) {
+      handled();
+      cancelMediaSwap(editor);
+    } else if (direction && plain) {
       handled();
       moveMediaSelection(editor, direction);
     } else if (e.ctrlKey && !e.altKey && !e.shiftKey && e.key.toLowerCase() === "a") {
@@ -423,6 +437,35 @@ export function MediaTab(props: MediaTabProps) {
     });
   });
 
+  // ---- armed media swap (Swift pendingSwapClipId): picking a compatible asset replaces the clip's source ----
+
+  const swapPending = () => editor.ui.pendingSwapClipId !== null;
+  const swapDimCss = createMemo(() => {
+    if (!swapPending()) return "";
+    const ids = editor.mediaAssets
+      .filter((a) => !isAssetCompatibleWithPendingSwap(editor, a))
+      .map((a) => `[data-key="${a.id.replaceAll('"', "").replaceAll("\\", "")}"]`);
+    return ids.length > 0 ? `.media-tab[data-swap-pick] .mp-tile:is(${ids.join(",")}) { opacity: var(--op-muted); pointer-events: none; }` : "";
+  });
+  const swapBannerName = createMemo(() => (swapPending() ? pendingSwapClipName(editor) ?? "clip" : ""));
+  onMount(() => {
+    const pick = (e: Event) => {
+      if (!swapPending()) return;
+      const tile = (e.target as HTMLElement).closest<HTMLElement>('.mp-tile[data-kind="asset"]');
+      if (!tile) return;
+      e.stopPropagation();
+      const asset = editor.mediaAsset(tile.dataset["key"] ?? "");
+      if (e.type === "click" && asset) completeMediaSwap(editor, asset);
+    };
+    const types = ["pointerdown", "click", "dblclick"] as const;
+    for (const type of types) root.addEventListener(type, pick, true);
+    onCleanup(() => {
+      for (const type of types) root.removeEventListener(type, pick, true);
+    });
+  });
+  // Any timeline edit disarms the swap (EditorViewModel.timelines didSet).
+  createEffect(on(() => editor.timelines, () => cancelMediaSwap(editor), { defer: true }));
+
   // ---- toast ----
 
   createEffect(
@@ -477,6 +520,7 @@ export function MediaTab(props: MediaTabProps) {
     <div
       ref={root}
       class="media-tab"
+      data-swap-pick={swapPending() ? "" : undefined}
       tabindex={-1}
       onKeyDown={onKeyDown}
       onPaste={onPaste}
@@ -536,6 +580,15 @@ export function MediaTab(props: MediaTabProps) {
           <span class="mp-count">{itemCountLabel(currentFolderItemCount(data(), nav().currentFolderId, filters()))}</span>
         </div>
       </div>
+
+      <Show when={swapPending()}>
+        <style>{swapDimCss()}</style>
+        <div class="mp-swap-banner">
+          <ArrowLeftRight size={12} />
+          <span class="mp-swap-text">Pick a replacement for "{swapBannerName()}"</span>
+          <button type="button" class="mp-swap-cancel" onClick={() => cancelMediaSwap(editor)}>Cancel</button>
+        </div>
+      </Show>
 
       <div class="mp-body">
         <Show
@@ -608,6 +661,10 @@ export function MediaTab(props: MediaTabProps) {
 
       <Show when={editor.ui.showGenerationPanel && props.generationPanel}>
         {(render) => <div class="mp-generation">{render()()}</div>}
+      </Show>
+
+      <Show when={showMatteSheet()}>
+        <MatteSheet editor={editor} onClose={() => setShowMatteSheet(false)} />
       </Show>
 
       <Show when={menu()}>

@@ -3,6 +3,7 @@ import FolderOpen from "lucide-solid/icons/folder-open";
 import Plus from "lucide-solid/icons/plus";
 import { createResource, onCleanup, onMount, Show } from "solid-js";
 import { SidebarRowButton } from "../ui/SidebarRowButton";
+import { AlcorBrand } from "../ui/AlcorBrand";
 import { WindowControls } from "../ui/WindowControls";
 import type { SampleSummary } from "../onboarding/sampleProjects";
 import { createDialogHost } from "./dialogs";
@@ -87,6 +88,7 @@ export function HomeView(props: {
 
       <aside class="home-sidebar">
         <div class="home-sidebar-rows">
+          <div class="home-brand"><AlcorBrand /></div>
           <SidebarRowButton label="New Project" title="New Project (Ctrl+N)" icon={<Plus size={13} />} onClick={newProject} />
           <SidebarRowButton label="Open Project" title="Open Project (Ctrl+O)" icon={<FolderOpen size={13} />} onClick={openProject} />
         </div>

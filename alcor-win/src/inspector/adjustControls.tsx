@@ -1,4 +1,6 @@
-import { createSignal, For, onCleanup, onMount, Show } from "solid-js";
+import { createEffect, createSignal, For, onCleanup, onMount, Show } from "solid-js";
+import type { Editor } from "../editor/editor";
+import { createScopeFeed } from "../preview/scopeFeed";
 import type { CurvePoint } from "../model";
 import { colorWheelsDisplayColor } from "../preview/effects/colorWheels";
 import { AdjustSlider } from "../ui/AdjustSlider";
@@ -17,7 +19,7 @@ export interface CurveChannelSpec {
 /**
  * Shared body of `CurveEditorView` / `HueCurveEditorView`: channel picker, grid, curve, draggable points.
  * Drag grabs the nearest point (or adds one); double-click removes the nearest interior point; Escape cancels a drag.
- * The luma/RGB/hue histogram overlay needs the preview engine and is not drawn.
+ * With `histogram` + `editor` the measured luma/RGB (or hue) histogram of the preview frame is drawn behind the curve.
  */
 export function CurveEditor(props: {
   channels: readonly CurveChannelSpec[];
@@ -35,6 +37,7 @@ export function CurveEditor(props: {
   /** Restores the active channel to its default curve (one undo entry). */
   onResetChannel: (channel: string) => void;
   onCancel: () => void;
+  histogram?: { kind: "luma" | "hue"; editor: Editor };
 }) {
   const [channel, setChannel] = createSignal(props.channels[0]?.id ?? "");
   const [live, setLive] = createSignal<{ points: CurvePoint[]; index: number } | null>(null);
@@ -61,6 +64,67 @@ export function CurveEditor(props: {
     observer.observe(svg as SVGSVGElement);
     onCleanup(() => observer.disconnect());
   });
+  let histCanvas: HTMLCanvasElement | undefined;
+  const feed = props.histogram ? createScopeFeed(props.histogram.editor) : undefined;
+  if (feed && props.histogram) {
+    const kind = props.histogram.kind;
+    createEffect(() => {
+      feed.revision();
+      const { width, height } = size();
+      const canvas = histCanvas;
+      if (!canvas || !feed.ready()) return;
+      const dpr = window.devicePixelRatio || 1;
+      const pw = Math.round(width * dpr);
+      const ph = Math.round(height * dpr);
+      if (canvas.width !== pw || canvas.height !== ph) {
+        canvas.width = pw;
+        canvas.height = ph;
+      }
+      const g = canvas.getContext("2d");
+      if (!g) return;
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.clearRect(0, 0, width, height);
+      const cs = getComputedStyle(canvas);
+      const trace = (bins: Float32Array, close: boolean) => {
+        g.beginPath();
+        if (close) g.moveTo(0, height);
+        for (let i = 0; i < bins.length; i++) {
+          const x = (i / (bins.length - 1)) * width;
+          const y = height - (bins[i] as number) * height;
+          if (i === 0 && !close) g.moveTo(x, y);
+          else g.lineTo(x, y);
+        }
+        if (close) {
+          g.lineTo(width, height);
+          g.closePath();
+        }
+      };
+      if (kind === "hue") {
+        g.globalAlpha = 1;
+        g.fillStyle = cs.getPropertyValue("--curve-hist-hue-fill").trim();
+        trace(feed.hue, true);
+        g.fill();
+        g.strokeStyle = cs.getPropertyValue("--curve-hist-hue-line").trim();
+        g.lineWidth = 1;
+        trace(feed.hue, false);
+        g.stroke();
+        return;
+      }
+      const h = feed.histogram;
+      g.globalAlpha = 0.35;
+      g.fillStyle = cs.getPropertyValue("--text-secondary").trim();
+      trace(h.y, true);
+      g.fill();
+      g.globalCompositeOperation = "lighter";
+      for (const [bins, color] of [[h.r, "--curve-red"], [h.g, "--curve-green"], [h.b, "--curve-blue"]] as const) {
+        g.fillStyle = cs.getPropertyValue(color).trim();
+        trace(bins, true);
+        g.fill();
+      }
+      g.globalCompositeOperation = "source-over";
+      g.globalAlpha = 1;
+    });
+  }
   const local = (e: { clientX: number; clientY: number }): { x: number; y: number } => {
     const r = (svg as SVGSVGElement).getBoundingClientRect();
     return { x: e.clientX - r.left, y: e.clientY - r.top };
@@ -104,6 +168,13 @@ export function CurveEditor(props: {
         />
         <EditorResetButton title="Curve" modified={channelModified()} onClick={() => props.onResetChannel(channel())} />
       </div>
+      <div class="curve-stage">
+      <Show when={props.spectrum}>
+        <div class="curve-spectrum" />
+      </Show>
+      <Show when={props.histogram}>
+        <canvas ref={histCanvas} class="curve-hist" />
+      </Show>
       <svg
         ref={svg}
         class="curve-canvas"
@@ -141,11 +212,6 @@ export function CurveEditor(props: {
           if (removed) emit(removed, true);
         }}
       >
-        <Show when={props.spectrum}>
-          <foreignObject x="0" y="0" width="100%" height="100%">
-            <div class="curve-spectrum" />
-          </foreignObject>
-        </Show>
         <For each={Array.from({ length: props.vGrid + 1 }, (_, i) => i / props.vGrid)}>
           {(s) => <line class="curve-grid" x1={`${s * 100}%`} x2={`${s * 100}%`} y1="0" y2="100%" />}
         </For>
@@ -166,6 +232,7 @@ export function CurveEditor(props: {
           }}
         </For>
       </svg>
+      </div>
       <Show when={props.hint}>
         <span class="curve-hint">{props.hint}</span>
       </Show>

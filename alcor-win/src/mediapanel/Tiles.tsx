@@ -220,7 +220,7 @@ export function AssetTile(props: { env: TileEnv; id: string }) {
               <Show when={offline()}>
                 <div
                   class="mp-art-status"
-                  title="Palmier couldn't load this source file. It may be missing, on an ejected drive, or unreadable."
+                  title="Alcor Pro couldn't load this source file. It may be missing, on an ejected drive, or unreadable."
                 >
                   <TriangleAlert size={14} class="mp-status-offline" />
                   <b>Media Offline</b>

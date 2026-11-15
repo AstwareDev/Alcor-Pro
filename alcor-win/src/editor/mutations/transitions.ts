@@ -117,14 +117,14 @@ export function addTransitionAfterClip(editor: Editor, fromClipId: string, spec:
 }
 
 /** Ctrl+T: the default transition at the transition-less cut nearest the playhead. */
-export function addTransitionNearPlayhead(editor: Editor): TransitionResult {
+export function addTransitionNearPlayhead(editor: Editor, spec: TransitionSpec = {}): TransitionResult {
   const frame = editor.ui.currentFrame;
   let best: Cut | undefined;
   for (const cut of timelineCuts(editor, true)) {
     if (!best || Math.abs(cut.frame - frame) < Math.abs(best.frame - frame)) best = cut;
   }
   if (!best) return { ok: false, reason: "No cut without a transition on any video track." };
-  return addTransition(editor, best.from.id, best.to.id);
+  return addTransition(editor, best.from.id, best.to.id, spec);
 }
 
 /** Changes kind, duration or alignment. Duration is clamped to what both clips can host. One undo entry. */

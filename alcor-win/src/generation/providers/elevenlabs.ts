@@ -34,9 +34,9 @@ export const elevenLabsCatalog: readonly CatalogEntry[] = [
     { category: "sfx", ...base, durationRange: { minimum: 1, maximum: 30, defaultValue: 5 }, promptLabel: "Describe the sound" }),
   entry("eleven_text_to_sound_v3", "ElevenLabs Sound Effects v3", "Sound effects from a text description.", docsSfx,
     { category: "sfx", ...base, durationRange: { minimum: 1, maximum: 30, defaultValue: 5 }, promptLabel: "Describe the sound" }),
-  entry("music_v1", "ElevenLabs Music", "Music from a prompt, optionally with lyrics.", docsMusic,
+  entry("music_v1", "ElevenLabs Music", "Music from a prompt, optionally with lyrics. Needs a paid ElevenLabs plan.", docsMusic,
     { category: "music", ...base, supportsLyrics: true, supportsInstrumental: true, durationRange: { minimum: 3, maximum: 600, defaultValue: 30 }, promptLabel: "Describe the music" }),
-  entry("music_v2_5", "ElevenLabs Music 2.5", "Music from a prompt, optionally with lyrics.", docsMusic,
+  entry("music_v2_5", "ElevenLabs Music 2.5", "Music from a prompt, optionally with lyrics. Needs a paid ElevenLabs plan.", docsMusic,
     { category: "music", ...base, supportsLyrics: true, supportsInstrumental: true, durationRange: { minimum: 3, maximum: 600, defaultValue: 30 }, promptLabel: "Describe the music" }),
   entry("eleven_multilingual_sts_v2", "ElevenLabs Voice Changer", "Re-voice a recording with another voice.", docsSts,
     { category: "general", ...base, minPromptLength: 0, inputs: ["audio"], promptLabel: "Voice changer", maxSeconds: 300 }),
@@ -108,12 +108,24 @@ export function buildElevenLabsRequest(model: CatalogEntry, params: GenerationPa
   throw new ProviderError("invalid_input", `Unknown ElevenLabs model '${id}'.`);
 }
 
+/** The Music API is paid-only (https://elevenlabs.io/docs/eleven-api/guides/cookbooks/music); a free key gets an auth or billing refusal. */
+export function explainMusicRefusal(model: CatalogEntry, e: unknown): unknown {
+  const isMusic = model.id.startsWith("elevenlabs/music_");
+  if (!isMusic || !(e instanceof ProviderError) || (e.code !== "auth" && e.code !== "quota")) return e;
+  return new ProviderError(
+    e.code,
+    `ElevenLabs only allows music generation through the API on paid plans, so a free-tier key is refused. Upgrade your ElevenLabs plan, or pick another music model in the prompt bar's settings. (${e.message})`,
+    e.retryAfterMs,
+  );
+}
+
 type Ref = { kind: "file"; path: string } | { kind: "dub"; id: string; lang: string; ext: string };
 
 async function submit(model: CatalogEntry, params: GenerationParams, signal?: AbortSignal): Promise<JobHandle> {
   const req = buildElevenLabsRequest(model, params);
   if (req.kind === "sync") {
-    const path = await downloadTo("ElevenLabs", { url: req.url, method: "POST", auth, body: req.body, timeoutMs: 10 * 60_000 }, await tempOutputPath(req.ext), signal);
+    const path = await downloadTo("ElevenLabs", { url: req.url, method: "POST", auth, body: req.body, timeoutMs: 10 * 60_000 }, await tempOutputPath(req.ext), signal)
+      .catch((e: unknown) => { throw explainMusicRefusal(model, e); });
     const ref: Ref = { kind: "file", path };
     return { providerId: "elevenlabs", modelId: model.id, ref: encodeRef(ref) };
   }

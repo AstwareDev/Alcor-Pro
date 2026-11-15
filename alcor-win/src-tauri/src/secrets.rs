@@ -22,6 +22,8 @@ const BUILTIN: &[(&str, &[&str])] = &[
     ("google", &["generativelanguage.googleapis.com"]),
     ("replicate", &["api.replicate.com"]),
     ("openrouter", &["openrouter.ai"]),
+    // Prompt routing (Mercury Decide decision model).
+    ("inception", &["api.inceptionlabs.ai"]),
     // Sound library search (token via `?token=`); previews come from public CDN hosts and need no key.
     ("freesound", &["freesound.org"]),
 ];

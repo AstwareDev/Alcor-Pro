@@ -95,6 +95,7 @@ export class Compositor {
   private pool: Target[] = [];
   private accum: Target | null = null;
   private readback: Target | null = null;
+  private rowBuffer = new Uint8Array(0);
   private layerTextures = new Map<string, LayerTexture>();
   private lutTextures = new Map<string, WebGLTexture>();
   private passCache = new WeakMap<object, PassCache>();
@@ -194,6 +195,36 @@ export class Compositor {
     gl.readPixels(x, y, w, h, gl.RGBA, gl.UNSIGNED_BYTE, out);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     return out;
+  }
+
+  /**
+   * Nearest-neighbour `cols` x `rows` RGBA8 grid of the last rendered frame (output size w x h) written into `out`
+   * (scopes). Reads one row at a time so only a few KB cross the GPU boundary instead of the whole frame.
+   */
+  sampleGrid(w: number, h: number, cols: number, rows: number, out: Uint8Array): boolean {
+    const gl = this.gl;
+    if (!this.accum || !this.hasFrame || this.lost || w < 1 || h < 1) return false;
+    if (!this.readback || this.readback.w !== this.accum.w || this.readback.h !== this.accum.h) {
+      if (this.readback) this.deleteTarget(this.readback);
+      this.readback = this.createTarget(this.accum.w, this.accum.h, false);
+    }
+    if (this.rowBuffer.length < w * 4) this.rowBuffer = new Uint8Array(w * 4);
+    gl.bindVertexArray(this.vao);
+    this.present(this.accum, this.readback, false);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, this.readback.fbo);
+    for (let r = 0; r < rows; r++) {
+      gl.readPixels(0, Math.min(h - 1, Math.floor(((r + 0.5) * h) / rows)), w, 1, gl.RGBA, gl.UNSIGNED_BYTE, this.rowBuffer);
+      for (let c = 0; c < cols; c++) {
+        const src = Math.min(w - 1, Math.floor(((c + 0.5) * w) / cols)) * 4;
+        const dst = (r * cols + c) * 4;
+        out[dst] = this.rowBuffer[src] as number;
+        out[dst + 1] = this.rowBuffer[src + 1] as number;
+        out[dst + 2] = this.rowBuffer[src + 2] as number;
+        out[dst + 3] = 255;
+      }
+    }
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return true;
   }
 
   /** Drops cached per-layer textures (e.g. after the timeline changed media). */

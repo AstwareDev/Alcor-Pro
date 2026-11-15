@@ -8,10 +8,11 @@
 /* A quiet, product-led cover: a single headline above the real editor capture. */
 :root {
   color-scheme: dark;
-  --ground: #0d0c0a;
-  --ink: #ececec;
-  --muted: #a4a39f;
-  --rule: #383837;
+  --ground: #0b0b0c;
+  --ink: #f5f7f2;
+  --green: #c6f432;
+  --muted: #999c96;
+  --rule: #2b2e27;
   --shadow: #00000088;
   --display: "Segoe UI Variable Display", "Segoe UI", Arial, sans-serif;
   --body: "Segoe UI Variable Text", "Segoe UI", Arial, sans-serif;
@@ -45,12 +46,8 @@ body {
   align-items: center;
   gap: 2cqw;
 }
-.wordmark {
-  font-family: var(--display);
-  font-size: 2.03cqw;
-  font-weight: 600;
-  letter-spacing: -.065cqw;
-}
+.wordmark { display: block; width: 11.3cqw; height: 4.02cqw; object-fit: contain; margin-left: -.3cqw; }
+h1 em { font-style: normal; color: var(--green); }
 .platform {
   font-size: .78cqw;
   color: var(--muted);
@@ -100,10 +97,10 @@ h1 {
 <body>
 <main class="cover" aria-label="Alcor Pro cover image">
   <header class="masthead">
-    <div class="wordmark">Alcor Pro</div>
+    <img class="wordmark" src="../brand/alcor-logo-light.svg" alt="Alcor" width="720" height="256">
     <div class="platform">Video editing for Windows 11</div>
   </header>
-  <h1>AI-native editing. Made for Windows.</h1>
+  <h1><em>AI-native editing.</em> Made for Windows.</h1>
   <div class="subline">
     <p>Your timeline. Your tools. Your API keys.</p>
     <span class="caption">Editor preview · Demo project</span>

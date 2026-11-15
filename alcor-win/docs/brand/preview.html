@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Alcor Logo</title>
+<style>
+/* One monochrome identity, shown at display and application scales. */
+:root{color-scheme:dark;--dark:#0b0b0c;--light:#f5f7f2;--green:#c6f432;--muted:#96979b;--line:#35363b;--display:"Segoe UI Variable Display","Segoe UI",Arial,sans-serif;--body:"Segoe UI Variable Text","Segoe UI",Arial,sans-serif;--utility:Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--dark);color:var(--light);padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));font-family:var(--body)}
+.sheet{position:relative;container-type:inline-size;max-width:1600px;width:100%;aspect-ratio:16/11;overflow:hidden;background:var(--dark);margin-inline:auto}
+header{position:absolute;left:5%;right:5%;top:5.5%;display:flex;justify-content:space-between;gap:1cqw;font: .82cqw var(--utility);letter-spacing:.14cqw;color:var(--muted)}
+.hero-logo{position:absolute;width:73%;left:12%;top:13.3%;height:auto}
+.thesis{position:absolute;left:5%;bottom:40%;margin:0;font:1.05cqw var(--body);letter-spacing:.01cqw;color:var(--muted)}
+.variants{position:absolute;left:0;right:0;bottom:0;height:34%;background:var(--light);color:var(--dark);display:grid;grid-template-columns:1.25fr 1fr;gap:3cqw;padding:4.5% 5% 3.5%}
+.variant{display:flex;flex-direction:column;justify-content:space-between;gap:1cqw;min-width:0}
+.wordmark{display:block;width:85%;max-height:15cqw;object-fit:contain;object-position:left center}
+.applications{display:flex;align-items:center;gap:3.5cqw;flex:1}
+.tile{width:8cqw;height:8cqw}.symbol{width:4.5cqw;height:4.5cqw}.small{width:2cqw;height:2cqw}
+.caption{font:.72cqw var(--utility);letter-spacing:.06cqw;text-transform:uppercase}
+.palette{position:absolute;right:5%;bottom:39%;display:flex;gap:1.5cqw;align-items:center;font:.75cqw var(--utility);color:var(--muted)}
+.palette span{display:flex;align-items:center;gap:.55cqw}.swatch{width:1.3cqw;height:1.3cqw;border:1px solid var(--line);display:block}.swatch.black{background:var(--dark)}.swatch.white{background:var(--light)}.swatch.green{background:var(--green)}
+</style>
+</head>
+<body>
+<main class="sheet" aria-label="Alcor logo presentation">
+<header><span>ALCOR / VISUAL IDENTITY</span><span>AI-NATIVE VIDEO EDITING</span></header>
+<img class="hero-logo" src="alcor-logo-light.svg" alt="Alcor wordmark with a geometric A, play-button cutout and companion star">
+<p class="thesis">A letterform. A play button. A companion star.</p>
+<div class="palette" aria-label="Black, white and green brand palette"><span><i class="swatch black"></i>0B0B0C</span><span><i class="swatch white"></i>F5F7F2</span><span><i class="swatch green"></i>C6F432</span></div>
+<section class="variants" aria-label="Logo variants">
+<div class="variant"><img class="wordmark" src="alcor-logo.svg" alt="Dark Alcor wordmark on a light background"><span class="caption">Primary wordmark / light surfaces</span></div>
+<div class="variant"><div class="applications"><img class="tile" src="alcor-app-icon.svg" alt="Alcor dark app icon"><img class="symbol" src="alcor-mark.svg" alt="Alcor standalone symbol"><img class="small" src="alcor-mark.svg" alt="Alcor symbol at small size"></div><span class="caption">App icon / standalone symbol / small scale</span></div>
+</section>
+</main>
+</body>
+</html>

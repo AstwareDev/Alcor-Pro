@@ -87,6 +87,7 @@ export class PlaybackEngine {
   private master: GainNode | null = null;
   private analysers: [AnalyserNode, AnalyserNode] | null = null;
   private readonly levelBuffer = new Float32Array(2048);
+  private readonly levelOut: AudioLevels = { left: 0, right: 0 };
   private raf = 0;
   private renderQueued = false;
   private tick = 0;
@@ -213,8 +214,15 @@ export class PlaybackEngine {
 
   /** Current L/R levels (linear peak, 0…1) from the master analysers. */
   levels(): AudioLevels {
-    if (!this.analysers || !this.playing()) return { left: 0, right: 0 };
-    return { left: this.peak(this.analysers[0]), right: this.peak(this.analysers[1]) };
+    const out = this.levelOut;
+    if (!this.analysers || !this.playing()) {
+      out.left = 0;
+      out.right = 0;
+    } else {
+      out.left = this.peak(this.analysers[0]);
+      out.right = this.peak(this.analysers[1]);
+    }
+    return out;
   }
 
   /** Renders the current frame at Full quality and returns it as PNG. */
@@ -232,6 +240,14 @@ export class PlaybackEngine {
     if (!ctx) throw new Error("Canvas 2D unavailable");
     ctx.putImageData(new ImageData(new Uint8ClampedArray(pixels), width, height), 0, 0);
     return canvas.convertToBlob({ type: "image/png" });
+  }
+
+  /** Fills `out` (cols*rows*4 RGBA8) with a downscaled copy of the last rendered frame; returns false when there is none. */
+  sampleFrame(cols: number, rows: number, out: Uint8Array): boolean {
+    const timeline = this.timeline();
+    if (!timeline) return false;
+    const { width, height } = this.compositor.outputSize(timeline.width, timeline.height);
+    return this.compositor.sampleGrid(width, height, cols, rows, out);
   }
 
   /** Mean RGB (0...1) of a (2r+1) pixel square around a normalized canvas point in the last rendered frame. */

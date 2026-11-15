@@ -4,6 +4,7 @@ import Bot from "lucide-solid/icons/bot";
 import KeyRound from "lucide-solid/icons/key-round";
 import Layers from "lucide-solid/icons/layers";
 import Sun from "lucide-solid/icons/sun";
+import TextCursorInput from "lucide-solid/icons/text-cursor-input";
 import X from "lucide-solid/icons/x";
 import { createSignal, For, Match, onCleanup, onMount, Switch, type JSX } from "solid-js";
 import { SidebarRowButton } from "../ui/SidebarRowButton";
@@ -12,18 +13,21 @@ import { ApiKeysPane } from "./ApiKeysPane";
 import { AppearancePane } from "./AppearancePane";
 import { refreshProviderKeys } from "./keys";
 import { ModelsPane } from "./ModelsPane";
-import { SettingsSection } from "./SettingsParts";
+import { RoutingPane } from "./RoutingPane";
+import { sharedNotifications } from "./notifications";
+import { SettingsSection, SettingsToggleRow } from "./SettingsParts";
 import { StoragePane } from "./StoragePane";
 import "./settings.css";
 
 export { refreshProviderKeys } from "./keys";
 
-// Port of Settings/SettingsView.swift. Skipped panes: Account (Palmier backend), Notifications, Privacy (telemetry),
+// Port of Settings/SettingsView.swift. Skipped panes: Account (Palmier backend), Privacy (telemetry),
 // Skills (macOS agent skill installer). MCP connection instructions live under "MCP".
 const tabs = [
   { id: "keys", label: "Models / API Keys", icon: <KeyRound size={14} /> },
   { id: "agent", label: "MCP", icon: <Bot size={14} /> },
   { id: "models", label: "Models", icon: <Layers size={14} /> },
+  { id: "routing", label: "Prompt bar", icon: <TextCursorInput size={14} /> },
   { id: "general", label: "General", icon: <Cog size={14} /> },
   { id: "appearance", label: "Appearance", icon: <Sun size={14} /> },
   { id: "storage", label: "Storage", icon: <HardDrive size={14} /> },
@@ -31,8 +35,15 @@ const tabs = [
 type TabId = (typeof tabs)[number]["id"];
 
 function GeneralPane(): JSX.Element {
+  const notifications = sharedNotifications();
   return (
     <SettingsSection title="General">
+      <SettingsToggleRow
+        title="Show notifications"
+        subtitle="Get a notification when a generation finishes while Alcor Pro is in the background."
+        checked={notifications.enabled()}
+        onChange={notifications.setEnabled}
+      />
       <div class="settings-row">
         <div class="settings-row-text">
           <div class="settings-row-title">Language</div>
@@ -77,6 +88,7 @@ export function SettingsView(props: { onClose: () => void }) {
               <Match when={tab() === "keys"}><ApiKeysPane /></Match>
               <Match when={tab() === "agent"}><AgentPane /></Match>
               <Match when={tab() === "models"}><ModelsPane goToKeys={() => setTab("keys")} /></Match>
+              <Match when={tab() === "routing"}><RoutingPane goToKeys={() => setTab("keys")} /></Match>
               <Match when={tab() === "general"}><GeneralPane /></Match>
               <Match when={tab() === "appearance"}><AppearancePane /></Match>
               <Match when={tab() === "storage"}><StoragePane /></Match>

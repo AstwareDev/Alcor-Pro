@@ -334,6 +334,7 @@ export function AdjustTab(props: { editor: Editor; ids: Ids }) {
           vGrid={4}
           diagonal
           step={0.02}
+          histogram={{ kind: "luma", editor: props.editor }}
           hint="Drag to add or shape a point · double-click to remove"
           onChange={(ch, pts) => setCurve(ch, pts, false)}
           onCommit={(ch, pts) => setCurve(ch, pts, true)}
@@ -357,6 +358,7 @@ export function AdjustTab(props: { editor: Editor; ids: Ids }) {
           vGrid={6}
           spectrum
           step={0.01}
+          histogram={{ kind: "hue", editor: props.editor }}
           hint="Drag to add or shape a point · double-click to remove"
           onChange={(ch, pts) => setHueCurve(ch, pts, false)}
           onCommit={(ch, pts) => setHueCurve(ch, pts, true)}

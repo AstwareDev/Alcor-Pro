@@ -21,7 +21,7 @@ export class ClipMediaSwapError extends Error {
   }
 }
 
-function mediaSwapTargetClipIds(editor: Editor, clipId: string): string[] {
+export function mediaSwapTargetClipIds(editor: Editor, clipId: string): string[] {
   const clip = editor.clipFor(clipId);
   if (!clip) throw new ClipMediaSwapError(`Clip not found: ${clipId}`);
   if (clip.mediaType === "text" || clip.sourceClipType === "text" || clip.sourceClipType === "sequence") {

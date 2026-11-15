@@ -1,5 +1,6 @@
 import Cog from "lucide-solid/icons/cog";
 import House from "lucide-solid/icons/house";
+import Keyboard from "lucide-solid/icons/keyboard";
 import PanelLeft from "lucide-solid/icons/panel-left";
 import PanelRight from "lucide-solid/icons/panel-right";
 import Check from "lucide-solid/icons/check";
@@ -12,6 +13,9 @@ import { createSignal, onCleanup, Show, type JSX } from "solid-js";
 import { projectSessionIfOpen, saveProject } from "../project/projectSession";
 import type { Editor } from "./editor";
 import { WindowControls } from "../ui/WindowControls";
+import { AlcorBrand } from "../ui/AlcorBrand";
+import { openShortcutsSheet, ShortcutsSheetHost } from "../help/ShortcutsSheet";
+import { ProjectActivityButton } from "./ProjectActivityButton";
 import {
   inspectorPanelVisible,
   mediaPanelVisible,
@@ -86,6 +90,7 @@ export function TitleBar(props: { title: string; editor?: Editor; onExport: () =
   return (
     <header class="titlebar" data-tauri-drag-region>
       <div class="titlebar-leading">
+        <AlcorBrand compact />
         <Show when={props.onHome}>
           <PanelButton label="Home" on={true} toggle={() => props.onHome?.()}>
             <House size={15} />
@@ -104,6 +109,13 @@ export function TitleBar(props: { title: string; editor?: Editor; onExport: () =
       </div>
       <div class="titlebar-title">{props.title}</div>
       <div class="titlebar-trailing">
+        <ShortcutsSheetHost />
+        <Show when={props.editor}>
+          <ProjectActivityButton editor={props.editor as Editor} />
+        </Show>
+        <button class="titlebar-icon hover-highlight" title="Keyboard Shortcuts (?)" aria-label="Keyboard Shortcuts" onClick={openShortcutsSheet}>
+          <Keyboard size={15} />
+        </button>
         <Show when={props.onOpenSettings}>
           <button
             class="titlebar-icon hover-highlight"

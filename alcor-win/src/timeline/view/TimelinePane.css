@@ -137,3 +137,7 @@
 .marker-editor-swatch { width: var(--icon-xs); height: var(--icon-xs); border-radius: var(--radius-xs); border: var(--bw-medium) solid transparent; display: grid; place-items: center; }
 .marker-editor-swatch.selected { border-color: var(--text-primary); }
 .marker-editor-actions { display: flex; align-items: center; gap: var(--sp-sm); }
+
+/* Master audio meter (AudioMeterView) */
+.audio-meter { flex: none; display: flex; width: 32px; padding: 6px 4px; box-sizing: border-box; background: var(--bg-base); border-left: var(--bw-thin) solid var(--border-primary); cursor: pointer; }
+.audio-meter-canvas { display: block; height: 100%; }

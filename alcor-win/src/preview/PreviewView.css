@@ -90,6 +90,7 @@
 
 .preview-transport {
   flex: 0 0 var(--toolbar-h);
+  container-type: inline-size;
   display: flex;
   align-items: center;
   gap: var(--sp-sm);
@@ -97,16 +98,16 @@
   min-width: 0;
 }
 .preview-timecode {
-  flex: 0 1 auto;
-  min-width: 0;
-  line-height: 1.15;
-  overflow-wrap: anywhere;
+  flex: 0 0 auto;
+  white-space: nowrap;
   font-family: var(--font-mono);
   font-size: var(--fs-sm);
   font-variant-numeric: tabular-nums;
 }
 .preview-timecode-sep { color: var(--text-tertiary); }
 .preview-timecode-total { color: var(--text-secondary); }
+/* Narrow previews keep the current time and drop the total rather than wrapping. */
+@container (max-width: 560px) { .preview-timecode-sep, .preview-timecode-total { display: none; } }
 .preview-transport-buttons {
   flex: 1 0 auto;
   display: flex;

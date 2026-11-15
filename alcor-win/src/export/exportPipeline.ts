@@ -77,6 +77,7 @@ async function pickAudioCodec(
 
 /** Renders `spec` into `target`. Throws ExportCancelledError on abort and ExportError for actionable failures. */
 export async function runExportPipeline(spec: ExportJobSpec, target: Target, hooks: PipelineHooks): Promise<ExportReport> {
+  if (spec.options.audioOnly) return runAudioOnlyExport(spec, target, hooks);
   const { signal } = hooks;
   const startedAt = performance.now();
   const warnings: string[] = [];
@@ -236,5 +237,88 @@ export async function runExportPipeline(spec: ExportJobSpec, target: Target, hoo
     container,
     elapsedSeconds: (performance.now() - startedAt) / 1000,
     warnings,
+  };
+}
+
+/** Mixes the timeline range to an AAC `.m4a` (MP4 container, audio track only). */
+async function runAudioOnlyExport(spec: ExportJobSpec, target: Target, hooks: PipelineHooks): Promise<ExportReport> {
+  const { signal } = hooks;
+  const startedAt = performance.now();
+  const warnings: string[] = [];
+  const timeline: Timeline | undefined = spec.timelines.find((t) => t.id === spec.timelineId);
+  if (!timeline) throw new ExportError("The timeline to export no longer exists.");
+  const totalTimelineFrames = timelineTotalFrames(timeline);
+  const validation = validateVideoExport(spec.options, {
+    width: timeline.width, height: timeline.height, fps: timeline.fps, totalFrames: totalTimelineFrames,
+  });
+  if (!validation.ok) throw new ExportError(validation.error ?? "Invalid export options.");
+  const { fps } = timeline;
+  const range = resolveExportRange(spec.options, totalTimelineFrames);
+  const totalFrames = range.endFrame - range.startFrame;
+  hooks.onProgress({ phase: "preparing", framesDone: 0, totalFrames, fraction: 0 });
+
+  const doc: FrameGraphDocument = { timelines: spec.timelines, mediaAssets: spec.mediaAssets };
+  const byId = new Map(spec.timelines.map((t) => [t.id, t]));
+  const graphOptions: FrameGraphOptions = {
+    resolveTimeline: (id) => byId.get(id),
+    missingMediaRefs: new Set(spec.missingMediaRefs),
+    wetMediaRefs: new Set(spec.wetMediaRefs ?? []),
+  };
+  const format = new Mp4OutputFormat(hooks.streaming ? { fastStart: false } : {});
+  const output = new Output({ format, target });
+  const inputs = new MediaInputs(spec.mediaAssets, (m) => {
+    if (!warnings.includes(m)) warnings.push(m);
+  });
+  const segments = collectAudioSegments(doc, timeline.id, range.startFrame, range.endFrame, graphOptions);
+  const mixer = new AudioMixer(segments, { fps, rangeStartFrame: range.startFrame }, (ref, t) => openAudioStream(inputs, ref, t));
+  const cleanup = async (): Promise<void> => {
+    await mixer.close().catch(() => undefined);
+    inputs.dispose();
+  };
+  if (!mixer.hasAudio) {
+    await cleanup();
+    throw new ExportError("There is no audio to export.");
+  }
+  const audioCodec = await pickAudioCodec(["aac"], format.getSupportedAudioCodecs());
+  if (!audioCodec) {
+    await cleanup();
+    throw new ExportError("This PC cannot encode AAC audio. Update Windows media components.");
+  }
+  const audioSource = new AudioSampleSource({ codec: audioCodec, bitrate: exportAudioBitrate });
+  output.addAudioTrack(audioSource);
+  try {
+    await output.start();
+    const blockFrames = Math.max(1, Math.round(fps));
+    for (let blockStart = range.startFrame; blockStart < range.endFrame; blockStart += blockFrames) {
+      throwIfAborted(signal);
+      const blockEnd = Math.min(range.endFrame, blockStart + blockFrames);
+      const from = mixer.sampleIndexOfFrame(blockStart);
+      const to = mixer.sampleIndexOfFrame(blockEnd);
+      const [left, right] = await mixer.mix(from, to);
+      const data = new Float32Array(left.length * 2);
+      data.set(left, 0);
+      data.set(right, left.length);
+      await audioSource.add(new AudioSample({
+        data, format: "f32-planar", numberOfChannels: 2, sampleRate: exportSampleRate, timestamp: from / exportSampleRate,
+      }));
+      const done = blockEnd - range.startFrame;
+      hooks.onProgress({ phase: "rendering", framesDone: done, totalFrames, fraction: done / totalFrames });
+    }
+    for (const ref of mixer.failedMedia) warnings.push(`${inputs.asset(ref)?.name ?? ref} has no audio this system can decode; its audio is silent.`);
+    hooks.onProgress({ phase: "finalizing", framesDone: totalFrames, totalFrames, fraction: 1 });
+    throwIfAborted(signal);
+    await output.finalize();
+  } catch (e) {
+    await output.cancel().catch(() => undefined);
+    await cleanup();
+    if (e instanceof ExportCancelledError || e instanceof ExportError) throw e;
+    if (signal.aborted) throw new ExportCancelledError();
+    throw new ExportError(`Export failed: ${errorText(e)}`);
+  }
+  await cleanup();
+  return {
+    width: 0, height: 0, fps, frames: totalFrames, durationSeconds: totalFrames / fps,
+    videoCodec: "none", audioCodec, container: "mp4",
+    elapsedSeconds: (performance.now() - startedAt) / 1000, warnings,
   };
 }

@@ -23,3 +23,4 @@ export { defineTools, registeredTools, mcpServerTools, inAppAgentTools, onToolRe
 export type { ToolDefinition, ToolRegistration } from "./toolRegistry";
 export { serverInstructions, projectNavigation, skillsSection } from "./agentInstructions";
 import "./maskGroup";
+import "./transitionGroup";

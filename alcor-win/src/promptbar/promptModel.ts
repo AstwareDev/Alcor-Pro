@@ -230,3 +230,10 @@ export function saveHistory(storage: KeyValueStorage | undefined, history: reado
     // Storage may be full or unavailable; history is a convenience.
   }
 }
+
+/** Splits a trailing "(provider detail)" off a message so the card can show it smaller. */
+export function splitDetail(message: string): { message: string; detail?: string } {
+  const at = message.lastIndexOf(" (");
+  if (at <= 0 || !message.endsWith(")")) return { message };
+  return { message: message.slice(0, at), detail: message.slice(at + 2, -1) };
+}

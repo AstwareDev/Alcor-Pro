@@ -1,5 +1,6 @@
-// Port of MediaPanel/AudioPanelTab (AudioPanelTab + MusicTab). SpeechTab's silence/speaker detection sections are not
-// ported: they depend on on-device speech analysis that has no counterpart here yet.
+// Port of MediaPanel/AudioPanelTab (AudioPanelTab + MusicTab) plus SpeechTab's speaker labels (colour / rename / remove).
+// Silence detection lives in src/deadair; speaker Identify (voice matching) is not ported, so the registry only holds
+// speakers from opened projects.
 import AudioWaveform from "lucide-solid/icons/audio-waveform";
 import { createMemo, createSignal, Show } from "solid-js";
 import type { Editor } from "../editor/editor";
@@ -13,6 +14,7 @@ import { ScrubbableNumberField } from "../ui/ScrubbableNumberField";
 import { audioModels, isEntryUsable } from "./catalog";
 import { audioCost, formatUsd } from "./costEstimator";
 import { GeneratingOverlay } from "./GeneratingOverlay";
+import { SpeakerSection } from "./SpeakerSection";
 import { audioInputs, audioCategory, audioPromptLabel, validateAudioParams, validateAudioSpan, type AudioEntry } from "./modelConfig";
 import { musicHooks, musicPhaseLabel, runMusicGeneration, type MusicMode } from "./musicGeneration";
 import "./generation.css";
@@ -136,6 +138,7 @@ export function audioPanelTab(editor: Editor, onOpenSettings: () => void): Media
     render: () => (
       <div style={{ width: "100%", height: "100%", overflow: "auto", background: "var(--bg-surface)" }}>
         <MusicSection editor={editor} onOpenSettings={onOpenSettings} />
+        <SpeakerSection editor={editor} />
       </div>
     ),
   };

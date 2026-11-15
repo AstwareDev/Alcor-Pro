@@ -1,0 +1,9 @@
+.dialog.mismatch-sheet { width: 360px; gap: var(--sp-lg); padding: var(--sp-xl); align-items: stretch; text-align: center; }
+.mismatch-title { font-size: var(--fs-xl); font-weight: var(--fw-semibold); color: var(--text-primary); }
+.mismatch-message { font-size: var(--fs-sm); color: var(--text-secondary); }
+.mismatch-grid { display: grid; grid-template-columns: auto auto auto; justify-content: center; gap: var(--sp-sm) var(--sp-xl); text-align: left; }
+.mismatch-head { font-size: var(--fs-xs); font-weight: var(--fw-semibold); color: var(--text-tertiary); }
+.mismatch-label { font-size: var(--fs-sm); color: var(--text-secondary); }
+.mismatch-value { font-size: var(--fs-sm); font-family: var(--font-mono); color: var(--text-primary); }
+.mismatch-value.differs { color: var(--status-warning); }
+.mismatch-buttons { justify-content: center; gap: var(--sp-md); }

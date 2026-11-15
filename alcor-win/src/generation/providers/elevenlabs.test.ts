@@ -4,7 +4,8 @@ vi.mock("../../platform/backend", () => ({
   fsStat: vi.fn(), httpFetch: vi.fn(), httpCancel: vi.fn(), httpDownload: vi.fn(), appPaths: vi.fn(), fsMkdir: vi.fn(),
 }));
 
-import { buildElevenLabsRequest, elevenLabsCatalog, parseDubbingStatus, parseScribe } from "./elevenlabs";
+import { buildElevenLabsRequest, elevenLabsCatalog, explainMusicRefusal, parseDubbingStatus, parseScribe } from "./elevenlabs";
+import { ProviderError } from "./common";
 import type { AudioParams, CatalogEntry } from "./types";
 
 const entry = (id: string): CatalogEntry => {
@@ -78,5 +79,21 @@ describe("elevenlabs response parsing", () => {
     expect(parseDubbingStatus({ status: "dubbing" })).toEqual({ state: "running" });
     expect(parseDubbingStatus({ status: "dubbed" })).toEqual({ state: "done" });
     expect(parseDubbingStatus({ status: "dubbing", error: "bad audio" })).toEqual({ state: "failed", error: "bad audio" });
+  });
+});
+
+describe("explainMusicRefusal", () => {
+  const music = elevenLabsCatalog.find((m) => m.id === "elevenlabs/music_v2_5");
+  const speech = elevenLabsCatalog.find((m) => !m.id.startsWith("elevenlabs/music_"));
+  it("explains auth and billing refusals for music models only", () => {
+    if (!music || !speech) throw new Error("catalog changed");
+    const refused = new ProviderError("auth", "ElevenLabs rejected the API key (HTTP 401).");
+    const explained = explainMusicRefusal(music, refused);
+    expect(explained).toBeInstanceOf(ProviderError);
+    expect((explained as ProviderError).message).toContain("paid plans");
+    expect((explained as ProviderError).message).toContain("HTTP 401");
+    expect(explainMusicRefusal(speech, refused)).toBe(refused);
+    const other = new ProviderError("invalid_input", "bad prompt");
+    expect(explainMusicRefusal(music, other)).toBe(other);
   });
 });

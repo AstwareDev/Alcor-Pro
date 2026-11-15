@@ -9,7 +9,13 @@
   border-radius: var(--radius-sm);
   overflow: hidden;
 }
+.curve-stage { position: relative; border-radius: var(--radius-sm); overflow: hidden; }
+.curve-hist { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; animation: curve-hist-in 180ms var(--ease-out) forwards; }
+@keyframes curve-hist-in { to { opacity: 1; } }
 .curve-spectrum {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   width: 100%;
   height: 100%;
   opacity: var(--op-medium);

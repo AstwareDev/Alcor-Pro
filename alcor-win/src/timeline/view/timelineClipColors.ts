@@ -15,13 +15,14 @@ export interface RGB {
 
 const hex = (r: number, g: number, b: number): RGB => ({ r: r / 255, g: g / 255, b: b / 255 });
 
+// Alcor defaults match the --track-* tokens; explicit saved preferences take precedence.
 const defaults: Record<TimelineClipColor, RGB> = {
-  video: hex(0x1d, 0x58, 0x78),
-  audio: hex(0x2e, 0x77, 0x65),
-  image: hex(0x71, 0x54, 0x86),
-  text: hex(0x71, 0x54, 0x86),
-  animation: hex(0xa0, 0x78, 0x22),
-  sequence: hex(0xb9, 0xb2, 0x9a),
+  video: hex(0x31, 0x58, 0x3f),
+  audio: hex(0x4c, 0x75, 0x64),
+  image: hex(0x43, 0x50, 0x4a),
+  text: hex(0xb9, 0xd7, 0x84),
+  animation: hex(0x74, 0x8c, 0x52),
+  sequence: hex(0x9c, 0xa6, 0x9a),
 };
 
 export function timelineClipColorDefault(kind: TimelineClipColor): RGB {

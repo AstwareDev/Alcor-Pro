@@ -1,0 +1,23 @@
+.dialog.matte-sheet { width: 280px; gap: var(--sp-lg); padding: var(--sp-lg-xl); }
+.matte-row { display: flex; align-items: center; gap: var(--sp-sm-md); }
+.matte-label { font-size: var(--fs-sm); font-weight: var(--fw-medium); color: var(--text-primary); }
+.matte-control { margin-left: auto; width: 116px; display: flex; justify-content: flex-end; }
+.matte-picker {
+  padding: var(--sp-xs) var(--sp-sm-md);
+  border-radius: var(--radius-sm);
+  background: var(--bg-prominent);
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+}
+.matte-size { font-size: var(--fs-sm); font-weight: var(--fw-medium); color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+.matte-error { font-size: var(--fs-xs); color: var(--status-error); }
+.matte-create {
+  margin-top: var(--sp-xs);
+  padding: var(--sp-sm-md) 0;
+  border-radius: var(--radius-sm);
+  background: var(--accent-primary);
+  color: var(--accent-primary-contrast);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+}
+.matte-create:disabled { opacity: 0.6; }

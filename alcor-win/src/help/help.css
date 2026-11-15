@@ -28,3 +28,17 @@
 .link-button { display: inline-flex; align-items: center; gap: var(--sp-xs); font-size: var(--fs-sm); color: var(--accent-link); white-space: nowrap; }
 .link-button:hover { text-decoration: underline; }
 .external-agent-logo { display: inline-grid; place-items: center; flex: 0 0 auto; border-radius: var(--radius-xs-sm); background: var(--fill-muted); color: var(--text-secondary); font-size: var(--fs-sm-md); font-weight: var(--fw-semibold); }
+
+/* Keyboard Shortcuts sheet */
+.shortcuts-scrim { animation: shortcuts-fade 160ms var(--ease-out); }
+.shortcuts-dialog { width: min(880px, 94vw); animation: shortcuts-rise 180ms var(--ease-out); }
+@keyframes shortcuts-fade { from { opacity: 0; } }
+@keyframes shortcuts-rise { from { opacity: 0; transform: translateY(6px) scale(0.99); } }
+.shortcuts-body { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-xxl); padding: var(--sp-lg-xl) var(--sp-xl-xxl) var(--sp-xxl); overflow-y: auto; }
+.shortcuts-column { display: flex; flex-direction: column; gap: var(--sp-lg-xl); min-width: 0; }
+.shortcuts-group { display: flex; flex-direction: column; gap: var(--sp-sm); }
+.shortcuts-group h3 { margin: 0 0 var(--sp-xs); font-size: var(--fs-md); font-weight: var(--fw-semibold); color: var(--text-primary); }
+.shortcuts-row { display: grid; grid-template-columns: 200px 1fr; column-gap: var(--sp-md-lg); align-items: baseline; }
+.shortcuts-row kbd { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-primary); }
+.shortcuts-row span { font-size: var(--fs-sm); color: var(--text-secondary); }
+@media (prefers-reduced-motion: reduce) { .shortcuts-scrim, .shortcuts-dialog { animation: none; } }

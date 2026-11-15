@@ -3,6 +3,7 @@ import { aiTransitionHooks } from "./editor/mutations/aiTransition";
 import { captureFrameToMedia } from "./agent/tools/captureTools";
 import { generationHooks } from "./generation/generationState";
 import { projectSessionIfOpen } from "./project/projectSession";
+import { sharedNotifications } from "./settings/notifications";
 
 /**
  * Wires the module-level hook seams that Swift sets on `EditorViewModel` / `AppNotifications`.
@@ -14,7 +15,9 @@ export function installEditorIntegrations(editor: Editor): () => void {
   };
   const generationComplete = (target: Editor, asset: { name: string; type: string }, count: number): void => {
     if (target !== editor) return;
-    editor.showToast(generationCompleteMessage(asset.name, asset.type, count), "info");
+    const message = generationCompleteMessage(asset.name, asset.type, count);
+    editor.showToast(message, "info");
+    sharedNotifications().notifyGenerationComplete(message);
   };
   const captureTimelineFrame = async (target: Editor, frame: number, name: string) =>
     (await captureFrameToMedia(target, { kind: "timeline", frame }, name)).asset;

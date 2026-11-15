@@ -1,0 +1,13 @@
+.alcor-brand {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--sp-sm-md);
+  color: var(--accent-primary);
+  pointer-events: none;
+}
+.alcor-brand svg { display: block; flex: none; width: var(--icon-xl); height: var(--icon-xl); }
+.alcor-brand-name { color: var(--text-primary); font: var(--fw-semibold) var(--fs-title1) / 1 var(--font-display); letter-spacing: var(--tracking-tight); }
+.alcor-brand.compact { margin-right: var(--sp-xs); }
+.alcor-brand.compact svg { width: var(--icon-md); height: var(--icon-md); }
+.home-brand { padding: var(--sp-sm) var(--sp-sm-md) var(--sp-xl); }

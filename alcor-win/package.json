@@ -1,14 +1,17 @@
 {
   "name": "alcor-pro",
   "version": "0.1.0",
-  "description": "",
+  "private": true,
+  "description": "Alcor Pro — AI-native video editor for Windows",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "brand:icons": "node scripts/generate-icons.mjs",
+    "brand:check": "node --test scripts/branding.test.mjs"
   },
   "license": "GPL-3.0-only",
   "dependencies": {

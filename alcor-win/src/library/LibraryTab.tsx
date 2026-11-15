@@ -15,9 +15,10 @@ import { DownloadsView } from "./DownloadsView";
 import { PresetTile } from "./PresetTile";
 import type { Preset, PresetKind } from "./presetFormat";
 import { SoundsView } from "./SoundsView";
+import { TransitionsView } from "../transitions/TransitionsView";
 import "./library.css";
 
-type SectionId = "filters" | "effects" | "text" | "titles" | "animations" | "sounds" | "downloads";
+type SectionId = "filters" | "effects" | "text" | "titles" | "animations" | "transitions" | "sounds" | "downloads";
 
 interface Section {
   id: SectionId;
@@ -31,6 +32,7 @@ const sections: readonly Section[] = [
   { id: "text", label: "Text", kind: "textStyle" },
   { id: "titles", label: "Titles", kind: "title" },
   { id: "animations", label: "Animations", kind: "textAnimation" },
+  { id: "transitions", label: "Transitions" },
   { id: "sounds", label: "Sounds" },
   { id: "downloads", label: "Downloads" },
 ];
@@ -151,6 +153,9 @@ export function LibraryTab(props: { editor: Editor; controller: LibraryControlle
               </div>
             </Show>
           </div>
+        </Show>
+        <Show when={section() === "transitions"}>
+          <TransitionsView editor={props.editor} />
         </Show>
         <Show when={section() === "sounds"}>
           <SoundsView editor={props.editor} controller={c} onOpenSettings={props.onOpenSettings} />

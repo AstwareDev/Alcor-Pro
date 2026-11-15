@@ -1,30 +1,36 @@
-/* Port of UI/AppTheme.swift. Dark is default; [data-theme="light"] overrides. */
+/* Structure ported from UI/AppTheme.swift. Dark is the "Darkroom" look: near-black, hairlines, one acid accent.
+   [data-theme="light"] overrides. */
 :root {
   color-scheme: dark;
 
-  --bg-base: rgb(24 25 28);
-  --bg-surface: rgb(30 31 35);
-  --bg-raised: rgb(38 39 44);
-  --bg-prominent: rgb(48 49 55);
+  --brand-black: #0b0b0c;
+  --brand-white: #f5f7f2;
+  --brand-green: #c6f432;
+  --brand-green-ink: #3b5700;
+
+  --bg-base: var(--brand-black);
+  --bg-surface: #111113;
+  --bg-raised: #18181b;
+  --bg-prominent: #212125;
   --bg-preview-canvas: #000;
 
-  --border-primary: rgb(255 255 255 / 0.10);
-  --border-subtle: rgb(255 255 255 / 0.07);
-  --border-divider: rgb(255 255 255 / 0.24);
-  --border-panel: #000;
+  --border-primary: rgb(255 255 255 / 0.09);
+  --border-subtle: rgb(255 255 255 / 0.06);
+  --border-divider: rgb(255 255 255 / 0.18);
+  --border-panel: #232326;
   --border-clip: #000;
-  --border-clip-selected: #fff;
+  --border-clip-selected: var(--brand-green);
 
   --bw-hairline: 0.5px;
   --bw-thin: 1px;
   --bw-medium: 1.5px;
   --bw-thick: 2px;
 
-  --accent-timecode: rgb(242 153 51);
-  --accent-primary: rgb(236 236 236);
-  --accent-primary-contrast: rgb(24 25 28);
-  --accent-playhead: rgb(255 82 77);
-  --accent-link: rgb(65 156 255);
+  --accent-timecode: var(--brand-green);
+  --accent-primary: var(--brand-green);
+  --accent-primary-contrast: var(--brand-black);
+  --accent-playhead: var(--brand-green);
+  --accent-link: var(--brand-green);
   --accent-spotlight: rgb(255 69 69);
 
   --status-error: #e54f4f;
@@ -32,16 +38,15 @@
   --status-warning: rgb(255 159 10);
   --status-pending: rgb(255 214 10);
 
-  /* AppTheme.TrackColor.multicam (systemRed) */
-  --track-multicam: rgb(255 69 58);
-  /* TimelineClipColor defaults, used by the media panel's on-timeline bar */
-  --track-video: #1d5878;
-  --track-audio: #2e7765;
-  --track-image: #715486;
-  --track-text: #715486;
-  --track-subtitle: #715486;
-  --track-lottie: #a07822;
-  --track-sequence: #b9b29a;
+  --track-multicam: #8cae55;
+  /* Match timelineClipColors.ts; saved user overrides remain unchanged. */
+  --track-video: #31583f;
+  --track-audio: #4c7564;
+  --track-image: #43504a;
+  --track-text: #b9d784;
+  --track-subtitle: var(--track-text);
+  --track-lottie: #748c52;
+  --track-sequence: #9ca69a;
   /* Media panel */
   --media-rail-w: 28px;
   --media-context-row-h: 20px;
@@ -98,13 +103,13 @@
   --op-high: 0.70;
   --op-prominent: 0.80;
 
-  --radius-xs: 3px;
-  --radius-xs-sm: 4px;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-md-lg: 12px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
+  --radius-xs: 2px;
+  --radius-xs-sm: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-md-lg: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
 
   --sp-xxs: 2px;
   --sp-xs: 4px;
@@ -155,16 +160,19 @@
   --shadow-lg: 0 8px 24px rgb(0 0 0 / 0.25);
   --shadow-overlay: 0 -8px 24px rgb(0 0 0 / 0.55);
 
-  --anim-hover: 0.15s;
-  --anim-transition: 0.2s;
+  --anim-hover: 0.12s;
+  --anim-transition: 0.18s;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
   --anim-pulse: 0.8s;
 
   /* Layout (Utilities/Constants.swift) */
-  --panel-gap: 5px;
+  --panel-gap: 6px;
+  --promptbar-collapsed-w: 264px;
+  --promptbar-w: 720px;
   --panel-header-h: 30px;
   --toolbar-h: 36px;
   --ruler-h: 28px;
-  --titlebar-h: 38px;
+  --titlebar-h: 34px;
 
   /* Home (ComponentSize.project*, Settings.sidebarWidth, project card shadows) */
   --project-card-w: 150px;
@@ -207,6 +215,8 @@
   --meter-yellow: rgb(250 214 26);
   --meter-red: rgb(230 61 51);
 
+  --curve-hist-hue-fill: rgb(255 255 255 / 0.28);
+  --curve-hist-hue-line: rgb(255 255 255 / 0.6);
   --curve-red: rgb(255 56 46);
   --curve-green: rgb(82 209 92);
   --curve-blue: rgb(82 143 255);
@@ -219,23 +229,23 @@
 :root[data-theme="light"] {
   color-scheme: light;
 
-  --bg-base: rgb(241 240 237);
-  --bg-surface: rgb(245 244 241);
-  --bg-raised: rgb(249 248 245);
-  --bg-prominent: rgb(252 251 248);
+  --bg-base: #eef1eb;
+  --bg-surface: var(--brand-white);
+  --bg-raised: #ffffff;
+  --bg-prominent: #e3e9dc;
 
   --border-primary: rgb(0 0 0 / 0.20);
   --border-subtle: rgb(0 0 0 / 0.14);
   --border-divider: rgb(0 0 0 / 0.44);
   --border-panel: rgb(0 0 0 / 0.18);
   --border-clip: #fff;
-  --border-clip-selected: #000;
+  --border-clip-selected: var(--brand-green-ink);
 
-  --accent-timecode: rgb(148 74 5);
-  --accent-primary: rgb(48 48 48);
-  --accent-primary-contrast: rgb(249 248 245);
-  --accent-playhead: rgb(255 46 41);
-  --accent-link: rgb(0 104 218);
+  --accent-timecode: var(--brand-green-ink);
+  --accent-primary: var(--brand-green-ink);
+  --accent-primary-contrast: var(--brand-white);
+  --accent-playhead: var(--brand-green-ink);
+  --accent-link: var(--brand-green-ink);
 
   --status-error: rgb(179 36 23);
   --status-success: rgb(23 115 71);

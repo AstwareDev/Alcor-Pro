@@ -3,7 +3,7 @@ import { audioEntry, imageEntry, videoEntry } from "../generation/testFixtures";
 import type { CatalogEntry } from "../generation/providers/types";
 import {
   availableModes, defaultOptions, entryInMode, estimateCost, historyLimit, historyStorageKey, loadHistory, modelsForMode,
-  normalizeOptions, optionDefs, pickModel, pushHistory, saveHistory, stepHistory, validateOptions,
+  normalizeOptions, optionDefs, pickModel, pushHistory, saveHistory, splitDetail, stepHistory, validateOptions,
   type PromptEntry,
 } from "./promptModel";
 
@@ -98,5 +98,18 @@ describe("history", () => {
     data.set(historyStorageKey, "not json");
     expect(loadHistory(storage)).toEqual([]);
     expect(loadHistory(undefined)).toEqual([]);
+  });
+});
+
+describe("splitDetail", () => {
+  it("moves a trailing provider detail out of the message", () => {
+    expect(splitDetail("ElevenLabs only allows music on paid plans. (ElevenLabs rejected the key: 401)")).toEqual({
+      message: "ElevenLabs only allows music on paid plans.",
+      detail: "ElevenLabs rejected the key: 401",
+    });
+  });
+  it("leaves messages without a trailing detail alone", () => {
+    expect(splitDetail("The provider didn't return a result.")).toEqual({ message: "The provider didn't return a result." });
+    expect(splitDetail("(only a detail)")).toEqual({ message: "(only a detail)" });
   });
 });

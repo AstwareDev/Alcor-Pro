@@ -18,7 +18,7 @@ export class ProviderError extends Error {
 export function errorFromStatus(provider: string, status: number, bodyText: string, headers: [string, string][] = []): ProviderError {
   const detail = excerpt(bodyText);
   const retry = retryAfterMs(headers);
-  if (status === 401 || status === 403) return new ProviderError("auth", `${provider} rejected the API key (HTTP ${status}). Check the key and its permissions in Settings.`);
+  if (status === 401 || status === 403) return new ProviderError("auth", `${provider} rejected the API key (HTTP ${status}). Check the key and its permissions in Settings. ${detail}`.trim());
   if (status === 402 || status === 429) {
     return new ProviderError("quota", `${provider} reports a quota, billing or rate limit problem (HTTP ${status}). ${detail}`.trim(), retry);
   }

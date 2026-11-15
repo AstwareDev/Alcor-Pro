@@ -75,3 +75,14 @@
 .gen-strip-item { display: flex; flex-direction: column; gap: var(--sp-xs); cursor: pointer; }
 .gen-strip-item .gen-ref-card { width: 72px; height: 41px; }
 .gen-strip-item span { font-size: var(--fs-xxs); font-weight: var(--fw-medium); color: var(--text-muted); white-space: nowrap; }
+
+/* Speaker labels (SpeakerSection) */
+.speaker-empty { font-size: var(--fs-xs); color: var(--text-muted); }
+.speaker-heading { font-size: var(--fs-sm); color: var(--text-secondary); }
+.speaker-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-sm); }
+.speaker-label { display: flex; align-items: center; gap: var(--sp-xs); min-width: 0; }
+.speaker-color { flex: none; width: 20px; height: 20px; padding: 0; border: var(--bw-thin) solid var(--border-primary); border-radius: var(--radius-sm); background: none; cursor: pointer; }
+.speaker-name { flex: 1; min-width: 0; height: 22px; padding: 0 var(--sp-sm); font: inherit; font-size: var(--fs-sm); color: var(--text-secondary); background: var(--bg-raised); border: var(--bw-thin) solid var(--border-subtle); border-radius: var(--radius-sm); transition: border-color 150ms var(--ease-out); }
+.speaker-name:focus { outline: none; border-color: var(--accent-primary); }
+.speaker-remove { flex: none; display: grid; place-items: center; width: 18px; height: 18px; padding: 0; color: var(--text-tertiary); background: none; border: 0; border-radius: 50%; cursor: pointer; transition: color 150ms var(--ease-out); }
+.speaker-remove:hover { color: var(--text-primary); }

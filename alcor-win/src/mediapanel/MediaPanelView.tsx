@@ -1,5 +1,5 @@
 import Folder from "lucide-solid/icons/folder";
-import { createSignal, For, Show, type JSX } from "solid-js";
+import { createEffect, createSignal, For, Show, type JSX } from "solid-js";
 import type { Editor } from "../editor/editor";
 import { MediaTab } from "./MediaTab";
 import type { MediaPanelServices } from "./services";
@@ -25,6 +25,10 @@ export function MediaPanelView(props: {
   services?: MediaPanelServices;
 }) {
   const [active, setActive] = createSignal<string>(mediaTabId);
+  // "Swap Media" arms a clip and needs the library in front (showMediaPanelMediaTab).
+  createEffect(() => {
+    if (props.editor.ui.pendingSwapClipId !== null) setActive(mediaTabId);
+  });
   const extra = () => props.extraTabs ?? [];
   const activeExtra = () => extra().find((t) => t.id === active());
   return (

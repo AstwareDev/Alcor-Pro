@@ -2,12 +2,15 @@ import { createSignal, onCleanup, onMount, Show } from "solid-js";
 import type { MediaAsset } from "../../model";
 import type { Editor } from "../../editor/editor";
 import { placeDroppedAssets } from "../../editor/mutations/linking";
+import { addClipsWithSettingsPrompt } from "../../editor/mutations/settingsMismatchPrompt";
 import { focusedPanel } from "../../editor/workspace";
+import { SettingsMismatchDialog } from "../../project/SettingsMismatchDialog";
 import { ToolbarView } from "../../toolbar/ToolbarView";
 import { makeTimelineKeyframeLaneState } from "../timelineKeyframeLaneState";
 import { clampedHeaderWidth, HeaderMetrics } from "./headerLayout";
 import { MarkerEditorPopover } from "./MarkerEditorPopover";
 import { isTextInputTarget, matchShortcut, runShortcut } from "./shortcuts";
+import { AudioMeterView } from "./AudioMeterView";
 import { TimelineCanvas, type TimelineRenderStats, type TimelineSurface } from "./TimelineCanvas";
 import { TimelineHeaders } from "./TimelineHeaders";
 import { TimelineTabBar } from "./TimelineTabBar";
@@ -26,6 +29,9 @@ export function TimelinePane(props: {
   onSettingsMismatch?: (assets: readonly MediaAsset[], proceed: () => void) => void;
 }) {
   const editor = props.editor;
+  // Swift addClipsWithSettingsCheck: the first video with different fps / resolution asks before placing.
+  const onSettingsMismatch = (assets: readonly MediaAsset[], proceed: () => void) =>
+    props.onSettingsMismatch ? props.onSettingsMismatch(assets, proceed) : addClipsWithSettingsPrompt(editor, assets, proceed);
   const laneState = makeTimelineKeyframeLaneState();
   const [laneRevision, setLaneRevision] = createSignal(0);
   const [headerWidth, setHeaderWidth] = createSignal<number>(HeaderMetrics.defaultWidth);
@@ -56,8 +62,7 @@ export function TimelinePane(props: {
     }
     if (placeable.length === 0) return;
     const place = () => placeDroppedAssets(editor, placeable, cursor, frame, { ripple });
-    if (props.onSettingsMismatch) props.onSettingsMismatch(placeable, place);
-    else place();
+    onSettingsMismatch(placeable, place);
   };
 
   onMount(() => {
@@ -120,10 +125,12 @@ export function TimelinePane(props: {
           onScrollY={setScrollY}
           onRenderStats={props.onRenderStats}
           onPresentMarkerEditor={presentMarkerEditor}
-          onSettingsMismatch={props.onSettingsMismatch}
+          onSettingsMismatch={onSettingsMismatch}
           importOsFiles={(paths, cursor, frame, ripple) => void importOsFiles(paths, cursor, frame, ripple)}
         />
+        <AudioMeterView editor={editor} />
       </div>
+      <SettingsMismatchDialog />
       <Show when={markerEditor()}>
         {(m) => {
           const marker = editor.timeline.markers.find((x) => x.id === m().id);
