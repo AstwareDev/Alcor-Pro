@@ -1,0 +1,38 @@
+/* UI/CapsuleButton.swift */
+.capsule-button {
+  --capsule-bg: var(--capsule-fill, var(--bg-prominent));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-xs);
+  border-radius: 999px;
+  background: var(--capsule-bg);
+  color: var(--text-secondary);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  position: relative;
+  transition: opacity var(--anim-hover) ease-out;
+}
+.capsule-button.prominent {
+  --capsule-bg: var(--capsule-fill, var(--accent-primary));
+  color: var(--bg-base);
+}
+.capsule-button.small { font-size: var(--fs-xs); padding: var(--sp-xs) var(--sp-sm-md); }
+.capsule-button.regular { font-size: var(--fs-sm-md); padding: var(--sp-sm-md) var(--sp-lg-xl); }
+.capsule-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--fill-faint);
+  opacity: 0;
+  transition: opacity var(--anim-hover) ease-out;
+  pointer-events: none;
+}
+.capsule-button:hover:not(:disabled)::after { opacity: 1; }
+.capsule-button:active:not(:disabled) { opacity: var(--op-strong); }
+.capsule-button:disabled {
+  background: var(--bg-raised);
+  color: var(--text-muted);
+  opacity: var(--op-strong);
+}

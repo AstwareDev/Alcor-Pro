@@ -1,0 +1,31 @@
+/* Preview direct-manipulation overlays. Sized by the inline SVG; pointer events are handled on the surface. */
+.ov-surface { position: absolute; inset: 0; touch-action: none; user-select: none; }
+.ov-svg { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
+
+.ov-outline { fill: none; stroke: var(--overlay-primary); stroke-opacity: var(--op-strong); stroke-width: var(--bw-thin); }
+.ov-stem { stroke: var(--overlay-primary); stroke-opacity: var(--op-strong); stroke-width: var(--bw-thin); }
+.ov-handle { fill: var(--overlay-primary); fill-opacity: var(--op-strong); }
+.ov-rotate { fill: var(--overlay-primary); fill-opacity: var(--op-strong); stroke: var(--overlay-bg); stroke-opacity: var(--op-strong); stroke-width: var(--bw-thin); }
+.ov-guide { stroke: var(--accent-timecode); stroke-opacity: var(--op-prominent); stroke-width: var(--bw-thin); }
+
+.ov-crop-dim { fill: var(--overlay-bg); fill-opacity: var(--op-strong); }
+.ov-crop-thirds { stroke: var(--accent-timecode); stroke-opacity: var(--op-medium); stroke-width: var(--bw-thin); }
+.ov-crop-border { fill: none; stroke: var(--accent-timecode); stroke-width: var(--bw-medium); }
+.ov-crop-handle { fill: var(--accent-timecode); }
+
+.ov-chroma { cursor: crosshair; }
+
+/* Canvas viewing guides (grid, safe zones, center, format mattes). */
+.ov-view-bar { fill: var(--overlay-bg); fill-opacity: var(--op-strong); }
+.ov-view-under { fill: none; stroke: var(--overlay-bg); stroke-opacity: var(--op-strong); stroke-width: var(--bw-thick); }
+.ov-view-line { fill: none; stroke: var(--overlay-primary); stroke-width: var(--bw-hairline); }
+.ov-view-line.prominent { stroke-opacity: var(--op-prominent); }
+.ov-view-line.medium { stroke-opacity: var(--op-medium); }
+
+.ov-mask-path { fill: none; stroke: var(--accent-timecode); stroke-width: var(--bw-medium); }
+.ov-mask-path.draft { stroke-dasharray: 4 3; }
+.ov-mask-stem { stroke: var(--accent-timecode); stroke-opacity: var(--op-strong); stroke-width: var(--bw-thin); }
+.ov-mask-vertex { fill: var(--overlay-bg); stroke: var(--accent-timecode); stroke-width: var(--bw-medium); }
+.ov-mask-vertex.selected { fill: var(--accent-timecode); }
+.ov-mask-tangent { fill: var(--accent-timecode); }
+.ov-mask-feather { fill: var(--overlay-primary); stroke: var(--accent-timecode); stroke-width: var(--bw-thin); }

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 532" width="760" height="532" role="img" aria-labelledby="t d">
+<title id="t">Alcor Pro port progress</title><desc id="d">Estimated feature coverage relative to the macOS original, per area. Overall 75%.</desc>
+<rect width="760" height="532" rx="12" fill="#18191c"/>
+<text x="24" y="34" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="18" font-weight="600" fill="#f0efec">Port progress</text>
+<text x="24" y="56" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12" fill="#898781">Estimated feature coverage vs. the macOS original · overall 75%</text>
+<line x1="234.0" y1="70" x2="234.0" y2="492" stroke="#383835" stroke-width="1"/>
+<text x="234.0" y="510" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11" fill="#898781" text-anchor="middle">0%</text>
+<line x1="349.5" y1="70" x2="349.5" y2="492" stroke="#2c2c2a" stroke-width="1"/>
+<text x="349.5" y="510" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11" fill="#898781" text-anchor="middle">25%</text>
+<line x1="465.0" y1="70" x2="465.0" y2="492" stroke="#2c2c2a" stroke-width="1"/>
+<text x="465.0" y="510" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11" fill="#898781" text-anchor="middle">50%</text>
+<line x1="580.5" y1="70" x2="580.5" y2="492" stroke="#2c2c2a" stroke-width="1"/>
+<text x="580.5" y="510" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11" fill="#898781" text-anchor="middle">75%</text>
+<line x1="696.0" y1="70" x2="696.0" y2="492" stroke="#2c2c2a" stroke-width="1"/>
+<text x="696.0" y="510" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11" fill="#898781" text-anchor="middle">100%</text>
+<text x="222" y="93" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Data model &amp; undo</text>
+<path d="M234,82 H692 Q696,82 696,86 V92 Q696,96 692,96 H234 Z" fill="#3987e5"/>
+<text x="704" y="93" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">100%</text>
+<text x="222" y="119" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Timeline editing</text>
+<path d="M234,108 H668.9 Q672.9,108 672.9,112 V118 Q672.9,122 668.9,122 H234 Z" fill="#3987e5"/>
+<text x="680.9" y="119" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">95%</text>
+<text x="222" y="145" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Agent tools (MCP)</text>
+<path d="M234,134 H668.9 Q672.9,134 672.9,138 V144 Q672.9,148 668.9,148 H234 Z" fill="#3987e5"/>
+<text x="680.9" y="145" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">95%</text>
+<text x="222" y="171" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">On-canvas handles</text>
+<path d="M234,160 H645.8 Q649.8,160 649.8,164 V170 Q649.8,174 645.8,174 H234 Z" fill="#3987e5"/>
+<text x="657.8" y="171" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">90%</text>
+<text x="222" y="197" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Preview &amp; compositor</text>
+<path d="M234,186 H622.7 Q626.7,186 626.7,190 V196 Q626.7,200 622.7,200 H234 Z" fill="#3987e5"/>
+<text x="634.7" y="197" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">85%</text>
+<text x="222" y="223" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Export</text>
+<path d="M234,212 H622.7 Q626.7,212 626.7,216 V222 Q626.7,226 622.7,226 H234 Z" fill="#3987e5"/>
+<text x="634.7" y="223" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">85%</text>
+<text x="222" y="249" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Projects &amp; home</text>
+<path d="M234,238 H622.7 Q626.7,238 626.7,242 V248 Q626.7,252 622.7,252 H234 Z" fill="#3987e5"/>
+<text x="634.7" y="249" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">85%</text>
+<text x="222" y="275" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">AI generation (own keys)</text>
+<path d="M234,264 H622.7 Q626.7,264 626.7,268 V274 Q626.7,278 622.7,278 H234 Z" fill="#3987e5"/>
+<text x="634.7" y="275" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">85%</text>
+<text x="222" y="301" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Multicam &amp; sync</text>
+<path d="M234,290 H622.7 Q626.7,290 626.7,294 V300 Q626.7,304 622.7,304 H234 Z" fill="#3987e5"/>
+<text x="634.7" y="301" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">85%</text>
+<text x="222" y="327" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Beats, silence, denoise</text>
+<path d="M234,316 H622.7 Q626.7,316 626.7,320 V326 Q626.7,330 622.7,330 H234 Z" fill="#3987e5"/>
+<text x="634.7" y="327" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">85%</text>
+<text x="222" y="353" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Inspector</text>
+<path d="M234,342 H599.6 Q603.6,342 603.6,346 V352 Q603.6,356 599.6,356 H234 Z" fill="#3987e5"/>
+<text x="611.6" y="353" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">80%</text>
+<text x="222" y="379" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Media panel</text>
+<path d="M234,368 H599.6 Q603.6,368 603.6,372 V378 Q603.6,382 599.6,382 H234 Z" fill="#3987e5"/>
+<text x="611.6" y="379" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">80%</text>
+<text x="222" y="405" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Captions &amp; transcription</text>
+<path d="M234,394 H599.6 Q603.6,394 603.6,398 V404 Q603.6,408 599.6,408 H234 Z" fill="#3987e5"/>
+<text x="611.6" y="405" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">80%</text>
+<text x="222" y="431" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Settings</text>
+<path d="M234,420 H576.5 Q580.5,420 580.5,424 V430 Q580.5,434 576.5,434 H234 Z" fill="#3987e5"/>
+<text x="588.5" y="431" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#f0efec">75%</text>
+<text x="222" y="457" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Visual search</text>
+<text x="242" y="457" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#898781">0%</text>
+<text x="222" y="483" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="12.5" fill="#c3c2b7" text-anchor="end">Onboarding &amp; samples</text>
+<text x="242" y="483" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#898781">0%</text>
+</svg>

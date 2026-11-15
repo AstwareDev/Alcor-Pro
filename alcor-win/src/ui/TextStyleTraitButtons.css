@@ -1,0 +1,32 @@
+.trait-buttons { display: flex; align-items: center; gap: var(--sp-xs); }
+.trait-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-md-lg);
+  height: var(--icon-md);
+  border-radius: var(--radius-xs-sm);
+  background: var(--fill-hint);
+  border: var(--bw-hairline) solid var(--border-subtle);
+  color: var(--text-tertiary);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+}
+.trait-button.active {
+  background: var(--accent-primary);
+  border: var(--bw-thin) solid var(--accent-primary);
+  color: var(--bg-base);
+}
+.trait-glyph { font-size: var(--fs-sm); line-height: 1; }
+.trait-glyph.bold { font-weight: var(--fw-bold); }
+.trait-button.overline::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: var(--icon-xxs);
+  height: var(--bw-thin);
+  transform: translateX(-50%);
+  background: currentColor;
+}

@@ -1,0 +1,48 @@
+/* Keyframe graph editor popover. */
+.curve-editor {
+  position: fixed;
+  z-index: 1000;
+  width: var(--curve-editor-w);
+  padding: var(--sp-md);
+  border-radius: var(--radius-md);
+  background: var(--bg-prominent);
+  border: var(--bw-thin) solid var(--border-primary);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm-md);
+  user-select: none;
+}
+.curve-editor-plot { width: 100%; height: auto; touch-action: none; }
+.curve-editor-box { fill: var(--fill-subtle); stroke: var(--border-primary); stroke-width: var(--bw-thin); }
+.curve-editor-guide { stroke: var(--border-divider); stroke-width: var(--bw-hairline); stroke-dasharray: 3 3; }
+.curve-editor-value { fill: none; stroke: var(--accent-timecode); stroke-width: var(--bw-thick); }
+.curve-editor-speed { fill: none; stroke: var(--accent-link); stroke-width: var(--bw-thin); stroke-opacity: var(--op-high); }
+.curve-editor-stem { stroke: var(--text-muted); stroke-width: var(--bw-thin); }
+.curve-editor-handle { fill: var(--accent-timecode); stroke: var(--overlay-bg); stroke-width: var(--bw-thin); cursor: grab; }
+.curve-editor-handle:active { cursor: grabbing; }
+.curve-editor-legend { display: flex; gap: var(--sp-md); align-items: center; font-size: var(--fs-xs); color: var(--text-tertiary); }
+.curve-editor-key.value { color: var(--accent-timecode); }
+.curve-editor-key.speed { color: var(--accent-link); }
+.curve-editor-numbers { margin-left: auto; font-variant-numeric: tabular-nums; }
+.curve-editor-preview {
+  height: var(--sp-xl);
+  border-radius: var(--radius-xs);
+  background: var(--fill-hint);
+  padding: 0 var(--sp-sm);
+  display: flex;
+  align-items: center;
+}
+.curve-editor-dot { width: var(--sp-md); height: var(--sp-md); border-radius: 50%; background: var(--accent-timecode); }
+.curve-editor-presets { display: flex; flex-wrap: wrap; gap: var(--sp-xs); }
+.curve-editor-preset {
+  padding: var(--sp-xxs) var(--sp-sm);
+  border-radius: var(--radius-xs);
+  background: var(--fill-faint);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+}
+.curve-editor-preset:hover { background: var(--fill-muted); }
+.curve-editor-preset.selected { background: var(--fill-moderate); color: var(--text-primary); }
+.curve-editor-actions { display: flex; gap: var(--sp-sm); align-items: center; }
+.curve-editor-spacer { flex: 1; }

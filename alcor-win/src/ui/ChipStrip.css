@@ -1,0 +1,24 @@
+.chip-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  overflow-x: auto;
+  scrollbar-width: none;
+  min-width: 0;
+}
+.chip-strip::-webkit-scrollbar { display: none; }
+.chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  padding: var(--sp-xs) var(--sp-md);
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+.chip.active { color: var(--text-primary); background: var(--fill-soft); }
+.chip-strip.small .chip { padding: var(--sp-xxs) var(--sp-sm); font-size: var(--fs-xxs); }
+.chip-strip.small .chip.active { background: var(--fill-moderate); }

@@ -1,0 +1,882 @@
+{
+ "format": "alcor-preset",
+ "version": 1,
+ "presets": [
+  {
+   "id": "pack.text-tiktok",
+   "name": "Short-form Bold",
+   "category": "Social",
+   "tags": [],
+   "kind": "textStyle",
+   "style": {
+    "fontName": "Arial Black",
+    "fontSize": 104,
+    "fontScale": 1,
+    "widthScale": 1,
+    "heightScale": 1,
+    "tracking": 0,
+    "lineSpacing": 0,
+    "fontCase": "uppercase",
+    "isBold": false,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isStruckThrough": false,
+    "isOverlined": false,
+    "color": {
+     "r": 1,
+     "g": 1,
+     "b": 1,
+     "a": 1
+    },
+    "alignment": "center",
+    "blur": 0,
+    "shadow": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "offsetX": 0,
+     "offsetY": -2,
+     "blur": 6
+    },
+    "background": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "paddingX": 0,
+     "paddingY": 0,
+     "cornerRadius": 0,
+     "offsetX": 0,
+     "offsetY": 0,
+     "outlineColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "outlineWidth": 0
+    },
+    "border": {
+     "enabled": true,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "width": 10
+    }
+   }
+  },
+  {
+   "id": "pack.text-reel-yellow",
+   "name": "Reel Yellow",
+   "category": "Social",
+   "tags": [],
+   "kind": "textStyle",
+   "style": {
+    "fontName": "Impact",
+    "fontSize": 110,
+    "fontScale": 1,
+    "widthScale": 1,
+    "heightScale": 1,
+    "tracking": 0,
+    "lineSpacing": 0,
+    "fontCase": "uppercase",
+    "isBold": false,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isStruckThrough": false,
+    "isOverlined": false,
+    "color": {
+     "r": 1,
+     "g": 0.9019607843137255,
+     "b": 0,
+     "a": 1
+    },
+    "alignment": "center",
+    "blur": 0,
+    "shadow": {
+     "enabled": true,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "offsetX": 0,
+     "offsetY": -6,
+     "blur": 0
+    },
+    "background": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "paddingX": 0,
+     "paddingY": 0,
+     "cornerRadius": 0,
+     "offsetX": 0,
+     "offsetY": 0,
+     "outlineColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "outlineWidth": 0
+    },
+    "border": {
+     "enabled": true,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "width": 9
+    }
+   }
+  },
+  {
+   "id": "pack.text-story-pill",
+   "name": "Story Pill",
+   "category": "Social",
+   "tags": [],
+   "kind": "textStyle",
+   "style": {
+    "fontName": "Segoe UI",
+    "fontSize": 64,
+    "fontScale": 1,
+    "widthScale": 1,
+    "heightScale": 1,
+    "tracking": 0,
+    "lineSpacing": 0,
+    "fontCase": "mixed",
+    "isBold": true,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isStruckThrough": false,
+    "isOverlined": false,
+    "color": {
+     "r": 0.06666666666666667,
+     "g": 0.06666666666666667,
+     "b": 0.06666666666666667,
+     "a": 1
+    },
+    "alignment": "center",
+    "blur": 0,
+    "shadow": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "offsetX": 0,
+     "offsetY": -2,
+     "blur": 6
+    },
+    "background": {
+     "enabled": true,
+     "color": {
+      "r": 1,
+      "g": 1,
+      "b": 1,
+      "a": 0.95
+     },
+     "paddingX": 36,
+     "paddingY": 14,
+     "cornerRadius": 40,
+     "offsetX": 0,
+     "offsetY": 0,
+     "outlineColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "outlineWidth": 0
+    },
+    "border": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "width": 4
+    }
+   }
+  },
+  {
+   "id": "pack.text-story-dark",
+   "name": "Story Dark",
+   "category": "Social",
+   "tags": [],
+   "kind": "textStyle",
+   "style": {
+    "fontName": "Segoe UI",
+    "fontSize": 64,
+    "fontScale": 1,
+    "widthScale": 1,
+    "heightScale": 1,
+    "tracking": 0,
+    "lineSpacing": 0,
+    "fontCase": "mixed",
+    "isBold": true,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isStruckThrough": false,
+    "isOverlined": false,
+    "color": {
+     "r": 1,
+     "g": 1,
+     "b": 1,
+     "a": 1
+    },
+    "alignment": "center",
+    "blur": 0,
+    "shadow": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "offsetX": 0,
+     "offsetY": -2,
+     "blur": 6
+    },
+    "background": {
+     "enabled": true,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "paddingX": 36,
+     "paddingY": 14,
+     "cornerRadius": 40,
+     "offsetX": 0,
+     "offsetY": 0,
+     "outlineColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "outlineWidth": 0
+    },
+    "border": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "width": 4
+    }
+   }
+  },
+  {
+   "id": "pack.text-podcast",
+   "name": "Podcast Caption",
+   "category": "Social",
+   "tags": [],
+   "kind": "textStyle",
+   "style": {
+    "fontName": "Bahnschrift",
+    "fontSize": 70,
+    "fontScale": 1,
+    "widthScale": 1,
+    "heightScale": 1,
+    "tracking": 0,
+    "lineSpacing": 0,
+    "fontCase": "mixed",
+    "isBold": true,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isStruckThrough": false,
+    "isOverlined": false,
+    "color": {
+     "r": 1,
+     "g": 1,
+     "b": 1,
+     "a": 1
+    },
+    "alignment": "center",
+    "blur": 0,
+    "shadow": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "offsetX": 0,
+     "offsetY": -2,
+     "blur": 6
+    },
+    "background": {
+     "enabled": true,
+     "color": {
+      "r": 0.48627450980392156,
+      "g": 0.22745098039215686,
+      "b": 0.9294117647058824,
+      "a": 1
+     },
+     "paddingX": 28,
+     "paddingY": 12,
+     "cornerRadius": 14,
+     "offsetX": 0,
+     "offsetY": 0,
+     "outlineColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "outlineWidth": 0
+    },
+    "border": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "width": 4
+    }
+   }
+  },
+  {
+   "id": "pack.text-news",
+   "name": "News Ticker",
+   "category": "Social",
+   "tags": [],
+   "kind": "textStyle",
+   "style": {
+    "fontName": "Arial",
+    "fontSize": 58,
+    "fontScale": 1,
+    "widthScale": 1,
+    "heightScale": 1,
+    "tracking": 0,
+    "lineSpacing": 0,
+    "fontCase": "mixed",
+    "isBold": true,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isStruckThrough": false,
+    "isOverlined": false,
+    "color": {
+     "r": 1,
+     "g": 1,
+     "b": 1,
+     "a": 1
+    },
+    "alignment": "left",
+    "blur": 0,
+    "shadow": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "offsetX": 0,
+     "offsetY": -2,
+     "blur": 6
+    },
+    "background": {
+     "enabled": true,
+     "color": {
+      "r": 0.043137254901960784,
+      "g": 0.23921568627450981,
+      "b": 0.5686274509803921,
+      "a": 1
+     },
+     "paddingX": 30,
+     "paddingY": 12,
+     "cornerRadius": 0,
+     "offsetX": 0,
+     "offsetY": 0,
+     "outlineColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "outlineWidth": 0
+    },
+    "border": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "width": 4
+    }
+   }
+  },
+  {
+   "id": "pack.text-lofi",
+   "name": "Lo-fi Mono",
+   "category": "Social",
+   "tags": [],
+   "kind": "textStyle",
+   "style": {
+    "fontName": "Consolas",
+    "fontSize": 72,
+    "fontScale": 1,
+    "widthScale": 1,
+    "heightScale": 1,
+    "tracking": 2,
+    "lineSpacing": 0,
+    "fontCase": "mixed",
+    "isBold": false,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isStruckThrough": false,
+    "isOverlined": false,
+    "color": {
+     "r": 0.9607843137254902,
+     "g": 0.9137254901960784,
+     "b": 0.8274509803921568,
+     "a": 1
+    },
+    "alignment": "center",
+    "blur": 0,
+    "shadow": {
+     "enabled": true,
+     "color": {
+      "r": 1,
+      "g": 0.4196078431372549,
+      "b": 0.4196078431372549,
+      "a": 0.9
+     },
+     "offsetX": -4,
+     "offsetY": 0,
+     "blur": 0
+    },
+    "background": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "paddingX": 0,
+     "paddingY": 0,
+     "cornerRadius": 0,
+     "offsetX": 0,
+     "offsetY": 0,
+     "outlineColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "outlineWidth": 0
+    },
+    "border": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "width": 4
+    }
+   }
+  },
+  {
+   "id": "pack.text-ice",
+   "name": "Ice",
+   "category": "Social",
+   "tags": [],
+   "kind": "textStyle",
+   "style": {
+    "fontName": "Segoe UI",
+    "fontSize": 100,
+    "fontScale": 1,
+    "widthScale": 1,
+    "heightScale": 1,
+    "tracking": 0,
+    "lineSpacing": 0,
+    "fontCase": "mixed",
+    "isBold": true,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isStruckThrough": false,
+    "isOverlined": false,
+    "color": {
+     "r": 0.9019607843137255,
+     "g": 0.9686274509803922,
+     "b": 1,
+     "a": 1
+    },
+    "alignment": "center",
+    "blur": 0,
+    "shadow": {
+     "enabled": true,
+     "color": {
+      "r": 0.30980392156862746,
+      "g": 0.7647058823529411,
+      "b": 0.9686274509803922,
+      "a": 1
+     },
+     "offsetX": 0,
+     "offsetY": 0,
+     "blur": 22
+    },
+    "background": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "paddingX": 0,
+     "paddingY": 0,
+     "cornerRadius": 0,
+     "offsetX": 0,
+     "offsetY": 0,
+     "outlineColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "outlineWidth": 0
+    },
+    "border": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "width": 4
+    }
+   }
+  },
+  {
+   "id": "pack.text-fire",
+   "name": "Fire",
+   "category": "Social",
+   "tags": [],
+   "kind": "textStyle",
+   "style": {
+    "fontName": "Impact",
+    "fontSize": 118,
+    "fontScale": 1,
+    "widthScale": 1,
+    "heightScale": 1,
+    "tracking": 0,
+    "lineSpacing": 0,
+    "fontCase": "uppercase",
+    "isBold": false,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isStruckThrough": false,
+    "isOverlined": false,
+    "color": {
+     "r": 1,
+     "g": 0.6901960784313725,
+     "b": 0.12549019607843137,
+     "a": 1
+    },
+    "alignment": "center",
+    "blur": 0,
+    "shadow": {
+     "enabled": true,
+     "color": {
+      "r": 0.9098039215686274,
+      "g": 0.13725490196078433,
+      "b": 0.0392156862745098,
+      "a": 1
+     },
+     "offsetX": 0,
+     "offsetY": 0,
+     "blur": 24
+    },
+    "background": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "paddingX": 0,
+     "paddingY": 0,
+     "cornerRadius": 0,
+     "offsetX": 0,
+     "offsetY": 0,
+     "outlineColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "outlineWidth": 0
+    },
+    "border": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "width": 4
+    }
+   }
+  },
+  {
+   "id": "pack.text-chalk",
+   "name": "Chalkboard",
+   "category": "Social",
+   "tags": [],
+   "kind": "textStyle",
+   "style": {
+    "fontName": "Segoe Print",
+    "fontSize": 88,
+    "fontScale": 1,
+    "widthScale": 1,
+    "heightScale": 1,
+    "tracking": 0,
+    "lineSpacing": 0,
+    "fontCase": "mixed",
+    "isBold": false,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isStruckThrough": false,
+    "isOverlined": false,
+    "color": {
+     "r": 0.9568627450980393,
+     "g": 0.9568627450980393,
+     "b": 0.9411764705882353,
+     "a": 1
+    },
+    "alignment": "center",
+    "blur": 0,
+    "shadow": {
+     "enabled": true,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.5
+     },
+     "offsetX": 0,
+     "offsetY": -2,
+     "blur": 3
+    },
+    "background": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "paddingX": 0,
+     "paddingY": 0,
+     "cornerRadius": 0,
+     "offsetX": 0,
+     "offsetY": 0,
+     "outlineColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "outlineWidth": 0
+    },
+    "border": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "width": 4
+    }
+   }
+  },
+  {
+   "id": "pack.text-mint-box",
+   "name": "Mint Box",
+   "category": "Social",
+   "tags": [],
+   "kind": "textStyle",
+   "style": {
+    "fontName": "Segoe UI",
+    "fontSize": 68,
+    "fontScale": 1,
+    "widthScale": 1,
+    "heightScale": 1,
+    "tracking": 0,
+    "lineSpacing": 0,
+    "fontCase": "mixed",
+    "isBold": true,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isStruckThrough": false,
+    "isOverlined": false,
+    "color": {
+     "r": 0.023529411764705882,
+     "g": 0.20784313725490197,
+     "b": 0.16862745098039217,
+     "a": 1
+    },
+    "alignment": "center",
+    "blur": 0,
+    "shadow": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "offsetX": 0,
+     "offsetY": -2,
+     "blur": 6
+    },
+    "background": {
+     "enabled": true,
+     "color": {
+      "r": 0.3686274509803922,
+      "g": 0.9176470588235294,
+      "b": 0.8313725490196079,
+      "a": 1
+     },
+     "paddingX": 30,
+     "paddingY": 12,
+     "cornerRadius": 10,
+     "offsetX": 0,
+     "offsetY": 0,
+     "outlineColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "outlineWidth": 0
+    },
+    "border": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "width": 4
+    }
+   }
+  },
+  {
+   "id": "pack.text-outline-white",
+   "name": "White Outline",
+   "category": "Social",
+   "tags": [],
+   "kind": "textStyle",
+   "style": {
+    "fontName": "Arial Black",
+    "fontSize": 108,
+    "fontScale": 1,
+    "widthScale": 1,
+    "heightScale": 1,
+    "tracking": 0,
+    "lineSpacing": 0,
+    "fontCase": "mixed",
+    "isBold": false,
+    "isItalic": false,
+    "isUnderlined": false,
+    "isStruckThrough": false,
+    "isOverlined": false,
+    "color": {
+     "r": 1,
+     "g": 1,
+     "b": 1,
+     "a": 1
+    },
+    "alignment": "center",
+    "blur": 0,
+    "shadow": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "offsetX": 0,
+     "offsetY": -2,
+     "blur": 6
+    },
+    "background": {
+     "enabled": false,
+     "color": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0.6
+     },
+     "paddingX": 0,
+     "paddingY": 0,
+     "cornerRadius": 0,
+     "offsetX": 0,
+     "offsetY": 0,
+     "outlineColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+     },
+     "outlineWidth": 0
+    },
+    "border": {
+     "enabled": true,
+     "color": {
+      "r": 1,
+      "g": 0.17647058823529413,
+      "b": 0.3333333333333333,
+      "a": 1
+     },
+     "width": 12
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,248 @@
+/* Port of UI/AppTheme.swift. Dark is default; [data-theme="light"] overrides. */
+:root {
+  color-scheme: dark;
+
+  --bg-base: rgb(24 25 28);
+  --bg-surface: rgb(30 31 35);
+  --bg-raised: rgb(38 39 44);
+  --bg-prominent: rgb(48 49 55);
+  --bg-preview-canvas: #000;
+
+  --border-primary: rgb(255 255 255 / 0.10);
+  --border-subtle: rgb(255 255 255 / 0.07);
+  --border-divider: rgb(255 255 255 / 0.24);
+  --border-panel: #000;
+  --border-clip: #000;
+  --border-clip-selected: #fff;
+
+  --bw-hairline: 0.5px;
+  --bw-thin: 1px;
+  --bw-medium: 1.5px;
+  --bw-thick: 2px;
+
+  --accent-timecode: rgb(242 153 51);
+  --accent-primary: rgb(236 236 236);
+  --accent-primary-contrast: rgb(24 25 28);
+  --accent-playhead: rgb(255 82 77);
+  --accent-link: rgb(65 156 255);
+  --accent-spotlight: rgb(255 69 69);
+
+  --status-error: #e54f4f;
+  --status-success: #4fb85f;
+  --status-warning: rgb(255 159 10);
+  --status-pending: rgb(255 214 10);
+
+  /* AppTheme.TrackColor.multicam (systemRed) */
+  --track-multicam: rgb(255 69 58);
+  /* TimelineClipColor defaults, used by the media panel's on-timeline bar */
+  --track-video: #1d5878;
+  --track-audio: #2e7765;
+  --track-image: #715486;
+  --track-text: #715486;
+  --track-subtitle: #715486;
+  --track-lottie: #a07822;
+  --track-sequence: #b9b29a;
+  /* Media panel */
+  --media-rail-w: 28px;
+  --media-context-row-h: 20px;
+  /* Timeline (AppTheme.ComponentSize.timeline*) */
+  --timeline-header-w: 160px;
+  --timeline-tab-rename-w: 120px;
+  --timeline-zoom-slider-w: 100px;
+  --timeline-header-strip-w: 3px;
+  --timeline-header-reorder-inset: 9px;
+  --timeline-header-resize-w: 8px;
+  --marker-editor-w: 320px;
+  --curve-editor-w: 244px;
+  --marker-time-field-w: 82px;
+  --marker-comments-h: 54px;
+
+  --agent-added: rgb(48 209 88);
+  --agent-mutated: rgb(255 159 10);
+  --agent-read: #64748b;
+
+  --text-rgb: 255 255 255;
+  --text-primary: rgb(var(--text-rgb) / 0.98);
+  --text-secondary: rgb(var(--text-rgb) / 0.84);
+  --text-tertiary: rgb(var(--text-rgb) / 0.68);
+  --text-muted: rgb(var(--text-rgb) / 0.46);
+
+  /* AppTheme.Interaction.fill(opacity) */
+  --fill-subtle: rgb(var(--text-rgb) / 0.04);
+  --fill-hint: rgb(var(--text-rgb) / 0.06);
+  --fill-faint: rgb(var(--text-rgb) / 0.08);
+  --fill-soft: rgb(var(--text-rgb) / 0.10);
+  --fill-muted: rgb(var(--text-rgb) / 0.15);
+  --fill-moderate: rgb(var(--text-rgb) / 0.25);
+  --fill-medium: rgb(var(--text-rgb) / 0.35);
+  --fill-strong: rgb(var(--text-rgb) / 0.55);
+
+  --overlay-bg: #000;
+  --overlay-primary: #fff;
+  --overlay-secondary: rgb(255 255 255 / 0.80);
+  --overlay-tertiary: rgb(255 255 255 / 0.62);
+  --overlay-muted: rgb(255 255 255 / 0.34);
+  /* Preview direct-manipulation overlays: TransformOverlayView.handleSize (smMd) plus the rotation handle. */
+  --overlay-handle-size: var(--sp-sm-md);
+  --overlay-rotate-handle-size: var(--sp-md);
+  --overlay-rotate-offset: var(--sp-xl-xxl);
+
+  --op-subtle: 0.04;
+  --op-hint: 0.06;
+  --op-faint: 0.08;
+  --op-soft: 0.10;
+  --op-muted: 0.15;
+  --op-moderate: 0.25;
+  --op-medium: 0.35;
+  --op-strong: 0.55;
+  --op-high: 0.70;
+  --op-prominent: 0.80;
+
+  --radius-xs: 3px;
+  --radius-xs-sm: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-md-lg: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --sp-xxs: 2px;
+  --sp-xs: 4px;
+  --sp-sm: 6px;
+  --sp-sm-md: 8px;
+  --sp-md: 10px;
+  --sp-md-lg: 12px;
+  --sp-lg: 14px;
+  --sp-lg-xl: 16px;
+  --sp-xl: 20px;
+  --sp-xl-xxl: 24px;
+  --sp-xxl: 28px;
+
+  --fs-micro: 8px;
+  --fs-xxs: 9px;
+  --fs-xs: 10px;
+  --fs-sm: 11px;
+  --fs-sm-md: 12px;
+  --fs-md: 13px;
+  --fs-md-lg: 14px;
+  --fs-lg: 15px;
+  --fs-xl: 18px;
+  --fs-title1: 22px;
+  --fs-title2: 28px;
+  --fs-display: 36px;
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --tracking-tight: -0.5px;
+  --tracking-wide: 1.5px;
+
+  --icon-xxs: 12px;
+  --icon-xs: 14px;
+  --icon-sm: 18px;
+  --icon-sm-md: 20px;
+  --icon-md: 22px;
+  --icon-md-lg: 24px;
+  --icon-lg: 26px;
+  --icon-lg-xl: 28px;
+  --icon-xl: 30px;
+
+  --shadow-sm: 0 0.5px 1px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 2px 4px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 8px 24px rgb(0 0 0 / 0.25);
+  --shadow-overlay: 0 -8px 24px rgb(0 0 0 / 0.55);
+
+  --anim-hover: 0.15s;
+  --anim-transition: 0.2s;
+  --anim-pulse: 0.8s;
+
+  /* Layout (Utilities/Constants.swift) */
+  --panel-gap: 5px;
+  --panel-header-h: 30px;
+  --toolbar-h: 36px;
+  --ruler-h: 28px;
+  --titlebar-h: 38px;
+
+  /* Home (ComponentSize.project*, Settings.sidebarWidth, project card shadows) */
+  --project-card-w: 150px;
+  --project-card-h: 120px;
+  --project-search-w: 260px;
+  --sidebar-w: 220px;
+  --shadow-card: 0 2px 4px rgb(0 0 0 / 0.2);
+  --shadow-card-hover: 0 4px 12px rgb(0 0 0 / 0.4);
+  --card-hover-scale: 1.03;
+  /* Onboarding overlay (AppTheme.Onboarding) */
+  --onboarding-card-w: 520px;
+  --onboarding-card-h: 420px;
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --scrim-missing: rgb(0 0 0 / 0.6);
+  --scrim-dialog: rgb(0 0 0 / 0.4);
+
+  --slider-track-h: 4px;
+  --slider-thumb: 10px;
+  --slider-label-col: 106px;
+  --editor-label-col: 88px;
+  --editor-row-min-h: 22px;
+  --editor-group-header-h: 28px;
+  --numeric-field-w: 56px;
+  --compact-field-w: 36px;
+  --editor-field-min-h: 22px;
+  --editor-content-inset-l: 28px;
+  --font-menu-w: 160px;
+  --text-editor-min-h: 96px;
+  --keyframe-strip-w: 34px;
+  --wheel-pad: 96px;
+  --wheel-puck: 10px;
+  --curve-editor-h: 180px;
+  --curve-point: 9px;
+  --curve-point-hit: 30px;
+  --slider-temp: linear-gradient(90deg, rgb(82 140 235), rgb(242 184 82));
+  --slider-tint: linear-gradient(90deg, rgb(107 199 115), rgb(209 97 184));
+  --slider-luma: linear-gradient(90deg, rgb(13 13 13), rgb(242 242 242));
+
+  --meter-green: rgb(20 199 56);
+  --meter-yellow: rgb(250 214 26);
+  --meter-red: rgb(230 61 51);
+
+  --curve-red: rgb(255 56 46);
+  --curve-green: rgb(82 209 92);
+  --curve-blue: rgb(82 143 255);
+
+  --font-ui: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Segoe UI Variable Display", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", "Cascadia Code", Consolas, ui-monospace, monospace;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-base: rgb(241 240 237);
+  --bg-surface: rgb(245 244 241);
+  --bg-raised: rgb(249 248 245);
+  --bg-prominent: rgb(252 251 248);
+
+  --border-primary: rgb(0 0 0 / 0.20);
+  --border-subtle: rgb(0 0 0 / 0.14);
+  --border-divider: rgb(0 0 0 / 0.44);
+  --border-panel: rgb(0 0 0 / 0.18);
+  --border-clip: #fff;
+  --border-clip-selected: #000;
+
+  --accent-timecode: rgb(148 74 5);
+  --accent-primary: rgb(48 48 48);
+  --accent-primary-contrast: rgb(249 248 245);
+  --accent-playhead: rgb(255 46 41);
+  --accent-link: rgb(0 104 218);
+
+  --status-error: rgb(179 36 23);
+  --status-success: rgb(23 115 71);
+
+  --text-rgb: 0 0 0;
+  --text-primary: rgb(var(--text-rgb) / 0.92);
+  --text-secondary: rgb(var(--text-rgb) / 0.78);
+  --text-tertiary: rgb(var(--text-rgb) / 0.66);
+  --text-muted: rgb(var(--text-rgb) / 0.46);
+}

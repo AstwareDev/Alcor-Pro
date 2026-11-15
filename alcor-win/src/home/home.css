@@ -1,0 +1,205 @@
+/* Home/HomeView.swift, MyProjectsSection.swift, ProjectCard.swift */
+.home {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  height: 100%;
+  min-width: 760px;
+  min-height: 480px;
+  background: var(--bg-surface);
+}
+
+.home-titlebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: var(--titlebar-h);
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.home-titlebar .window-controls { height: var(--titlebar-h); }
+
+.home-sidebar { display: flex; flex-direction: column; min-height: 0; }
+.home-sidebar-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xxs);
+  /* Clear the drag-region title bar, which would otherwise swallow clicks on the first rows. */
+  padding: calc(var(--titlebar-h) + var(--sp-xs)) var(--sp-sm-md) var(--sp-md);
+}
+.home-sidebar-footer {
+  margin-top: auto;
+  padding: 0 var(--sp-sm-md) var(--sp-md);
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--bg-base);
+}
+.home-header { padding: calc(var(--titlebar-h) + var(--sp-xs)) var(--sp-xl-xxl) var(--sp-xxl); }
+.home-welcome {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-title2);
+  font-weight: var(--fw-light);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+}
+
+.my-projects { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.projects-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  min-height: var(--icon-md);
+  padding: 0 var(--sp-xl-xxl) var(--sp-sm);
+}
+.projects-title { font-size: var(--fs-md); font-weight: var(--fw-regular); color: var(--text-primary); }
+.spacer { flex: 1; }
+
+.projects-scroll { flex: 1; min-height: 0; overflow-y: auto; }
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, var(--project-card-w));
+  column-gap: var(--sp-md);
+  row-gap: var(--sp-xl);
+  justify-content: start;
+  padding: 0 var(--sp-xl-xxl) var(--sp-xl-xxl);
+}
+.projects-empty {
+  grid-column: 1 / -1;
+  padding: var(--sp-xl) 0;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.project-cell { padding: var(--sp-xs); }
+.project-card {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  border-radius: var(--radius-md-lg);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s var(--ease-spring), box-shadow 0.3s var(--ease-spring), opacity var(--anim-transition);
+}
+.project-card:hover { transform: scale(var(--card-hover-scale)); box-shadow: var(--shadow-card-hover); }
+.project-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: var(--bw-hairline) solid var(--fill-hint);
+  pointer-events: none;
+  transition: border-color var(--anim-hover);
+}
+.project-card:hover::after { border-color: var(--fill-muted); }
+.project-card.selected::after { border: var(--bw-thick) solid var(--accent-primary); }
+.project-card.inaccessible { opacity: var(--op-prominent); }
+
+.card-art { position: absolute; inset: 0; background: var(--bg-raised); overflow: hidden; }
+.card-thumb { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 240ms ease-out; }
+.card-thumb.loaded { opacity: 1; }
+.card-art-icon { position: absolute; inset: 0; display: grid; place-items: center; color: var(--text-muted); }
+.card-missing {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-xs);
+  background: var(--scrim-missing);
+  color: var(--overlay-tertiary);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+}
+
+.card-gradient {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--project-card-h) / 2);
+  background: linear-gradient(to bottom, transparent, rgb(0 0 0 / var(--op-high)));
+  pointer-events: none;
+}
+.card-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xxs);
+  padding: 0 var(--sp-md) var(--sp-sm-md);
+  pointer-events: none;
+}
+.card-label .inline-rename { pointer-events: auto; font-size: var(--fs-sm-md); font-weight: var(--fw-regular); }
+.card-name {
+  font-size: var(--fs-sm-md);
+  font-weight: var(--fw-regular);
+  color: var(--overlay-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.project-card.inaccessible .card-name { color: var(--overlay-muted); }
+.card-date { font-size: var(--fs-xs); color: rgb(255 255 255 / var(--op-medium)); }
+
+.card-select-indicator {
+  position: absolute;
+  top: var(--sp-sm-md);
+  right: var(--sp-sm-md);
+  display: grid;
+  color: var(--overlay-tertiary);
+  pointer-events: none;
+}
+.card-select-indicator.on { color: var(--overlay-primary); }
+
+.card-delete {
+  position: absolute;
+  top: var(--sp-sm-md);
+  right: var(--sp-sm-md);
+  display: grid;
+  place-items: center;
+  width: var(--icon-lg-xl);
+  height: var(--icon-lg-xl);
+  border-radius: 50%;
+  color: var(--accent-spotlight);
+  background: rgb(0 0 0 / var(--op-medium));
+  backdrop-filter: blur(12px);
+  border: var(--bw-hairline) solid var(--fill-muted);
+  opacity: 0;
+  transform: scale(var(--op-prominent));
+  transition: opacity var(--anim-hover), transform var(--anim-hover);
+}
+.project-card:hover .card-delete { opacity: 1; transform: none; }
+
+/* SampleProjectsStrip.swift */
+.samples { display: flex; flex-direction: column; gap: var(--sp-sm); padding: 0 var(--sp-xl-xxl) var(--sp-xxl); }
+.samples-toggle { align-self: flex-start; display: flex; align-items: center; gap: var(--sp-xs); }
+.samples-title { font-size: var(--fs-md); font-weight: var(--fw-regular); color: var(--text-primary); }
+.samples-chevron { color: var(--text-tertiary); transition: transform var(--anim-transition); }
+.samples-chevron.open { transform: rotate(90deg); }
+.samples-row { display: flex; gap: var(--sp-md); overflow-x: auto; scrollbar-width: none; }
+.sample-cell { flex: none; width: var(--project-card-w); box-sizing: content-box; }
+.sample-card { display: block; width: 100%; padding: 0; text-align: left; }
+.card-art.blurred { filter: blur(4px); }
+.sample-download {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 var(--sp-lg);
+  background: rgb(0 0 0 / var(--op-faint));
+  color: var(--overlay-primary);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}
+.sample-download progress { width: 100%; }

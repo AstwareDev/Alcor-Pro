@@ -1,0 +1,694 @@
+{
+ "format": "alcor-preset",
+ "version": 1,
+ "presets": [
+  {
+   "id": "pack.title-subscribe",
+   "name": "Subscribe Button",
+   "category": "Social",
+   "tags": [],
+   "kind": "title",
+   "durationSeconds": 4,
+   "items": [
+    {
+     "layer": 0,
+     "startOffsetSeconds": 0,
+     "text": "SUBSCRIBE",
+     "style": {
+      "fontName": "Arial Black",
+      "fontSize": 64,
+      "fontScale": 1,
+      "widthScale": 1,
+      "heightScale": 1,
+      "tracking": 0,
+      "lineSpacing": 0,
+      "fontCase": "mixed",
+      "isBold": false,
+      "isItalic": false,
+      "isUnderlined": false,
+      "isStruckThrough": false,
+      "isOverlined": false,
+      "color": {
+       "r": 1,
+       "g": 1,
+       "b": 1,
+       "a": 1
+      },
+      "alignment": "center",
+      "blur": 0,
+      "shadow": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6
+       },
+       "offsetX": 0,
+       "offsetY": -2,
+       "blur": 6
+      },
+      "background": {
+       "enabled": true,
+       "color": {
+        "r": 1,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "paddingX": 44,
+       "paddingY": 18,
+       "cornerRadius": 12,
+       "offsetX": 0,
+       "offsetY": 0,
+       "outlineColor": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "outlineWidth": 0
+      },
+      "border": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "width": 4
+      }
+     },
+     "animation": {
+      "preset": "popIn",
+      "perWordFrames": 6
+     },
+     "box": {
+      "centerX": 0.5,
+      "centerY": 0.84
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.title-follow",
+   "name": "Follow Me",
+   "category": "Social",
+   "tags": [],
+   "kind": "title",
+   "durationSeconds": 4,
+   "items": [
+    {
+     "layer": 0,
+     "startOffsetSeconds": 0,
+     "text": "Follow for more",
+     "style": {
+      "fontName": "Segoe UI",
+      "fontSize": 70,
+      "fontScale": 1,
+      "widthScale": 1,
+      "heightScale": 1,
+      "tracking": 0,
+      "lineSpacing": 0,
+      "fontCase": "mixed",
+      "isBold": true,
+      "isItalic": false,
+      "isUnderlined": false,
+      "isStruckThrough": false,
+      "isOverlined": false,
+      "color": {
+       "r": 1,
+       "g": 1,
+       "b": 1,
+       "a": 1
+      },
+      "alignment": "center",
+      "blur": 0,
+      "shadow": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6
+       },
+       "offsetX": 0,
+       "offsetY": -2,
+       "blur": 6
+      },
+      "background": {
+       "enabled": true,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.7
+       },
+       "paddingX": 36,
+       "paddingY": 14,
+       "cornerRadius": 40,
+       "offsetX": 0,
+       "offsetY": 0,
+       "outlineColor": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "outlineWidth": 0
+      },
+      "border": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "width": 4
+      }
+     },
+     "animation": {
+      "preset": "slideUp",
+      "perWordFrames": 6
+     },
+     "box": {
+      "centerX": 0.5,
+      "centerY": 0.82
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.title-episode",
+   "name": "Episode Card",
+   "category": "Social",
+   "tags": [],
+   "kind": "title",
+   "durationSeconds": 5,
+   "items": [
+    {
+     "layer": 0,
+     "startOffsetSeconds": 0,
+     "text": "EPISODE 12",
+     "style": {
+      "fontName": "Bahnschrift",
+      "fontSize": 56,
+      "fontScale": 1,
+      "widthScale": 1,
+      "heightScale": 1,
+      "tracking": 10,
+      "lineSpacing": 0,
+      "fontCase": "mixed",
+      "isBold": true,
+      "isItalic": false,
+      "isUnderlined": false,
+      "isStruckThrough": false,
+      "isOverlined": false,
+      "color": {
+       "r": 1,
+       "g": 0.8392156862745098,
+       "b": 0.0392156862745098,
+       "a": 1
+      },
+      "alignment": "center",
+      "blur": 0,
+      "shadow": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6
+       },
+       "offsetX": 0,
+       "offsetY": -2,
+       "blur": 6
+      },
+      "background": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6
+       },
+       "paddingX": 0,
+       "paddingY": 0,
+       "cornerRadius": 0,
+       "offsetX": 0,
+       "offsetY": 0,
+       "outlineColor": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "outlineWidth": 0
+      },
+      "border": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "width": 4
+      }
+     },
+     "animation": {
+      "preset": "slideUp",
+      "perWordFrames": 6
+     },
+     "box": {
+      "centerX": 0.5,
+      "centerY": 0.42
+     }
+    },
+    {
+     "layer": 1,
+     "startOffsetSeconds": 0.5,
+     "text": "The Big Reveal",
+     "style": {
+      "fontName": "Georgia",
+      "fontSize": 110,
+      "fontScale": 1,
+      "widthScale": 1,
+      "heightScale": 1,
+      "tracking": 0,
+      "lineSpacing": 0,
+      "fontCase": "mixed",
+      "isBold": false,
+      "isItalic": true,
+      "isUnderlined": false,
+      "isStruckThrough": false,
+      "isOverlined": false,
+      "color": {
+       "r": 1,
+       "g": 1,
+       "b": 1,
+       "a": 1
+      },
+      "alignment": "center",
+      "blur": 0,
+      "shadow": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6
+       },
+       "offsetX": 0,
+       "offsetY": -2,
+       "blur": 6
+      },
+      "background": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6
+       },
+       "paddingX": 0,
+       "paddingY": 0,
+       "cornerRadius": 0,
+       "offsetX": 0,
+       "offsetY": 0,
+       "outlineColor": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "outlineWidth": 0
+      },
+      "border": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "width": 4
+      }
+     },
+     "animation": {
+      "preset": "popIn",
+      "perWordFrames": 6
+     },
+     "box": {
+      "centerX": 0.5,
+      "centerY": 0.55
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.title-vs",
+   "name": "Versus",
+   "category": "Social",
+   "tags": [],
+   "kind": "title",
+   "durationSeconds": 4,
+   "items": [
+    {
+     "layer": 0,
+     "startOffsetSeconds": 0,
+     "text": "VS",
+     "style": {
+      "fontName": "Impact",
+      "fontSize": 220,
+      "fontScale": 1,
+      "widthScale": 1,
+      "heightScale": 1,
+      "tracking": 0,
+      "lineSpacing": 0,
+      "fontCase": "mixed",
+      "isBold": false,
+      "isItalic": false,
+      "isUnderlined": false,
+      "isStruckThrough": false,
+      "isOverlined": false,
+      "color": {
+       "r": 1,
+       "g": 0.23137254901960785,
+       "b": 0.18823529411764706,
+       "a": 1
+      },
+      "alignment": "center",
+      "blur": 0,
+      "shadow": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6
+       },
+       "offsetX": 0,
+       "offsetY": -2,
+       "blur": 6
+      },
+      "background": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6
+       },
+       "paddingX": 0,
+       "paddingY": 0,
+       "cornerRadius": 0,
+       "offsetX": 0,
+       "offsetY": 0,
+       "outlineColor": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "outlineWidth": 0
+      },
+      "border": {
+       "enabled": true,
+       "color": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+       },
+       "width": 10
+      }
+     },
+     "animation": {
+      "preset": "popIn",
+      "perWordFrames": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.title-stat",
+   "name": "Big Number",
+   "category": "Social",
+   "tags": [],
+   "kind": "title",
+   "durationSeconds": 4,
+   "items": [
+    {
+     "layer": 0,
+     "startOffsetSeconds": 0,
+     "text": "1,000,000",
+     "style": {
+      "fontName": "Bahnschrift",
+      "fontSize": 190,
+      "fontScale": 1,
+      "widthScale": 1,
+      "heightScale": 1,
+      "tracking": 0,
+      "lineSpacing": 0,
+      "fontCase": "mixed",
+      "isBold": true,
+      "isItalic": false,
+      "isUnderlined": false,
+      "isStruckThrough": false,
+      "isOverlined": false,
+      "color": {
+       "r": 1,
+       "g": 1,
+       "b": 1,
+       "a": 1
+      },
+      "alignment": "center",
+      "blur": 0,
+      "shadow": {
+       "enabled": true,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.5
+       },
+       "offsetX": 0,
+       "offsetY": -5,
+       "blur": 14
+      },
+      "background": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6
+       },
+       "paddingX": 0,
+       "paddingY": 0,
+       "cornerRadius": 0,
+       "offsetX": 0,
+       "offsetY": 0,
+       "outlineColor": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "outlineWidth": 0
+      },
+      "border": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "width": 4
+      }
+     },
+     "animation": {
+      "preset": "popIn",
+      "perWordFrames": 6
+     },
+     "box": {
+      "centerX": 0.5,
+      "centerY": 0.44
+     }
+    },
+    {
+     "layer": 1,
+     "startOffsetSeconds": 0.4,
+     "text": "views",
+     "style": {
+      "fontName": "Segoe UI",
+      "fontSize": 66,
+      "fontScale": 1,
+      "widthScale": 1,
+      "heightScale": 1,
+      "tracking": 10,
+      "lineSpacing": 0,
+      "fontCase": "uppercase",
+      "isBold": false,
+      "isItalic": false,
+      "isUnderlined": false,
+      "isStruckThrough": false,
+      "isOverlined": false,
+      "color": {
+       "r": 0.9019607843137255,
+       "g": 0.9019607843137255,
+       "b": 0.9019607843137255,
+       "a": 1
+      },
+      "alignment": "center",
+      "blur": 0,
+      "shadow": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6
+       },
+       "offsetX": 0,
+       "offsetY": -2,
+       "blur": 6
+      },
+      "background": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6
+       },
+       "paddingX": 0,
+       "paddingY": 0,
+       "cornerRadius": 0,
+       "offsetX": 0,
+       "offsetY": 0,
+       "outlineColor": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "outlineWidth": 0
+      },
+      "border": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "width": 4
+      }
+     },
+     "animation": {
+      "preset": "slideUp",
+      "perWordFrames": 6
+     },
+     "box": {
+      "centerX": 0.5,
+      "centerY": 0.6
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.title-date",
+   "name": "Date Stamp",
+   "category": "Social",
+   "tags": [],
+   "kind": "title",
+   "durationSeconds": 4,
+   "items": [
+    {
+     "layer": 0,
+     "startOffsetSeconds": 0,
+     "text": "14 . 11 . 2026",
+     "style": {
+      "fontName": "Consolas",
+      "fontSize": 56,
+      "fontScale": 1,
+      "widthScale": 1,
+      "heightScale": 1,
+      "tracking": 0,
+      "lineSpacing": 0,
+      "fontCase": "mixed",
+      "isBold": true,
+      "isItalic": false,
+      "isUnderlined": false,
+      "isStruckThrough": false,
+      "isOverlined": false,
+      "color": {
+       "r": 1,
+       "g": 0.6901960784313725,
+       "b": 0.12549019607843137,
+       "a": 1
+      },
+      "alignment": "left",
+      "blur": 0,
+      "shadow": {
+       "enabled": true,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.8
+       },
+       "offsetX": 0,
+       "offsetY": -2,
+       "blur": 4
+      },
+      "background": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6
+       },
+       "paddingX": 0,
+       "paddingY": 0,
+       "cornerRadius": 0,
+       "offsetX": 0,
+       "offsetY": 0,
+       "outlineColor": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "outlineWidth": 0
+      },
+      "border": {
+       "enabled": false,
+       "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+       },
+       "width": 4
+      }
+     },
+     "animation": {
+      "preset": "typewriter",
+      "perWordFrames": 6
+     },
+     "box": {
+      "centerX": 0.84,
+      "centerY": 0.92
+     }
+    }
+   ]
+  }
+ ]
+}

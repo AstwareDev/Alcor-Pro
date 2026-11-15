@@ -1,0 +1,50 @@
+.curve-editor { display: flex; flex-direction: column; gap: var(--sp-sm); align-items: stretch; }
+.curve-canvas {
+  width: 100%;
+  height: var(--curve-editor-h);
+  display: block;
+  border: var(--bw-hairline) solid var(--border-subtle);
+  touch-action: none;
+  cursor: crosshair;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.curve-spectrum {
+  width: 100%;
+  height: 100%;
+  opacity: var(--op-medium);
+  background: linear-gradient(90deg, rgb(255 59 48), rgb(242 217 51), rgb(77 217 89), rgb(51 204 217), rgb(64 128 242), rgb(204 89 230), rgb(255 59 48));
+}
+.curve-grid { stroke: var(--border-subtle); stroke-width: 0.5; opacity: 0.8; }
+.curve-grid.dashed { stroke-dasharray: 3 3; opacity: 1; }
+.curve-hint { font-size: var(--fs-xxs); color: var(--text-muted); }
+
+.wheel-control { display: flex; flex-direction: column; align-items: center; gap: var(--sp-sm); }
+.wheel-title { font-size: var(--fs-sm); font-weight: var(--fw-medium); color: var(--text-secondary); }
+.wheel-pad {
+  position: relative;
+  width: var(--wheel-pad);
+  height: var(--wheel-pad);
+  border-radius: 50%;
+  touch-action: none;
+  overflow: hidden;
+}
+.wheel-image { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; }
+.wheel-cross { position: absolute; background: rgb(255 255 255 / 0.08); pointer-events: none; }
+.wheel-cross.h { left: 0; right: 0; top: 50%; height: var(--bw-hairline); }
+.wheel-cross.v { top: 0; bottom: 0; left: 50%; width: var(--bw-hairline); }
+.wheel-ring { position: absolute; inset: 0; border-radius: 50%; border: var(--bw-thin) solid var(--border-subtle); pointer-events: none; }
+.wheel-puck {
+  position: absolute;
+  width: var(--wheel-puck);
+  height: var(--wheel-puck);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--overlay-primary);
+  border: var(--bw-thin) solid var(--bg-base);
+  box-shadow: var(--shadow-sm);
+  pointer-events: none;
+}
+.curve-header { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-sm); }
+.curve-header > :first-child { flex: 1; }
+.wheel-title-row { display: flex; align-items: center; gap: var(--sp-xs); }

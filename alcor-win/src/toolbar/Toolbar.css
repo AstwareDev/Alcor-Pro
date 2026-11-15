@@ -1,0 +1,34 @@
+/* Toolbar/ToolbarView.swift: 24 px buttons, md spacing, sm vertical padding. */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  height: var(--toolbar-h);
+  padding: var(--sp-sm) var(--sp-md);
+  background: var(--bg-surface);
+  border-bottom: var(--bw-thin) solid var(--border-primary);
+  position: relative;
+  z-index: 1;
+}
+.toolbar-group { display: flex; align-items: center; gap: var(--sp-md); }
+.toolbar-divider { width: var(--bw-thin); height: var(--sp-xl); background: var(--border-primary); flex: none; }
+.toolbar-spacer { flex: 1; }
+.toolbar-button {
+  display: grid;
+  place-items: center;
+  width: var(--icon-md-lg);
+  height: var(--icon-md-lg);
+  color: var(--text-secondary);
+  font-size: var(--fs-md);
+}
+.toolbar-button.tool { color: var(--text-tertiary); }
+.toolbar-button.tool.active { color: var(--text-primary); background: var(--fill-muted); }
+.toolbar-button.zoom { color: var(--text-tertiary); }
+.toolbar-button.disabled { color: var(--text-muted); pointer-events: none; }
+.toolbar-glyph.bracket { font: var(--fw-semibold) 16px var(--font-mono); line-height: 1; }
+.toolbar-glyph.serif { font: var(--fw-bold) 17px Georgia, "Times New Roman", serif; line-height: 1; }
+.toolbar-marker { display: flex; align-items: center; gap: var(--sp-xxs); padding-right: var(--sp-xxs); color: var(--text-secondary); }
+.toolbar-marker-flag { display: grid; place-items: center; width: var(--icon-md); height: var(--icon-md-lg); }
+.toolbar-marker-menu { display: grid; place-items: center; width: var(--sp-md); height: var(--icon-md-lg); }
+.toolbar-zoom { display: flex; align-items: center; gap: var(--sp-xs); }
+.toolbar-zoom-slider { width: var(--timeline-zoom-slider-w); accent-color: var(--accent-primary); height: var(--slider-track-h); }

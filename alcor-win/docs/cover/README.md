@@ -1,0 +1,63 @@
+# Alcor Pro cover assets
+
+Created 2026-11-15. All deliverables stay local; nothing was published or committed. Application source, dependencies, configuration, and existing saved projects were not changed. New files are confined to this directory.
+
+## Deliverables
+
+- `alcor-pro-cover.png`: 1920 × 1080 cover.
+- `alcor-pro-cover@2x.png`: 3840 × 2160 cover.
+- `cover.html`: editable, responsive source for the cover.
+- `editor-screenshot.png`: 3840 × 1800 capture of actual editor components running in Chromium, with an in-memory demo document.
+- `native-app-screenshot.png`: separate screenshot of the actual Windows application's Home screen.
+- `demo-landscape.png`: original procedural artwork generated for the demo. No stock photograph or Palmier imagery is used in the cover.
+- `capture-editor.mjs`, `render-cover.mjs`, `check-native.mjs`: capture and verification scripts.
+
+The editor image is deliberately labeled **Editor preview · Demo project**. The scene uses real SolidJS editor, preview, text rendering, inspector, media panel, prompt bar, and timeline components. Images are procedural demo assets; audio waveforms are synthetic fixtures. It does not demonstrate AI generation, media decoding, audio playback, export, or a completed native editing workflow. The prompt bar is media generation, not a built-in chat agent. Optional visual-search model loading is unavailable in the offline capture and the app's Retry indicator remains visible rather than being concealed.
+
+## Design reference
+
+Visited and visually inspected https://palmier.io/ on 2026-11-15, including a browser screenshot and computed styles. Observed warm near-black background (`rgb(13,12,10)`), off-white type (`rgb(236,236,236)`), muted gray secondary copy, large left-aligned sans-serif headlines, generous spacing, restrained controls and prominent product imagery. These are observed design cues, not a claim to possess Palmier's internal brand guidelines.
+
+The cover applies those cues with Alcor's own name, Segoe typography, an authentic editor capture and original artwork. It does not reuse Palmier's logo, endorsements or screenshots.
+
+## What ran and what was verified
+
+1. No dev server was listening at 1420. Started the existing frontend from Windows Node with the explicit application root:
+   ```powershell
+   node D:/Projects/Alcor/alcor-win/node_modules/vite/bin/vite.js D:/Projects/Alcor/alcor-win --host 127.0.0.1
+   ```
+2. Opened `http://127.0.0.1:1420/?dev=editor` in headless Chromium. Mounted a custom in-memory demo with actual app components; no source patch or project save. Opened and dismissed Canvas Guides; selected a timeline title and verified its text inspector. Final capture reported **zero uncaught browser page errors**. External requests were blocked for the final demo capture, so no models or generated media were downloaded.
+3. Launched the **existing** `src-tauri/target/debug/alcor-pro.exe`, not a new build. Its WebView2 loaded `http://localhost:1420/`. Opened Home project search, filtered an existing generic project, cleared the search and dismissed it. No saved project was opened or modified. Captured and visually checked the native Home screen.
+4. Exported the cover at 1x and 2x and visually checked the 1920 × 1080 result.
+
+The existing native debug binary predates this session; current Rust source was **not rebuilt or validated**. No Tauri/build commands, tests or typecheck were run. This task only added visual assets/capture scripts; it is not a correctness audit.
+
+At handoff, the native app and Vite server were left running. Native WebView2 was launched with a loopback CDP endpoint at port 9223 for this session. Closing that app ends this debug session. MCP also starts with the native app; it was not exercised.
+
+## Reproduce the captures
+
+Scripts use `playwright-core` and an installed Chromium executable through environment variables; no app npm dependency was added. Session tooling was isolated in `D:/Temp/alcor-visual-tools-20261115`.
+
+```powershell
+$env:PLAYWRIGHT_MODULE = 'file:///D:/Temp/alcor-visual-tools-20261115/node_modules/playwright-core/index.mjs'
+$env:CHROMIUM_EXECUTABLE = '<absolute path to chrome-headless-shell.exe>'
+node docs/cover/capture-editor.mjs
+node docs/cover/render-cover.mjs
+```
+
+Run with the Vite server above active. To regenerate just the cover after changing its HTML, only `render-cover.mjs` is needed. Native verification additionally needs the existing app launched with:
+
+```powershell
+$env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS = '--remote-debugging-port=9223'
+Start-Process ./src-tauri/target/debug/alcor-pro.exe
+node docs/cover/check-native.mjs
+```
+
+`check-native.mjs` expects the observed Home screen and its generic existing project, so it is a session check rather than a general test suite. For a reusable project launch/drive skill, consider `/run-skill-generator`.
+
+## Context for the resuming agent
+
+- Read `../../AGENTS.md` and `../../../.claude/agent-brief.md` before code work. This session did not take over ongoing implementation.
+- Alcor is a Tauri 2 / SolidJS editor with a thin Rust shell, transactional TypeScript document/undo model, WebGL2/WebCodecs media path and MCP bridge.
+- The root README coverage table is not reliable as current verification: visual search and onboarding implementations now exist, while the sample-project catalog is still empty.
+- Cover assets are not wired into the root README or any website; choose placement separately.

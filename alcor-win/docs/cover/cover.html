@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Alcor Pro Cover</title>
+<style>
+/* A quiet, product-led cover: a single headline above the real editor capture. */
+:root {
+  color-scheme: dark;
+  --ground: #0d0c0a;
+  --ink: #ececec;
+  --muted: #a4a39f;
+  --rule: #383837;
+  --shadow: #00000088;
+  --display: "Segoe UI Variable Display", "Segoe UI", Arial, sans-serif;
+  --body: "Segoe UI Variable Text", "Segoe UI", Arial, sans-serif;
+  --utility: "Cascadia Mono", Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding-block: 16px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+}
+.cover {
+  position: relative;
+  container-type: inline-size;
+  width: 100%;
+  max-width: 1920px;
+  aspect-ratio: 16 / 9;
+  margin-inline: auto;
+  overflow: hidden;
+  background: var(--ground);
+}
+.masthead {
+  position: absolute;
+  inset: 5.2% 8.33% auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2cqw;
+}
+.wordmark {
+  font-family: var(--display);
+  font-size: 2.03cqw;
+  font-weight: 600;
+  letter-spacing: -.065cqw;
+}
+.platform {
+  font-size: .78cqw;
+  color: var(--muted);
+  letter-spacing: .13cqw;
+  text-transform: uppercase;
+}
+h1 {
+  position: absolute;
+  top: 11.6%;
+  left: 8.33%;
+  right: 5%;
+  margin: 0;
+  font-family: var(--display);
+  font-size: 3.61cqw;
+  line-height: 1.12;
+  font-weight: 400;
+  letter-spacing: -.14cqw;
+  text-wrap: balance;
+}
+.subline {
+  position: absolute;
+  top: 21%;
+  left: 8.33%;
+  right: 8.33%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 2cqw;
+  color: var(--muted);
+}
+.subline p { margin: 0; font-size: 1.13cqw; }
+.caption { font-family: var(--utility); font-size: .625cqw; letter-spacing: .045cqw; text-transform: uppercase; }
+.editor-frame {
+  position: absolute;
+  top: 27.77%;
+  left: 8.33%;
+  width: 83.34%;
+  aspect-ratio: 1920 / 900;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: .6cqw;
+  box-shadow: 0 1.5cqw 4cqw var(--shadow);
+}
+.editor-frame img { display: block; width: 100%; height: 100%; object-fit: contain; }
+</style>
+</head>
+<body>
+<main class="cover" aria-label="Alcor Pro cover image">
+  <header class="masthead">
+    <div class="wordmark">Alcor Pro</div>
+    <div class="platform">Video editing for Windows 11</div>
+  </header>
+  <h1>AI-native editing. Made for Windows.</h1>
+  <div class="subline">
+    <p>Your timeline. Your tools. Your API keys.</p>
+    <span class="caption">Editor preview · Demo project</span>
+  </div>
+  <div class="editor-frame">
+    <img src="editor-screenshot.png" alt="Alcor Pro's running browser editor preview, showing an original landscape image, text inspector, generation prompt bar, and multitrack timeline. This is an in-memory demo project, not a native desktop capture." width="3840" height="1800">
+  </div>
+</main>
+</body>
+</html>

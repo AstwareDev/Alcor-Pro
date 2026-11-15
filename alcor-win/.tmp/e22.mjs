@@ -1,0 +1,10 @@
+import fs from "fs";
+const p = "src/agent/tools/definitions/clipsDefinitions.ts";
+let s = fs.readFileSync(p, "utf8");
+const a = s.indexOf('name: "set_speed_ramp",');
+const start = s.indexOf('description: "', a) + 'description: "'.length;
+const end = s.indexOf('",\n            inputSchema', start) !== -1 ? s.indexOf('",\r\n            inputSchema', start) : -1;
+const e2 = Math.min(...['",\n            inputSchema', '",\r\n            inputSchema'].map((x) => s.indexOf(x, start)).filter((x) => x >= 0));
+const body = s.slice(start, e2).replace(/\r?\n/g, "\n");
+s = s.slice(0, start) + body + s.slice(e2);
+fs.writeFileSync(p, s);

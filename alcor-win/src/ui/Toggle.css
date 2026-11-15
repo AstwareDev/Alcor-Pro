@@ -1,0 +1,35 @@
+.toggle-switch {
+  position: relative;
+  flex: none;
+  width: 26px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--fill-moderate);
+  transition: background var(--anim-hover);
+}
+.toggle-switch.on { background: color-mix(in srgb, var(--text-primary) 55%, transparent); }
+.toggle-knob {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--anim-hover);
+}
+.toggle-switch.on .toggle-knob { transform: translateX(12px); }
+.toggle-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-xs);
+  border: var(--bw-thin) solid var(--border-divider);
+  color: var(--accent-primary-contrast);
+}
+.toggle-checkbox.on { background: var(--accent-primary); border-color: var(--accent-primary); }
+.toggle-switch:disabled, .toggle-checkbox:disabled { opacity: var(--op-medium); pointer-events: none; }

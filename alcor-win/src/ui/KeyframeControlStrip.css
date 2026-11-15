@@ -1,0 +1,12 @@
+.kf-strip { display: inline-flex; align-items: center; flex: none; width: var(--keyframe-strip-w); }
+.kf-nav, .kf-diamond {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--editor-field-min-h);
+  color: var(--text-tertiary);
+}
+.kf-nav { width: var(--sp-sm); }
+.kf-diamond { width: var(--editor-field-min-h); }
+.kf-diamond.active { color: var(--accent-timecode); }
+.kf-strip button:disabled { opacity: var(--op-strong); }

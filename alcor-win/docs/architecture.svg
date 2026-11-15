@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520" role="img" aria-labelledby="at ad">
+<title id="at">Alcor Pro architecture</title><desc id="ad">WebView2 front end (SolidJS) with the editor core, a thin Rust backend, and external AI providers and MCP clients.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#898781"/></marker></defs>
+<rect width="900" height="520" rx="12" fill="#18191c"/>
+<text x="24" y="34" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="18" font-weight="600" fill="#f0efec">Architecture</text>
+<rect x="20" y="52" width="560" height="448" rx="14" fill="none" stroke="#383835" stroke-dasharray="4 4"/>
+<text x="34" y="72" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11" letter-spacing="1.2" fill="#898781">WEBVIEW2 · SOLIDJS + TYPESCRIPT</text>
+<rect x="36" y="82" width="250" height="110" rx="10" fill="#202125" stroke="#3a3b40" stroke-width="1"/>
+<text x="50" y="106" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">UI panels</text>
+<text x="50" y="126" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Home · Media · Preview · Inspector</text>
+<text x="50" y="143" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Timeline (canvas) · Prompt bar</text>
+<text x="50" y="160" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Export · Settings · Library</text>
+<rect x="314" y="82" width="250" height="110" rx="10" fill="#202125" stroke="#3987e5" stroke-width="1"/>
+<text x="328" y="106" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">Editor core</text>
+<text x="328" y="126" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">DocumentStore (Immer, undo)</text>
+<text x="328" y="143" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Mutations — one per user intent</text>
+<text x="328" y="160" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Shared by UI and agent tools</text>
+<rect x="36" y="222" width="250" height="120" rx="10" fill="#202125" stroke="#3a3b40" stroke-width="1"/>
+<text x="50" y="246" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">Rendering</text>
+<text x="50" y="266" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Frame graph (pure)</text>
+<text x="50" y="283" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">WebGL2 compositor + effect shaders</text>
+<text x="50" y="300" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">WebCodecs decode · WebAudio</text>
+<rect x="314" y="222" width="250" height="120" rx="10" fill="#202125" stroke="#3a3b40" stroke-width="1"/>
+<text x="328" y="246" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">Export worker</text>
+<text x="328" y="266" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">mediabunny mux + WebCodecs encode</text>
+<text x="328" y="283" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">H.264 · H.265 · VP9 · AAC</text>
+<text x="328" y="300" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">FCPXML · Premiere XML</text>
+<rect x="36" y="372" width="250" height="110" rx="10" fill="#202125" stroke="#3a3b40" stroke-width="1"/>
+<text x="50" y="396" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">Agent tools</text>
+<text x="50" y="416" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">MCP tools, contracts identical</text>
+<text x="50" y="433" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">to the original, plus masks</text>
+<text x="50" y="450" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Same mutations as the UI</text>
+<rect x="314" y="372" width="250" height="110" rx="10" fill="#202125" stroke="#3a3b40" stroke-width="1"/>
+<text x="328" y="396" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">AI providers</text>
+<text x="328" y="416" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">fal.ai · ElevenLabs · OpenAI</text>
+<text x="328" y="433" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Google · Replicate (own keys)</text>
+<text x="328" y="450" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Called from the prompt bar</text>
+<rect x="600" y="52" width="280" height="300" rx="14" fill="none" stroke="#383835" stroke-dasharray="4 4"/>
+<text x="614" y="72" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11" letter-spacing="1.2" fill="#898781">RUST · TAURI 2</text>
+<rect x="616" y="82" width="248" height="76" rx="10" fill="#202125" stroke="#3a3b40" stroke-width="1"/>
+<text x="630" y="106" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">Project I/O</text>
+<text x="630" y="126" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Atomic writes · streaming export file</text>
+<rect x="616" y="168" width="248" height="76" rx="10" fill="#202125" stroke="#3987e5" stroke-width="1"/>
+<text x="630" y="192" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">Secrets + HTTP proxy</text>
+<text x="630" y="212" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Windows Credential Manager</text>
+<text x="630" y="229" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Keys never reach the webview</text>
+<rect x="616" y="254" width="248" height="80" rx="10" fill="#202125" stroke="#3a3b40" stroke-width="1"/>
+<text x="630" y="278" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">MCP server</text>
+<text x="630" y="298" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">127.0.0.1:19789/mcp</text>
+<text x="630" y="315" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Streamable HTTP · SSE</text>
+<rect x="600" y="372" width="280" height="128" rx="14" fill="none" stroke="#383835" stroke-dasharray="4 4"/>
+<text x="614" y="392" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11" letter-spacing="1.2" fill="#898781">OUTSIDE</text>
+<rect x="616" y="400" width="116" height="82" rx="10" fill="#202125" stroke="#3a3b40" stroke-width="1"/>
+<text x="630" y="424" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">MCP clients</text>
+<text x="630" y="444" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Claude Code</text>
+<text x="630" y="461" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Cursor · Codex</text>
+<rect x="748" y="400" width="116" height="82" rx="10" fill="#202125" stroke="#3a3b40" stroke-width="1"/>
+<text x="762" y="424" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">AI vendors</text>
+<text x="762" y="444" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">HTTPS APIs</text>
+<line x1="286" y1="137" x2="312" y2="137" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="439" y1="192" x2="161" y2="220" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="439" y1="192" x2="439" y2="220" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="161" y1="342" x2="161" y2="370" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="286" y1="427" x2="312" y2="427" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="564" y1="137" x2="614" y2="120" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="564" y1="427" x2="614" y2="210" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+<polyline points="864,206 888,206 888,441 868,441" fill="none" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="674" y1="398" x2="674" y2="336" stroke="#898781" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>

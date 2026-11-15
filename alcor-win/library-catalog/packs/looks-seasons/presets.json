@@ -1,0 +1,584 @@
+{
+ "format": "alcor-preset",
+ "version": 1,
+ "presets": [
+  {
+   "id": "pack.season-spring",
+   "name": "Spring Bloom",
+   "category": "Seasons",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 6700,
+      "tint": 8
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.12
+     }
+    },
+    {
+     "type": "color.vibrance",
+     "params": {
+      "amount": 0.18
+     }
+    },
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": 0.1
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "lift_x": 0.069,
+      "lift_y": -0.04,
+      "gain_x": -0.014,
+      "gain_y": 0.079
+     }
+    },
+    {
+     "type": "stylize.glow",
+     "params": {
+      "intensity": 0.14,
+      "radius": 26,
+      "threshold": 0.65,
+      "warmth": 0.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.season-summer",
+   "name": "Summer Haze",
+   "category": "Seasons",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 7300,
+      "tint": 4
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.18
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.06
+     }
+    },
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": 0.08
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "gain_x": 0.094,
+      "gain_y": 0.104
+     }
+    },
+    {
+     "type": "stylize.glow",
+     "params": {
+      "intensity": 0.2,
+      "radius": 30,
+      "threshold": 0.6,
+      "warmth": 0.6
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.season-autumn",
+   "name": "Autumn Leaves",
+   "category": "Seasons",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 7800,
+      "tint": 10
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.2
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.1
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "lift_x": 0.097,
+      "lift_y": 0.026,
+      "gamma_x": 0.139,
+      "gamma_y": 0.08
+     }
+    },
+    {
+     "type": "stylize.vignette",
+     "params": {
+      "amount": -0.2,
+      "midpoint": 0.5,
+      "roundness": 0,
+      "feather": 0.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.season-winter",
+   "name": "Winter Frost",
+   "category": "Seasons",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 4900,
+      "tint": -4
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 0.82
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.08
+     }
+    },
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": 0.1
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "gain_x": -0.104,
+      "gain_y": -0.06
+     }
+    },
+    {
+     "type": "detail.clarity",
+     "params": {
+      "clarity": 0.2,
+      "dehaze": 0
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.season-golden-fall",
+   "name": "Golden Fall",
+   "category": "Seasons",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 8400,
+      "tint": 12
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.14
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.08
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "gain_x": 0.193,
+      "gain_y": 0.174
+     }
+    },
+    {
+     "type": "stylize.glow",
+     "params": {
+      "intensity": 0.18,
+      "radius": 28,
+      "threshold": 0.62,
+      "warmth": 0.7
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.season-cherry",
+   "name": "Cherry Blossom",
+   "category": "Seasons",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 6800,
+      "tint": 16
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 0.95
+     }
+    },
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": 0.14
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 0.94
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "lift_x": 0.073,
+      "lift_y": -0.034,
+      "gain_x": 0.15,
+      "gain_y": -0.055
+     }
+    },
+    {
+     "type": "stylize.glow",
+     "params": {
+      "intensity": 0.2,
+      "radius": 30,
+      "threshold": 0.58,
+      "warmth": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.season-monsoon",
+   "name": "Monsoon",
+   "category": "Seasons",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 0.8
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.1
+     }
+    },
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": -0.15
+     }
+    },
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 5600,
+      "tint": -6
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "lift_x": -0.158,
+      "lift_y": 0.028
+     }
+    },
+    {
+     "type": "detail.clarity",
+     "params": {
+      "clarity": 0.15,
+      "dehaze": 0
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.season-desert",
+   "name": "Desert Noon",
+   "category": "Seasons",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 7900,
+      "tint": 6
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.18
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.05
+     }
+    },
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": 0.12
+     }
+    },
+    {
+     "type": "color.highlightsShadows",
+     "params": {
+      "highlights": -0.2,
+      "shadows": 0.05
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "gain_x": 0.085,
+      "gain_y": 0.085
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.season-snow",
+   "name": "Snowfall",
+   "category": "Seasons",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": 0.2
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 0.96
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 0.7
+     }
+    },
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 5100,
+      "tint": 0
+     }
+    },
+    {
+     "type": "color.blacksWhites",
+     "params": {
+      "blacks": 0.04,
+      "whites": 0.08
+     }
+    },
+    {
+     "type": "stylize.glow",
+     "params": {
+      "intensity": 0.16,
+      "radius": 26,
+      "threshold": 0.7,
+      "warmth": 0
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.season-harvest",
+   "name": "Harvest",
+   "category": "Seasons",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 7500,
+      "tint": 8
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.1
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.06
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "gamma_x": 0.115,
+      "gamma_y": 0.08,
+      "gain_x": 0.05,
+      "gain_y": 0.087
+     }
+    },
+    {
+     "type": "stylize.grain",
+     "params": {
+      "amount": 0.1,
+      "size": 1.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.season-midsummer",
+   "name": "Midsummer Night",
+   "category": "Seasons",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": -0.2
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.12
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.08
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "lift_x": -0.103,
+      "lift_y": -0.282,
+      "gain_x": 0.121,
+      "gain_y": 0.07
+     }
+    },
+    {
+     "type": "stylize.glow",
+     "params": {
+      "intensity": 0.2,
+      "radius": 26,
+      "threshold": 0.62,
+      "warmth": 0.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.season-indian",
+   "name": "Indian Summer",
+   "category": "Seasons",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 8000,
+      "tint": 6
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.16
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.04
+     }
+    },
+    {
+     "type": "color.blacksWhites",
+     "params": {
+      "blacks": 0.04,
+      "whites": 0
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "gamma_x": 0.106,
+      "gamma_y": 0.056
+     }
+    },
+    {
+     "type": "stylize.vignette",
+     "params": {
+      "amount": -0.18,
+      "midpoint": 0.5,
+      "roundness": 0,
+      "feather": 0.5
+     }
+    }
+   ]
+  }
+ ]
+}

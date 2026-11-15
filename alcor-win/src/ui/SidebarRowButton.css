@@ -1,0 +1,21 @@
+.sidebar-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm-md);
+  width: 100%;
+  padding: var(--sp-sm) var(--sp-md);
+  border-radius: var(--radius-xl);
+  color: var(--text-primary);
+  text-align: left;
+}
+.sidebar-row.selected { background: var(--fill-soft); }
+.sidebar-row.selected:hover { background: var(--fill-muted); }
+.sidebar-row-icon { display: grid; place-items: center; width: var(--icon-sm); flex: none; }
+.sidebar-row-label {
+  flex: 1;
+  font-size: var(--fs-md-lg);
+  font-weight: var(--fw-regular);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

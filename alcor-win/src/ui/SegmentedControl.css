@@ -1,0 +1,23 @@
+.segmented {
+  display: inline-flex;
+  padding: 2px;
+  gap: 1px;
+  border-radius: var(--radius-sm);
+  background: var(--fill-hint);
+  border: var(--bw-hairline) solid var(--border-subtle);
+}
+.segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 18px;
+  padding: 0 var(--sp-sm);
+  border-radius: var(--radius-xs-sm);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--text-tertiary);
+}
+.segment:hover { color: var(--text-primary); }
+.segment.selected { background: color-mix(in srgb, var(--accent-primary) 55%, transparent); color: var(--accent-primary-contrast); }
+.segmented.small .segment { height: 16px; min-width: 24px; }

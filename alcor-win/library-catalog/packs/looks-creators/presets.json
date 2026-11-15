@@ -1,0 +1,474 @@
+{
+ "format": "alcor-preset",
+ "version": 1,
+ "presets": [
+  {
+   "id": "pack.creator-vlog",
+   "name": "Vlog Bright",
+   "category": "Creators",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": 0.12
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.06
+     }
+    },
+    {
+     "type": "color.vibrance",
+     "params": {
+      "amount": 0.2
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.1
+     }
+    },
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 6800,
+      "tint": 2
+     }
+    },
+    {
+     "type": "blur.sharpen",
+     "params": {
+      "amount": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.creator-gaming",
+   "name": "Gaming Neon",
+   "category": "Creators",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.35
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.18
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "lift_x": -0.019,
+      "lift_y": -0.219,
+      "gain_x": -0.199,
+      "gain_y": -0.017
+     }
+    },
+    {
+     "type": "stylize.glow",
+     "params": {
+      "intensity": 0.3,
+      "radius": 22,
+      "threshold": 0.55,
+      "warmth": 0
+     }
+    },
+    {
+     "type": "blur.sharpen",
+     "params": {
+      "amount": 0.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.creator-unboxing",
+   "name": "Unboxing Clean",
+   "category": "Creators",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": 0.14
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.08
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 0.98
+     }
+    },
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 6500,
+      "tint": 0
+     }
+    },
+    {
+     "type": "blur.sharpen",
+     "params": {
+      "amount": 0.55
+     }
+    },
+    {
+     "type": "detail.clarity",
+     "params": {
+      "clarity": 0.2,
+      "dehaze": 0
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.creator-fitness",
+   "name": "Fitness Punch",
+   "category": "Creators",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.28
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.1
+     }
+    },
+    {
+     "type": "detail.clarity",
+     "params": {
+      "clarity": 0.4,
+      "dehaze": 0
+     }
+    },
+    {
+     "type": "color.highlightsShadows",
+     "params": {
+      "highlights": -0.1,
+      "shadows": 0.12
+     }
+    },
+    {
+     "type": "blur.sharpen",
+     "params": {
+      "amount": 0.45
+     }
+    },
+    {
+     "type": "stylize.vignette",
+     "params": {
+      "amount": -0.2,
+      "midpoint": 0.5,
+      "roundness": 0,
+      "feather": 0.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.creator-street",
+   "name": "Street Grit",
+   "category": "Creators",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.25
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 0.75
+     }
+    },
+    {
+     "type": "detail.clarity",
+     "params": {
+      "clarity": 0.35,
+      "dehaze": 0
+     }
+    },
+    {
+     "type": "stylize.grain",
+     "params": {
+      "amount": 0.25,
+      "size": 2
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "lift_x": -0.094,
+      "lift_y": -0.034
+     }
+    },
+    {
+     "type": "stylize.vignette",
+     "params": {
+      "amount": -0.28,
+      "midpoint": 0.5,
+      "roundness": 0,
+      "feather": 0.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.creator-lifestyle",
+   "name": "Lifestyle Cream",
+   "category": "Creators",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 7000,
+      "tint": 6
+     }
+    },
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": 0.12
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 0.94
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 0.92
+     }
+    },
+    {
+     "type": "color.blacksWhites",
+     "params": {
+      "blacks": 0.08,
+      "whites": -0.02
+     }
+    },
+    {
+     "type": "stylize.glow",
+     "params": {
+      "intensity": 0.14,
+      "radius": 28,
+      "threshold": 0.62,
+      "warmth": 0.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.creator-cafe",
+   "name": "Moody Cafe",
+   "category": "Creators",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 7400,
+      "tint": 8
+     }
+    },
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": -0.12
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.1
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 0.9
+     }
+    },
+    {
+     "type": "color.wheels",
+     "params": {
+      "lift_x": -0.069,
+      "lift_y": -0.04,
+      "gamma_x": 0.124,
+      "gamma_y": 0.066
+     }
+    },
+    {
+     "type": "stylize.vignette",
+     "params": {
+      "amount": -0.3,
+      "midpoint": 0.5,
+      "roundness": 0,
+      "feather": 0.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.creator-product",
+   "name": "Product White",
+   "category": "Creators",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": 0.22
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.06
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 0.96
+     }
+    },
+    {
+     "type": "color.temperature",
+     "params": {
+      "temperature": 6400,
+      "tint": 0
+     }
+    },
+    {
+     "type": "blur.sharpen",
+     "params": {
+      "amount": 0.6
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.creator-sports",
+   "name": "Sports Action",
+   "category": "Creators",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.2
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.22
+     }
+    },
+    {
+     "type": "color.vibrance",
+     "params": {
+      "amount": 0.12
+     }
+    },
+    {
+     "type": "detail.clarity",
+     "params": {
+      "clarity": 0.35,
+      "dehaze": 0
+     }
+    },
+    {
+     "type": "blur.sharpen",
+     "params": {
+      "amount": 0.55
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.creator-drone",
+   "name": "Drone Aerial",
+   "category": "Creators",
+   "tags": [],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.1
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.14
+     }
+    },
+    {
+     "type": "color.vibrance",
+     "params": {
+      "amount": 0.2
+     }
+    },
+    {
+     "type": "color.highlightsShadows",
+     "params": {
+      "highlights": -0.25,
+      "shadows": 0.2
+     }
+    },
+    {
+     "type": "detail.clarity",
+     "params": {
+      "clarity": 0.25,
+      "dehaze": 0.2
+     }
+    },
+    {
+     "type": "blur.sharpen",
+     "params": {
+      "amount": 0.35
+     }
+    }
+   ]
+  }
+ ]
+}

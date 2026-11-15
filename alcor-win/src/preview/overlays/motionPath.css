@@ -1,0 +1,7 @@
+/* Motion path of the selected clip. Only the keyframe dots take pointer events. */
+.motion-path { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
+.motion-path-under { fill: none; stroke: var(--overlay-bg); stroke-opacity: var(--op-strong); stroke-width: var(--bw-thick); }
+.motion-path-line { fill: none; stroke: var(--accent-timecode); stroke-width: var(--bw-thin); stroke-dasharray: 2 3; stroke-linecap: round; }
+.motion-path-now { fill: var(--overlay-primary); stroke: var(--overlay-bg); stroke-width: var(--bw-thin); }
+.motion-path-dot { fill: var(--accent-timecode); stroke: var(--overlay-bg); stroke-width: var(--bw-thin); pointer-events: all; cursor: move; }
+.motion-path-dot:hover { fill: var(--overlay-primary); }

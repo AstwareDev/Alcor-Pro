@@ -1,0 +1,18 @@
+.mask-tools { display: flex; gap: var(--sp-xs); }
+.mask-tool-button { flex: 1; padding: var(--sp-xs) var(--sp-sm); border-radius: var(--radius-xs-sm); background: var(--fill-faint); color: var(--text-secondary); font-size: var(--fs-xs); font-weight: var(--fw-medium); }
+.mask-tool-button:hover { background: var(--fill-soft); }
+.mask-tool-button.on { background: var(--accent-primary); color: var(--accent-primary-contrast); }
+.mask-hint { font-size: var(--fs-xs); color: var(--text-tertiary); }
+.mask-row { border-radius: var(--radius-xs-sm); background: var(--fill-subtle); }
+.mask-row.selected { background: var(--fill-hint); }
+.mask-row-head { display: flex; align-items: center; gap: var(--sp-sm); padding: var(--sp-xs) var(--sp-sm); cursor: pointer; }
+.mask-name { flex: 1; min-width: 0; font-size: var(--fs-xs); color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mask-name-input { flex: 1; min-width: 0; font-size: var(--fs-xs); color: var(--text-primary); background: var(--fill-faint); border-radius: var(--radius-xs); padding: 0 var(--sp-xs); }
+.mask-row-actions { display: none; gap: var(--sp-xs); }
+.mask-row:hover .mask-row-actions, .mask-row.selected .mask-row-actions { display: flex; }
+.mask-link { font-size: var(--fs-xxs); color: var(--text-tertiary); }
+.mask-link:hover { color: var(--text-primary); }
+.mask-link.danger:hover { color: var(--status-error); }
+.mask-details { display: flex; flex-direction: column; gap: var(--sp-xs); padding: var(--sp-xs) var(--sp-sm) var(--sp-sm); }
+.mask-check { display: flex; align-items: center; }
+.mask-shape-note { font-size: var(--fs-xs); color: var(--text-tertiary); }

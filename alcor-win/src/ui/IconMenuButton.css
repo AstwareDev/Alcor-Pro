@@ -1,0 +1,9 @@
+.icon-menu-button {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  color: var(--text-tertiary);
+}
+.icon-menu-button.active { color: var(--accent-primary); }

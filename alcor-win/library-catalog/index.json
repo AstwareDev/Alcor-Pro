@@ -1,0 +1,180 @@
+{
+ "format": "alcor-library-catalog",
+ "version": 1,
+ "packs": [
+  {
+   "id": "looks-seasons",
+   "name": "Seasons Looks",
+   "kind": "looks",
+   "version": "1.0.0",
+   "description": "Twelve looks for every time of year.",
+   "size": 9295,
+   "licence": {
+    "name": "CC0 1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "requiresAttribution": false
+   },
+   "attribution": "",
+   "author": "Alcor Pro",
+   "sourceUrl": "https://github.com/alcor-pro/library",
+   "files": [
+    {
+     "path": "presets.json",
+     "url": "packs/looks-seasons/presets.json",
+     "sha256": "9ca41d8f897ff59e731bab8ce9ad81a0fca244de0c5a03f70a6b95f05f354ed9",
+     "size": 9295
+    }
+   ]
+  },
+  {
+   "id": "looks-creators",
+   "name": "Creator Looks",
+   "kind": "looks",
+   "version": "1.0.0",
+   "description": "Looks tuned for vlogs, gaming, products and sport.",
+   "size": 7452,
+   "licence": {
+    "name": "CC0 1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "requiresAttribution": false
+   },
+   "attribution": "",
+   "author": "Alcor Pro",
+   "sourceUrl": "https://github.com/alcor-pro/library",
+   "files": [
+    {
+     "path": "presets.json",
+     "url": "packs/looks-creators/presets.json",
+     "sha256": "a8831ff0139ffbb44f37a599b933f1a76fe744b3627b86a5fdf1c890d1f3d44b",
+     "size": 7452
+    }
+   ]
+  },
+  {
+   "id": "text-social",
+   "name": "Social Text Styles",
+   "kind": "text",
+   "version": "1.0.0",
+   "description": "Caption and overlay styles for short-form video.",
+   "size": 15447,
+   "licence": {
+    "name": "CC0 1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "requiresAttribution": false
+   },
+   "attribution": "",
+   "author": "Alcor Pro",
+   "sourceUrl": "https://github.com/alcor-pro/library",
+   "files": [
+    {
+     "path": "presets.json",
+     "url": "packs/text-social/presets.json",
+     "sha256": "b6c1e2dfbca7e67b6ddd2737ced2d0fb96fdc27ed30d463621f84236acb335eb",
+     "size": 15447
+    }
+   ]
+  },
+  {
+   "id": "titles-social",
+   "name": "Social Titles",
+   "kind": "titles",
+   "version": "1.0.0",
+   "description": "Call-outs, episode cards and stat titles.",
+   "size": 12887,
+   "licence": {
+    "name": "CC0 1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "requiresAttribution": false
+   },
+   "attribution": "",
+   "author": "Alcor Pro",
+   "sourceUrl": "https://github.com/alcor-pro/library",
+   "files": [
+    {
+     "path": "presets.json",
+     "url": "packs/titles-social/presets.json",
+     "sha256": "1404beea0e1f6290c3baeb43715af0687e757c59f55ed537cc65d0ae79681696",
+     "size": 12887
+    }
+   ]
+  },
+  {
+   "id": "effects-extras",
+   "name": "Extra Effects",
+   "kind": "effects",
+   "version": "1.0.0",
+   "description": "Blur, glow and clean-up effect presets.",
+   "size": 2716,
+   "licence": {
+    "name": "CC0 1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "requiresAttribution": false
+   },
+   "attribution": "",
+   "author": "Alcor Pro",
+   "sourceUrl": "https://github.com/alcor-pro/library",
+   "files": [
+    {
+     "path": "presets.json",
+     "url": "packs/effects-extras/presets.json",
+     "sha256": "4d35dc076c2d90adf25cf2fceab03035fce9ff8de9e03d9dace0aa5aae26ce97",
+     "size": 2716
+    }
+   ]
+  },
+  {
+   "id": "slay-cinematic-luts",
+   "name": "slay Cinematic LUTs",
+   "kind": "luts",
+   "version": "1.0.0",
+   "description": "Five free cinematic .cube LUTs (33x33x33). Downloaded from the author's GitHub repository, not rehosted.",
+   "size": 4854192,
+   "licence": {
+    "name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "requiresAttribution": true
+   },
+   "attribution": "LUTs by slay (slaycamera.com)",
+   "author": "slay",
+   "sourceUrl": "https://github.com/slaycamera/luts",
+   "files": [
+    {
+     "path": "presets.json",
+     "url": "packs/slay-cinematic-luts/presets.json",
+     "sha256": "7445f978e528feea20e6a2cb87b77156fb81542a8b05aa767ea345abfbd89747",
+     "size": 1687
+    },
+    {
+     "path": "luts/slay-01-amber.cube",
+     "url": "https://raw.githubusercontent.com/slaycamera/luts/a1709044efe115640dde1dee17d4185fc059af0d/luts/slay-01-amber.cube",
+     "sha256": "5912a5761bb9663901ae1a311add997055390e94972f77fe32407d88dca20b08",
+     "size": 970501
+    },
+    {
+     "path": "luts/slay-02-fade.cube",
+     "url": "https://raw.githubusercontent.com/slaycamera/luts/a1709044efe115640dde1dee17d4185fc059af0d/luts/slay-02-fade.cube",
+     "sha256": "0fc029d88a11c13abad35729c4a665ccd4bccfe8fb841d89874ab6c74651dc96",
+     "size": 970500
+    },
+    {
+     "path": "luts/slay-03-neon.cube",
+     "url": "https://raw.githubusercontent.com/slaycamera/luts/a1709044efe115640dde1dee17d4185fc059af0d/luts/slay-03-neon.cube",
+     "sha256": "07ac89f666c74e638d79fb28f4de5a5e18ae47bfc9ba04bb5c50e005555e7141",
+     "size": 970500
+    },
+    {
+     "path": "luts/slay-04-film.cube",
+     "url": "https://raw.githubusercontent.com/slaycamera/luts/a1709044efe115640dde1dee17d4185fc059af0d/luts/slay-04-film.cube",
+     "sha256": "d846f24a0ce3affbeaa5f3969b0dde5b54018a9aedf7e46614bf963fffbf4738",
+     "size": 970500
+    },
+    {
+     "path": "luts/slay-05-portrait.cube",
+     "url": "https://raw.githubusercontent.com/slaycamera/luts/a1709044efe115640dde1dee17d4185fc059af0d/luts/slay-05-portrait.cube",
+     "sha256": "432898146d41e061db1d36d37f89130d1394fb9f4eb13e80630e18e10d2cc895",
+     "size": 970504
+    }
+   ]
+  }
+ ]
+}

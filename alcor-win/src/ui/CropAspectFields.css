@@ -1,0 +1,14 @@
+.crop-ratio { gap: var(--sp-xxs); padding: 0 var(--sp-xs); flex: none; }
+.crop-ratio-input {
+  width: var(--compact-field-w);
+  height: var(--editor-field-min-h);
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+.crop-ratio-colon { font-size: var(--fs-sm); font-weight: var(--fw-medium); color: var(--text-tertiary); }

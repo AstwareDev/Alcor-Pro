@@ -1,0 +1,101 @@
+{
+ "format": "alcor-preset",
+ "version": 1,
+ "presets": [
+  {
+   "id": "pack.lut-slay-01-amber",
+   "name": "slay Amber",
+   "category": "LUTs",
+   "tags": [
+    "lut",
+    "cinematic"
+   ],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.lut",
+     "params": {
+      "intensity": 1
+     },
+     "resource": "slay-cinematic-luts/luts/slay-01-amber.cube"
+    }
+   ]
+  },
+  {
+   "id": "pack.lut-slay-02-fade",
+   "name": "slay Fade",
+   "category": "LUTs",
+   "tags": [
+    "lut",
+    "cinematic"
+   ],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.lut",
+     "params": {
+      "intensity": 1
+     },
+     "resource": "slay-cinematic-luts/luts/slay-02-fade.cube"
+    }
+   ]
+  },
+  {
+   "id": "pack.lut-slay-03-neon",
+   "name": "slay Neon",
+   "category": "LUTs",
+   "tags": [
+    "lut",
+    "cinematic"
+   ],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.lut",
+     "params": {
+      "intensity": 1
+     },
+     "resource": "slay-cinematic-luts/luts/slay-03-neon.cube"
+    }
+   ]
+  },
+  {
+   "id": "pack.lut-slay-04-film",
+   "name": "slay Film",
+   "category": "LUTs",
+   "tags": [
+    "lut",
+    "cinematic"
+   ],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.lut",
+     "params": {
+      "intensity": 1
+     },
+     "resource": "slay-cinematic-luts/luts/slay-04-film.cube"
+    }
+   ]
+  },
+  {
+   "id": "pack.lut-slay-05-portrait",
+   "name": "slay Portrait",
+   "category": "LUTs",
+   "tags": [
+    "lut",
+    "cinematic"
+   ],
+   "kind": "look",
+   "effects": [
+    {
+     "type": "color.lut",
+     "params": {
+      "intensity": 1
+     },
+     "resource": "slay-cinematic-luts/luts/slay-05-portrait.cube"
+    }
+   ]
+  }
+ ]
+}

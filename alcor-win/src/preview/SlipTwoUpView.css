@@ -1,0 +1,12 @@
+/* Slip two-up: covers the canvas while a slip drag runs; never takes pointer events. */
+.slip-two-up { position: absolute; inset: 0; display: flex; gap: var(--sp-xxs); background: var(--overlay-bg); pointer-events: none; }
+.slip-pane { position: relative; flex: 1; min-width: 0; background: var(--overlay-bg); overflow: hidden; }
+.slip-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.slip-badge {
+  position: absolute; top: var(--sp-sm); left: var(--sp-sm);
+  display: flex; gap: var(--sp-xs); padding: var(--sp-xxs) var(--sp-sm);
+  background: color-mix(in srgb, var(--overlay-bg) calc(var(--op-strong) * 100%), transparent);
+  border-radius: var(--radius-xs); font-size: var(--fs-xs);
+}
+.slip-badge-label { color: var(--overlay-primary); font-weight: var(--fw-semibold); }
+.slip-badge-time { color: var(--overlay-secondary); font-variant-numeric: tabular-nums; }

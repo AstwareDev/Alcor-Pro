@@ -1,0 +1,175 @@
+{
+ "format": "alcor-preset",
+ "version": 1,
+ "presets": [
+  {
+   "id": "pack.fx-dream-blur",
+   "name": "Dream Blur",
+   "category": "Glow",
+   "tags": [],
+   "kind": "effect",
+   "effects": [
+    {
+     "type": "blur.gaussian",
+     "params": {
+      "radius": 4
+     }
+    },
+    {
+     "type": "stylize.glow",
+     "params": {
+      "intensity": 0.5,
+      "radius": 36,
+      "threshold": 0.5,
+      "warmth": 0.2
+     }
+    },
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": 0.08
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.fx-tilt-speed",
+   "name": "Speed Rush",
+   "category": "Blur",
+   "tags": [],
+   "kind": "effect",
+   "effects": [
+    {
+     "type": "blur.motion",
+     "params": {
+      "radius": 48,
+      "angle": 0
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.08
+     }
+    },
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 1.1
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.fx-vertical-streak",
+   "name": "Vertical Streak",
+   "category": "Blur",
+   "tags": [],
+   "kind": "effect",
+   "effects": [
+    {
+     "type": "blur.motion",
+     "params": {
+      "radius": 36,
+      "angle": 90
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.fx-cctv",
+   "name": "Security Cam",
+   "category": "Stylize",
+   "tags": [],
+   "kind": "effect",
+   "effects": [
+    {
+     "type": "color.saturation",
+     "params": {
+      "amount": 0.3
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.2
+     }
+    },
+    {
+     "type": "stylize.grain",
+     "params": {
+      "amount": 0.55,
+      "size": 2.4
+     }
+    },
+    {
+     "type": "stylize.vignette",
+     "params": {
+      "amount": -0.4,
+      "midpoint": 0.5,
+      "roundness": 0,
+      "feather": 0.5
+     }
+    },
+    {
+     "type": "blur.sharpen",
+     "params": {
+      "amount": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.fx-lowlight-clean",
+   "name": "Low-light Clean",
+   "category": "Detail",
+   "tags": [],
+   "kind": "effect",
+   "effects": [
+    {
+     "type": "color.exposure",
+     "params": {
+      "ev": 0.3
+     }
+    },
+    {
+     "type": "color.highlightsShadows",
+     "params": {
+      "highlights": 0,
+      "shadows": 0.35
+     }
+    },
+    {
+     "type": "blur.sharpen",
+     "params": {
+      "amount": 0.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "pack.fx-bloom-hard",
+   "name": "Hard Bloom",
+   "category": "Glow",
+   "tags": [],
+   "kind": "effect",
+   "effects": [
+    {
+     "type": "stylize.glow",
+     "params": {
+      "intensity": 1,
+      "radius": 30,
+      "threshold": 0.35,
+      "warmth": 0.3
+     }
+    },
+    {
+     "type": "color.contrast",
+     "params": {
+      "amount": 1.1
+     }
+    }
+   ]
+  }
+ ]
+}

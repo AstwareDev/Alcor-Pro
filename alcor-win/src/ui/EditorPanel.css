@@ -1,0 +1,148 @@
+/* UI/EditorPanel/*: EditorPanelGroup, InspectorRow, value-field chrome. */
+.epg {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--bg-surface);
+}
+.epg::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--bw-thin);
+  background: var(--border-primary);
+  pointer-events: none;
+}
+.epg-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  min-height: var(--editor-group-header-h);
+  padding: 0 var(--sp-sm-md);
+  background: var(--bg-surface);
+  cursor: default;
+}
+.epg-header-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
+  text-align: left;
+}
+.epg-chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  color: var(--text-tertiary);
+  flex: none;
+}
+.epg-title {
+  font-size: var(--fs-sm-md);
+  font-weight: var(--fw-medium);
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.epg-accessory { display: flex; align-items: center; gap: var(--sp-xs); flex: none; }
+.epg-content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--sp-sm-md);
+  padding: var(--sp-sm-md) var(--sp-sm-md) var(--sp-sm-md) var(--editor-content-inset-l);
+}
+
+.inspector-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  width: 100%;
+  min-height: var(--editor-row-min-h);
+}
+.inspector-row-label {
+  flex: none;
+  width: var(--editor-label-col);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.inspector-row-label.trailing { text-align: right; }
+.inspector-row-trailing {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sp-sm);
+}
+.inspector-row.fixed-h { height: var(--editor-field-min-h); }
+
+.editor-reset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--icon-md);
+  height: var(--icon-md);
+  color: var(--text-tertiary);
+  border-radius: var(--radius-sm);
+}
+.editor-reset.hidden { visibility: hidden; pointer-events: none; }
+.editor-reset:hover { background: var(--fill-faint); }
+.editor-reset:active { background: var(--fill-muted); }
+
+/* editorValueField() */
+.editor-value-field {
+  display: flex;
+  align-items: center;
+  min-height: var(--editor-field-min-h);
+  background: var(--bg-base);
+  border: var(--bw-thin) solid var(--border-subtle);
+  border-radius: var(--radius-xs-sm);
+  transition: border-color var(--anim-hover) ease-out;
+}
+.editor-value-field:hover { border-color: var(--border-primary); }
+.editor-value-field.active,
+.editor-value-field:focus-within { border-color: color-mix(in srgb, var(--accent-primary) 55%, transparent); }
+.editor-value-field.disabled { opacity: var(--op-medium); pointer-events: none; }
+
+.editor-menu-value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  padding: 0 var(--sp-sm-md);
+  font-size: var(--fs-sm);
+  color: var(--text-primary);
+  white-space: nowrap;
+  max-width: 100%;
+}
+.editor-menu-value > span { overflow: hidden; text-overflow: ellipsis; }
+.editor-menu-value .chev { color: var(--text-tertiary); flex: none; margin-left: auto; }
+.editor-menu-value.expanded { width: 100%; }
+
+.icon-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-md);
+  height: var(--icon-md);
+  border-radius: var(--radius-xs);
+  color: var(--text-secondary);
+}
+.icon-toggle:hover { background: var(--fill-faint); }
+.icon-toggle.on { color: var(--accent-primary); background: var(--fill-subtle); }
+.icon-toggle:disabled { opacity: var(--op-medium); pointer-events: none; }
+
+.editor-footer-error { font-size: var(--fs-xs); font-weight: var(--fw-medium); color: var(--status-error); }

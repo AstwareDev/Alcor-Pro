@@ -1,0 +1,46 @@
+.scrub-field {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  flex: none;
+  outline: none;
+}
+.scrub-field:focus-visible .scrub-box { border-color: color-mix(in srgb, var(--accent-primary) 55%, transparent); }
+.scrub-trailing-label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+.scrub-box {
+  position: relative;
+  width: calc(var(--numeric-field-w) + 2 * var(--sp-sm));
+  padding: var(--sp-xxs) var(--sp-sm);
+  justify-content: flex-end;
+}
+.scrub-value {
+  flex: 1;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-primary);
+}
+.scrub-value.mixed { color: var(--text-tertiary); }
+.scrub-input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  text-align: right;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+.scrub-surface { position: absolute; inset: 0; }
+.scrub-surface.can-scrub { cursor: ew-resize; touch-action: none; }
