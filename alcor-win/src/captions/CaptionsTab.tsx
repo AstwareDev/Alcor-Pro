@@ -192,7 +192,7 @@ export function CaptionsTab(props: {
     const keyed = providersWithKeys();
     const entries: { pref: TranscriptionPreference; label: string; enabled: boolean }[] = [
       { pref: "auto", label: "Auto", enabled: true },
-      ...transcriptionBackendIds.map((id) => ({ pref: id, label: transcriptionBackendLabel(id), enabled: keyed.has(id) })),
+      ...transcriptionBackendIds.map((id) => ({ pref: id, label: transcriptionBackendLabel(id), enabled: id === "local" || keyed.has(id) })),
     ];
     return entries.map((e) => ({
       kind: "item" as const,
@@ -242,7 +242,8 @@ export function CaptionsTab(props: {
     if (noBackend()) return "Add an ElevenLabs or OpenAI API key to transcribe.";
     const seconds = uncachedSeconds();
     if (seconds === undefined) return "";
-    return seconds === 0 ? "Cached — no API call." : `Uploads ${minutesLabel(seconds)} to ${transcriptionBackendLabel(backend() ?? "elevenlabs")}.`;
+    if (seconds === 0) return backend() === "local" ? "Cached — nothing to transcribe." : "Cached — no API call.";
+    return backend() === "local" ? `Transcribes ${minutesLabel(seconds)} on this PC.` : `Uploads ${minutesLabel(seconds)} to ${transcriptionBackendLabel(backend() ?? "elevenlabs")}.`;
   };
 
   const generate = async (): Promise<void> => {
@@ -379,7 +380,7 @@ export function CaptionsTab(props: {
       </InspectorRow>
       <InspectorRow
         label="Service"
-        help="Transcription runs with your own API key. ElevenLabs Scribe is preferred; OpenAI Whisper is the fallback."
+        help="Transcription runs with your own API key (ElevenLabs Scribe preferred, OpenAI Whisper next), or on this PC when there is none."
         onReset={() => setTranscriptionPreference("auto")}
       >
         <DropdownMenuButton items={serviceMenu} class="cap-menu-button">

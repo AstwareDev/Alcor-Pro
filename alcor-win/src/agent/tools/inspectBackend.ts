@@ -293,7 +293,7 @@ async function renderOverview(path: string, start: number, end: number): Promise
   }
 }
 
-/** Cloud transcription (the only kind on Windows); a cached whole-file transcript answers windowed reads. */
+/** Cloud or on-device transcription; a cached whole-file transcript answers windowed reads. */
 async function transcribe(req: InspectTranscribeRequest): Promise<TranscriptionResult> {
   if (req.range && req.language === undefined) {
     const full = await cachedOnDisk(req.path);

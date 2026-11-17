@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { makeFakeIo } from "../media/fakeIo";
 import { setMediaIo } from "../media/io";
 import type { ProviderId } from "../generation/providers/types";
-import type { Transcript } from "../generation/providers/transcription";
+import type { Transcript, TranscribeOptions } from "../generation/providers/transcription";
 import {
   chooseBackend, languageIdentifier, planChunks, transcribeCached, transcribeMedia, type TranscriptionDeps,
 } from "./transcriptionBackend";
@@ -14,13 +14,22 @@ describe("chooseBackend", () => {
   it("prefersElevenLabsThenOpenAI", () => {
     expect(chooseBackend("auto", keys("elevenlabs", "openai"))).toBe("elevenlabs");
     expect(chooseBackend("auto", keys("openai"))).toBe("openai");
-    expect(chooseBackend("auto", keys("fal", "google"))).toBeUndefined();
+    expect(chooseBackend("auto", keys("openai", "elevenlabs"))).toBe("elevenlabs");
+  });
+
+  it("fallsBackToThisPcWhenNoCloudKeyIsSet", () => {
+    expect(chooseBackend("auto", keys())).toBe("local");
+    expect(chooseBackend("auto", keys("fal", "google"))).toBe("local");
+  });
+
+  it("usesThisPcWhenChosenEvenWithKeys", () => {
+    expect(chooseBackend("local", keys("elevenlabs", "openai"))).toBe("local");
   });
 
   it("honoursAnExplicitPreferenceOnlyWhenItsKeyExists", () => {
     expect(chooseBackend("openai", keys("elevenlabs", "openai"))).toBe("openai");
     expect(chooseBackend("openai", keys("elevenlabs"))).toBe("elevenlabs");
-    expect(chooseBackend("elevenlabs", keys())).toBeUndefined();
+    expect(chooseBackend("elevenlabs", keys())).toBe("local");
   });
 });
 
@@ -71,6 +80,76 @@ describe("transcribeMedia", () => {
     expect(result.language).toBe("en");
     expect(progress).toEqual([0.5, 1]);
     expect(log.filter((l) => l.startsWith("remove"))).toHaveLength(2);
+  });
+
+  it("sendsALongRangeToThisPcInOnePieceAndForwardsProgress", async () => {
+    const log: string[] = [];
+    const progress: number[] = [];
+    const seen: { durationSeconds?: number }[] = [];
+    const deps: TranscriptionDeps = {
+      ...fakeDeps(log),
+      async transcribe(_backend, _path, options) {
+        seen.push(options);
+        options.onProgress?.(0.5);
+        return { text: "hi.", words: [{ text: "hi.", start: 1, end: 1.4 }] };
+      },
+    };
+    const result = await transcribeMedia(
+      { path: "/m/a.mp4", range: { start: 100, end: 4000 }, backend: "local", onProgress: (f) => progress.push(f) },
+      deps,
+    );
+    expect(log.filter((l) => l.startsWith("extract"))).toEqual(["extract 100-4000"]);
+    expect(seen[0]?.durationSeconds).toBe(3900);
+    expect(progress).toEqual([0.5, 1]);
+    expect(result.words[0]?.start).toBe(101);
+  });
+
+  it("keepsCloudOptionsFreeOfLocalOnlyFields", async () => {
+    const seen: object[] = [];
+    const deps: TranscriptionDeps = {
+      ...fakeDeps([]),
+      async transcribe(_backend, _path, options) {
+        seen.push(options);
+        return { text: "", words: [] };
+      },
+    };
+    await transcribeMedia({ path: "/m/a.mp4", range: { start: 0, end: 30 }, language: "de", backend: "openai", onProgress: () => undefined }, deps);
+    expect(seen).toEqual([{ language: "de" }]);
+  });
+
+  it("sendsALongRangeToThisPcInOnePieceAndForwardsProgress", async () => {
+    const log: string[] = [];
+    const progress: number[] = [];
+    const seen: TranscribeOptions[] = [];
+    const deps: TranscriptionDeps = {
+      ...fakeDeps(log),
+      async transcribe(_backend, _path, options) {
+        seen.push(options);
+        options.onProgress?.(0.5);
+        return { text: "hi.", words: [{ text: "hi.", start: 1, end: 1.4 }] };
+      },
+    };
+    const result = await transcribeMedia(
+      { path: "/m/a.mp4", range: { start: 100, end: 4000 }, backend: "local", onProgress: (f) => progress.push(f) },
+      deps,
+    );
+    expect(log.filter((l) => l.startsWith("extract"))).toEqual(["extract 100-4000"]);
+    expect(seen[0]?.durationSeconds).toBe(3900);
+    expect(progress).toEqual([0.5, 1]);
+    expect(result.words[0]?.start).toBe(101);
+  });
+
+  it("keepsCloudOptionsFreeOfLocalOnlyFields", async () => {
+    const seen: TranscribeOptions[] = [];
+    const deps: TranscriptionDeps = {
+      ...fakeDeps([]),
+      async transcribe(_backend, _path, options) {
+        seen.push(options);
+        return { text: "", words: [] };
+      },
+    };
+    await transcribeMedia({ path: "/m/a.mp4", range: { start: 0, end: 30 }, language: "de", backend: "openai", onProgress: () => undefined }, deps);
+    expect(seen).toEqual([{ language: "de" }]);
   });
 
   it("transcribesTheWholeFileWhenNoRangeAndNoDurationAreKnown", async () => {

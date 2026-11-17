@@ -7,6 +7,7 @@ import type { Transcript, TranscribeOptions } from "../generation/providers/tran
 import type { ProviderId } from "../generation/providers/types";
 import { AsyncSemaphore, throwIfAborted } from "../media/concurrency";
 import { defaultStorage, type KeyValueStorage } from "../settings/storage";
+import { sharedLocalTranscriber } from "./localTranscription";
 import { cachedCloudTranscript, storeCloudTranscript, type SourceRange } from "./transcriptCache";
 import {
   stitchTranscriptionResults, transcriptionOffsetting, transcriptionResultFromProvider, TranscriptionError,
@@ -14,15 +15,22 @@ import {
 } from "./transcription";
 
 // Replaces TranscriptionBackend.swift / CloudTranscription.swift (Palmier cloud) with the user's own provider key:
-// ElevenLabs Scribe preferred, OpenAI Whisper as the fallback.
+// ElevenLabs Scribe preferred, OpenAI Whisper as the fallback. "local" is Whisper on this PC (`localTranscription.ts`,
+// the stand-in for the on-device Speech of Transcription.swift); it needs no key and is used when no cloud key is set.
 
-export type TranscriptionBackendId = "elevenlabs" | "openai";
+export type CloudBackendId = "elevenlabs" | "openai";
+export type TranscriptionBackendId = CloudBackendId | "local";
 export type TranscriptionPreference = "auto" | TranscriptionBackendId;
 
-export const transcriptionBackendIds: readonly TranscriptionBackendId[] = ["elevenlabs", "openai"];
+export const cloudBackendIds: readonly CloudBackendId[] = ["elevenlabs", "openai"];
+export const transcriptionBackendIds: readonly TranscriptionBackendId[] = [...cloudBackendIds, "local"];
 
 export function transcriptionBackendLabel(id: TranscriptionBackendId): string {
-  return id === "elevenlabs" ? "ElevenLabs Scribe" : "OpenAI Whisper";
+  switch (id) {
+    case "elevenlabs": return "ElevenLabs Scribe";
+    case "openai": return "OpenAI Whisper";
+    case "local": return "On this PC";
+  }
 }
 
 // MARK: - Choosing a backend
@@ -31,7 +39,7 @@ const preferenceKey = "transcriptionBackend";
 
 function readPreference(storage: KeyValueStorage): TranscriptionPreference {
   const raw = storage.getItem(preferenceKey);
-  return raw === "elevenlabs" || raw === "openai" ? raw : "auto";
+  return raw === "elevenlabs" || raw === "openai" || raw === "local" ? raw : "auto";
 }
 
 const [preference, setPreferenceSignal] = createSignal<TranscriptionPreference>(readPreference(defaultStorage()));
@@ -48,19 +56,17 @@ export function setTranscriptionPreference(value: TranscriptionPreference, stora
 }
 
 /**
- * The backend to use: the user's explicit preference when its key is stored, otherwise ElevenLabs, then OpenAI.
- * Undefined when neither key is available.
+ * The backend to use: the user's explicit preference when it is usable (a cloud one needs its key), otherwise
+ * ElevenLabs, then OpenAI, then this PC.
  */
-export function chooseBackend(
-  pref: TranscriptionPreference,
-  keyed: ReadonlySet<ProviderId>,
-): TranscriptionBackendId | undefined {
+export function chooseBackend(pref: TranscriptionPreference, keyed: ReadonlySet<ProviderId>): TranscriptionBackendId {
+  if (pref === "local") return pref;
   if (pref !== "auto" && keyed.has(pref)) return pref;
-  return transcriptionBackendIds.find((id) => keyed.has(id));
+  return cloudBackendIds.find((id) => keyed.has(id)) ?? "local";
 }
 
 /** Reactive: the backend `transcribeMedia` would use right now. */
-export function activeTranscriptionBackend(): TranscriptionBackendId | undefined {
+export function activeTranscriptionBackend(): TranscriptionBackendId {
   return chooseBackend(preference(), providersWithKeys());
 }
 
@@ -68,6 +74,8 @@ export function activeTranscriptionBackend(): TranscriptionBackendId | undefined
 
 /** Longest audio sent in one request: a mono-ish AAC chunk stays far below OpenAI's 25 MB upload limit. */
 export const maxChunkSeconds = 600;
+/** On-device transcription windows the audio itself, so the whole file goes in one piece. */
+export const localChunkSeconds = 24 * 3600;
 
 export function planChunks(range: SourceRange, chunkSeconds = maxChunkSeconds): SourceRange[] {
   const chunks: SourceRange[] = [];
@@ -112,8 +120,13 @@ async function extractAudioTrack(path: string, range: SourceRange | undefined, s
 export const defaultTranscriptionDeps: TranscriptionDeps = {
   extractAudio: extractAudioTrack,
   removeTemp: removeTempFiles,
-  transcribe: (backend, path, options, signal) =>
-    backend === "elevenlabs" ? scribeTranscribe(path, options, signal) : whisperTranscribe(path, options, signal),
+  transcribe: (backend, path, options, signal) => {
+    switch (backend) {
+      case "elevenlabs": return scribeTranscribe(path, options, signal);
+      case "openai": return whisperTranscribe(path, options, signal);
+      case "local": return sharedLocalTranscriber().transcribe(path, options, signal);
+    }
+  },
 };
 
 export interface TranscribeRequest {
@@ -143,13 +156,18 @@ export function languageIdentifier(locale: string | undefined): string | undefin
 export async function transcribeMedia(req: TranscribeRequest, deps: TranscriptionDeps = defaultTranscriptionDeps): Promise<TranscriptionResult> {
   throwIfAborted(req.signal);
   const window: SourceRange | undefined = req.range ?? (req.durationSeconds !== undefined && req.durationSeconds > 0 ? { start: 0, end: req.durationSeconds } : undefined);
-  const chunks = window ? planChunks(window) : [undefined];
+  const chunks = window ? planChunks(window, req.backend === "local" ? localChunkSeconds : maxChunkSeconds) : [undefined];
   if (chunks.length === 0) throw new TranscriptionError("audioExtractionFailed", "Nothing to transcribe.");
-  const options: TranscribeOptions = req.language ? { language: req.language } : {};
   const parts: { result: TranscriptionResult; start: number; end: number }[] = [];
   for (const [i, chunk] of chunks.entries()) {
     throwIfAborted(req.signal);
     const temp = await deps.extractAudio(req.path, chunk, req.signal);
+    const options: TranscribeOptions = {
+      ...(req.language ? { language: req.language } : {}),
+      // Slow on-device transcription reports progress from inside the chunk.
+      ...(req.backend === "local" && chunk ? { durationSeconds: chunk.end - chunk.start } : {}),
+      ...(req.backend === "local" && req.onProgress ? { onProgress: (f: number) => req.onProgress?.((i + f) / chunks.length) } : {}),
+    };
     try {
       const transcript = await deps.transcribe(req.backend, temp, options, req.signal);
       const offset = chunk?.start ?? 0;

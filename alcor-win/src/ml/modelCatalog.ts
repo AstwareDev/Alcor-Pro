@@ -87,3 +87,48 @@ export const siglipModel: ModelSpec = {
     },
   ],
 };
+
+/**
+ * Whisper tiny (openai/whisper-tiny, multilingual, Apache-2.0) for on-device transcription: the "timestamped" ONNX export of
+ * onnx-community/whisper-tiny_timestamped (its decoder also returns cross-attentions for word timing), pinned to commit
+ * 517244293732ee2d58139af5814231b7e6830a0d. The encoder is fp32: the int8 one derails on some windows (hallucinated
+ * loops); the decoder is the int8 merged (key/value cache) graph. `generation_config.json` carries the alignment heads,
+ * suppressed tokens and language ids, `config.json` the decoder shape.
+ */
+export const whisperModel: ModelSpec = {
+  id: "whisper-tiny",
+  directoryName: "whisper-tiny",
+  license: "Apache-2.0 (openai/whisper-tiny; ONNX export onnx-community/whisper-tiny_timestamped)",
+  files: [
+    {
+      fileName: "encoder_model.onnx",
+      url: "https://huggingface.co/onnx-community/whisper-tiny_timestamped/resolve/517244293732ee2d58139af5814231b7e6830a0d/onnx/encoder_model.onnx",
+      sha256: "8944ec04111e040305cdb07ac97f50363024255bf0bdc67ab93ecb76645f31ae",
+      bytes: 32_894_434,
+    },
+    {
+      fileName: "decoder_model_merged_int8.onnx",
+      url: "https://huggingface.co/onnx-community/whisper-tiny_timestamped/resolve/517244293732ee2d58139af5814231b7e6830a0d/onnx/decoder_model_merged_int8.onnx",
+      sha256: "ced2053c1aa8ff7048927197416a5c169f50010e7b280e5d564b46a991fca011",
+      bytes: 30_730_264,
+    },
+    {
+      fileName: "vocab.json",
+      url: "https://huggingface.co/onnx-community/whisper-tiny_timestamped/resolve/517244293732ee2d58139af5814231b7e6830a0d/vocab.json",
+      sha256: "50d6a919f0a0601d56a04eb583c780d18553aa388254ba3158eb6a00f13e2c1a",
+      bytes: 1_036_584,
+    },
+    {
+      fileName: "generation_config.json",
+      url: "https://huggingface.co/onnx-community/whisper-tiny_timestamped/resolve/517244293732ee2d58139af5814231b7e6830a0d/generation_config.json",
+      sha256: "f5c67e5a4f7102f8cb4d058bc95da276bbc19eeec997267c3bb0f25ef68facd1",
+      bytes: 3_772,
+    },
+    {
+      fileName: "config.json",
+      url: "https://huggingface.co/onnx-community/whisper-tiny_timestamped/resolve/517244293732ee2d58139af5814231b7e6830a0d/config.json",
+      sha256: "46aeea0a406afbeb563fc8e59ca10609203df4299af6a83f73752fef369efd2d",
+      bytes: 2_243,
+    },
+  ],
+};

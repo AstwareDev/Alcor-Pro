@@ -1,7 +1,8 @@
 import { asObject, getArray, getDouble, getString, optDouble, optString, tryString } from "../util/jsonDecode";
 import type { Transcript } from "../generation/providers/transcription";
 
-// Port of Transcription/Transcription.swift (the data types and pure helpers). On-device Speech is not ported.
+// Port of Transcription/Transcription.swift (the data types and pure helpers). Apple Speech is not ported; on-device
+// transcription is Whisper (`localTranscription.ts`).
 
 export interface TranscriptionWord {
   text: string;

@@ -4,7 +4,7 @@ import { mediaIo } from "../media/io";
 import { decodeTranscriptionResult, makeTranscriptionResult, type TranscriptionResult } from "./transcription";
 
 // Port of Transcription/TranscriptCache.swift: disk + memory cache keyed by file identity so edits invalidate
-// naturally. Only the cloud variants exist here (no on-device transcription).
+// naturally. Cloud and on-device (Whisper) results share one entry per file, range and language.
 
 const memoryMax = 4;
 const memory = new Map<string, TranscriptionResult>();

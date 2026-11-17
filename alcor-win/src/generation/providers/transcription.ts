@@ -17,4 +17,8 @@ export interface TranscribeOptions {
   /** ISO 639-1 code; omit to auto-detect. */
   language?: string;
   diarize?: boolean;
+  /** Length of the audio when known; lets slow on-device transcription report progress. */
+  durationSeconds?: number;
+  /** On-device transcription only: called with the completed fraction. */
+  onProgress?: (fraction: number) => void;
 }

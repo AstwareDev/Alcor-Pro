@@ -17,6 +17,7 @@ import { RoutingPane } from "./RoutingPane";
 import { sharedNotifications } from "./notifications";
 import { SettingsSection, SettingsToggleRow } from "./SettingsParts";
 import { StoragePane } from "./StoragePane";
+import { TranscriptionSection } from "./TranscriptionSection";
 import "./settings.css";
 
 export { refreshProviderKeys } from "./keys";
@@ -85,7 +86,7 @@ export function SettingsView(props: { onClose: () => void }) {
         <div class="settings-scroll">
           <div class="settings-content">
             <Switch>
-              <Match when={tab() === "keys"}><ApiKeysPane /></Match>
+              <Match when={tab() === "keys"}><ApiKeysPane /><TranscriptionSection /></Match>
               <Match when={tab() === "agent"}><AgentPane /></Match>
               <Match when={tab() === "models"}><ModelsPane goToKeys={() => setTab("keys")} /></Match>
               <Match when={tab() === "routing"}><RoutingPane goToKeys={() => setTab("keys")} /></Match>
