@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   exportEstimatedFileBytes, exportResolutionRenderSize, exportResolutionShortSidePixels, exportTargetVideoBitrate,
   formatFileSize, resolveExportRange, validateVideoExport, videoCodecContainer, videoCodecExportFormat,
-  videoCodecFromFormat, videoCodecs,
+  exportFormatFileExtension, exportFormatDisplayName, videoCodecFromFormat, videoCodecIsHDR, videoCodecMediabunnyId,
+  videoCodecContainerLabel, videoCodecs,
 } from "./exportOptions";
 
 describe("ExportResolution.renderSize", () => {
@@ -62,6 +63,17 @@ describe("codec mapping", () => {
     expect(videoCodecContainer("VP9")).toBe("webm");
     expect(videoCodecContainer("H.265")).toBe("mp4");
   });
+  it("maps the HDR codecs to their container and mediabunny codec", () => {
+    expect(videoCodecs.filter(videoCodecIsHDR)).toEqual(["HEVC 10-bit HDR", "VP9 10-bit HDR"]);
+    expect(videoCodecMediabunnyId("HEVC 10-bit HDR")).toBe("hevc");
+    expect(videoCodecContainer("HEVC 10-bit HDR")).toBe("mp4");
+    expect(videoCodecMediabunnyId("VP9 10-bit HDR")).toBe("vp9");
+    expect(videoCodecContainer("VP9 10-bit HDR")).toBe("webm");
+    expect(videoCodecContainerLabel("VP9 10-bit HDR")).toBe("WebM (.webm)");
+    expect(exportFormatFileExtension(videoCodecExportFormat("HEVC 10-bit HDR"))).toBe("mp4");
+    expect(exportFormatFileExtension(videoCodecExportFormat("VP9 10-bit HDR"))).toBe("webm");
+    expect(exportFormatDisplayName("hevcHDR")).toBe("HEVC 10-bit HDR");
+  });
   it("estimates file size like the Swift table", () => {
     const t = { totalFrames: 300, fps: 30, width: 1920, height: 1080 };
     // 10 s * 0.63e6 B/s/MP * 2.0736 MP
@@ -83,6 +95,13 @@ describe("validation", () => {
     expect(validateVideoExport({ codec: "H.264", resolution: "1080p" }, { ...tl, totalFrames: 0 }).ok).toBe(false);
     expect(validateVideoExport({ codec: "H.264", resolution: "1080p", range: { startFrame: 10, endFrame: 10 } }, tl).ok).toBe(false);
     expect(validateVideoExport({ codec: "H.264", resolution: "1080p", range: { startFrame: 100, endFrame: 120 } }, tl).ok).toBe(false);
+  });
+  it("only HDR codecs accept an HDR transfer", () => {
+    expect(validateVideoExport({ codec: "VP9 10-bit HDR", resolution: "1080p", hdrTransfer: "pq" }, tl).ok).toBe(true);
+    expect(validateVideoExport({ codec: "HEVC 10-bit HDR", resolution: "1080p" }, tl).ok).toBe(true);
+    const bad = validateVideoExport({ codec: "H.265", resolution: "1080p", hdrTransfer: "hlg" }, tl);
+    expect(bad.ok).toBe(false);
+    expect(bad.error).toContain("not an HDR codec");
   });
   it("clamps the range to the timeline", () => {
     expect(resolveExportRange({ range: { startFrame: 20, endFrame: 500 } }, 100)).toEqual({ startFrame: 20, endFrame: 100 });

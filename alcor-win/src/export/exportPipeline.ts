@@ -1,7 +1,7 @@
 import {
   AudioSample, AudioSampleSink, AudioSampleSource, CanvasSource, Mp4OutputFormat, Output,
-  WebMOutputFormat, canEncodeAudio, canEncodeVideo,
-  type AudioCodec, type Target,
+  VideoSample, VideoSampleSource, WebMOutputFormat, canEncodeAudio, canEncodeVideo,
+  type AudioCodec, type Target, type VideoEncodingConfig,
 } from "mediabunny";
 import { timelineTotalFrames, type Timeline } from "../model/timeline";
 import { Compositor } from "../preview/renderer";
@@ -14,6 +14,7 @@ import {
   exportAudioBitrate, exportResolutionRenderSize, exportTargetVideoBitrate, resolveExportRange, validateVideoExport,
   videoCodecContainer, videoCodecMediabunnyId,
 } from "./exportOptions";
+import { createHdrConverter, hdrColorSpace, hdrEncodeProbe, hdrTransferOf, isHdrVideoCodec } from "./hdrExport";
 import { ExportCancelledError, ExportError, type ExportJobSpec, type ExportProgress, type ExportReport } from "./exportTypes";
 
 export interface PipelineHooks {
@@ -104,10 +105,14 @@ export async function runExportPipeline(spec: ExportJobSpec, target: Target, hoo
 
   hooks.onProgress({ phase: "preparing", framesDone: 0, totalFrames, fraction: 0 });
 
-  const hardware = videoId === "vp9" ? "no-preference" : "prefer-hardware";
-  if (!(await canEncodeVideo(videoId, { width: size.width, height: size.height, bitrate, frameRate: fps, hardwareAcceleration: hardware }))) {
-    const hint = codec === "H.265"
-      ? "H.265 needs a GPU with HEVC encoding or the Windows HEVC Video Extensions. Choose H.264 instead."
+  const hdrCodec = isHdrVideoCodec(codec) ? codec : null;
+  const hardware: "no-preference" | "prefer-hardware" = videoId === "vp9" ? "no-preference" : "prefer-hardware";
+  const probe: ReturnType<typeof hdrEncodeProbe> = hdrCodec
+    ? hdrEncodeProbe(hdrCodec, size, fps)
+    : { width: size.width, height: size.height, bitrate, frameRate: fps, hardwareAcceleration: hardware };
+  if (!(await canEncodeVideo(videoId, probe))) {
+    const hint = codec === "H.265" || videoId === "hevc"
+      ? `${codec} needs a GPU with HEVC encoding${hdrCodec ? " of 10-bit video" : " or the Windows HEVC Video Extensions"}. Choose ${hdrCodec ? "VP9 10-bit HDR" : "H.264"} instead.`
       : "Try a lower resolution or another codec.";
     throw new ExportError(`This PC cannot encode ${codec} at ${size.width}×${size.height}. ${hint}`);
   }
@@ -157,13 +162,27 @@ export async function runExportPipeline(spec: ExportJobSpec, target: Target, hoo
   glCanvas.height = out.height;
   const feeder = new Feeder(inputs, compositor, warn);
 
-  const videoSource = new CanvasSource(encodeCanvas, {
+  const encoding = {
     codec: videoId,
     bitrate,
     keyFrameInterval: keyFrameIntervalSeconds,
     hardwareAcceleration: hardware,
     latencyMode: "quality",
-  });
+  } satisfies VideoEncodingConfig;
+  // HDR frames are converted to tagged 10-bit YUV on the CPU, then fed as samples instead of canvas captures.
+  const hdr = hdrCodec
+    ? (() => {
+        const transfer = hdrTransferOf(spec.options);
+        return {
+          source: new VideoSampleSource({ ...encoding, fullCodecString: probe.fullCodecString }),
+          convert: createHdrConverter(size.width, size.height, transfer),
+          colorSpace: hdrColorSpace(transfer),
+          rgba: new Uint8Array(size.width * size.height * 4),
+          yuv: new Uint16Array((size.width * size.height * 3) / 2),
+        };
+      })()
+    : null;
+  const videoSource = hdr ? hdr.source : new CanvasSource(encodeCanvas, encoding);
   output.addVideoTrack(videoSource, { frameRate: fps });
   const audioSource = audioCodec ? new AudioSampleSource({ codec: audioCodec, bitrate: exportAudioBitrate }) : null;
   if (audioSource) output.addAudioTrack(audioSource);
@@ -188,7 +207,26 @@ export async function runExportPipeline(spec: ExportJobSpec, target: Target, hoo
         await feeder.prepare(collectMediaLayers(graph.layers, []));
         if (!compositor.render(graph, feeder)) throw new ExportError("The graphics context was lost while rendering. Close other GPU-heavy apps and try again.");
         if (blitCtx) blitCtx.drawImage(glCanvas, 0, 0, size.width, size.height);
-        await videoSource.add((frame - range.startFrame) / fps, 1 / fps);
+        const timestamp = (frame - range.startFrame) / fps;
+        if (hdr) {
+          const grab = new VideoFrame(encodeCanvas, { timestamp: 0 });
+          try {
+            await grab.copyTo(hdr.rgba, { format: "RGBA" });
+          } finally {
+            grab.close();
+          }
+          hdr.convert(hdr.rgba, hdr.yuv);
+          const sample = new VideoSample(hdr.yuv, {
+            format: "I420P10", codedWidth: size.width, codedHeight: size.height, timestamp, duration: 1 / fps, colorSpace: hdr.colorSpace,
+          });
+          try {
+            await hdr.source.add(sample);
+          } finally {
+            sample.close();
+          }
+        } else {
+          await (videoSource as CanvasSource).add(timestamp, 1 / fps);
+        }
         framesDone += 1;
         const elapsed = (performance.now() - renderStart) / 1000;
         hooks.onProgress({

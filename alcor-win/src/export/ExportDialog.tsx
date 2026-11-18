@@ -28,7 +28,8 @@ import { formatTimecode } from "../util/timeFormatting";
 import "./ExportDialog.css";
 import {
   exportEstimatedFileBytes, exportFormatFileExtension, exportResolutionRenderSize, exportResolutions, formatFileSize,
-  videoCodecContainerLabel, videoCodecExportFormat, videoCodecs, type ExportResolution, type VideoCodec,
+  hdrTransferDefault, hdrTransferDisplayName, hdrTransfers, videoCodecContainerLabel, videoCodecExportFormat, videoCodecIsHDR,
+  videoCodecs, type ExportResolution, type HdrTransfer, type VideoCodec,
 } from "./exportOptions";
 import { exportStatusIsFinished, exportStatusIsPending, sharedExportQueue, type ExportJob, type ExportJobStatus } from "./exportQueue";
 import {
@@ -36,6 +37,7 @@ import {
   type PalmierSummary, type TimelineExportFormat,
 } from "./exportRunner";
 import { fcpxmlTargetDefault, fcpxmlTargetDisplayName, fcpxmlTargets, fcpxmlVersionCompatibilityNote, fcpxmlVersionDefault, fcpxmlVersions, type FCPXMLTarget, type FCPXMLVersion } from "./fcpxmlExporter";
+import { supportedHdrCodecs } from "./hdrExport";
 import { useExportJobs } from "./useExportJobs";
 
 type ExportDestination = "Video" | "Timeline" | "Alcor Project";
@@ -176,6 +178,10 @@ function ExportSheet(props: { editor: Editor }) {
   const [fcpxmlTarget, setFcpxmlTarget] = createSignal<FCPXMLTarget>(fcpxmlTargetDefault);
   const [codec, setCodec] = createSignal<VideoCodec>("H.264");
   const [resolution, setResolution] = createSignal<ExportResolution>("Match Timeline");
+  const [hdrTransfer, setHdrTransfer] = createSignal<HdrTransfer>(hdrTransferDefault);
+  const [hdrCodecs, setHdrCodecs] = createSignal<readonly VideoCodec[]>([]);
+  // HDR codecs appear only once the runtime has confirmed it can encode them.
+  const codecOptions = createMemo(() => videoCodecs.filter((c) => !videoCodecIsHDR(c) || hdrCodecs().includes(c)));
   const [selectedRangeOnly, setSelectedRangeOnly] = createSignal(false);
   const [submissionError, setSubmissionError] = createSignal<string | null>(null);
   const [palmierSummary, setPalmierSummary] = createSignal<PalmierSummary>({ collect: 0, missing: 0, bytes: 0 });
@@ -195,6 +201,7 @@ function ExportSheet(props: { editor: Editor }) {
 
   onMount(() => {
     void palmierProjectSummary(editor).then(setPalmierSummary, () => undefined);
+    void supportedHdrCodecs().then(setHdrCodecs, () => undefined);
     const key = (e: KeyboardEvent): void => {
       if (e.key === "Escape") {
         e.stopPropagation();
@@ -230,6 +237,7 @@ function ExportSheet(props: { editor: Editor }) {
           options: {
             codec: codec(),
             resolution: resolution(),
+            ...(videoCodecIsHDR(codec()) ? { hdrTransfer: hdrTransfer() } : {}),
             ...(selectedRangeOnly() && r && timeline.id === editor.doc.activeTimelineId ? { range: { startFrame: r.startFrame, endFrame: r.endFrame } } : {}),
           },
         });
@@ -305,9 +313,15 @@ function ExportSheet(props: { editor: Editor }) {
 
               <Show when={destination() === "Video"}>
                 <SettingRow label="Codec">
-                  <Picker value={codec()} options={videoCodecs} label={(c) => c} onChange={setCodec} />
+                  <Picker value={codec()} options={codecOptions()} label={(c) => c} onChange={setCodec} />
                 </SettingRow>
                 <div class="export-divider" />
+                <Show when={videoCodecIsHDR(codec())}>
+                  <SettingRow label="HDR Transfer">
+                    <Picker value={hdrTransfer()} options={hdrTransfers} label={hdrTransferDisplayName} onChange={setHdrTransfer} />
+                  </SettingRow>
+                  <div class="export-divider" />
+                </Show>
                 <SettingRow label="File Type">
                   <span class="export-setting-value">{videoCodecContainerLabel(codec())}</span>
                 </SettingRow>

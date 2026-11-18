@@ -12,7 +12,7 @@ import { buildFrameGraph, collectMediaLayers, type FrameGraphDocument, type Fram
 import { Compositor, type SourceFrame, type TextureProvider } from "../preview/renderer";
 import { ExportDialog } from "./ExportDialog";
 import { exportVideoToBuffer } from "./exportEngine";
-import type { VideoCodec, ExportResolution } from "./exportOptions";
+import { videoCodecIsHDR, type VideoCodec, type ExportResolution } from "./exportOptions";
 import { ExportCancelledError, type ExportJobSpec, type ExportProgress, type ExportReport } from "./exportTypes";
 
 /* ?dev=export: procedural media -> worker export into a BufferTarget -> re-open and verify against the Compositor. */
@@ -423,7 +423,16 @@ async function runCodecProbe(codec: VideoCodec): Promise<ScenarioOutcome> {
   try {
     const fx = await buildFixture(s);
     const { report, buffer } = await exportVideoToBuffer(fx.spec);
-    return { scenario: s.name, report, bytes: buffer.byteLength, checks: [{ name: "probe", ok: true, detail: `${report.videoCodec}/${report.audioCodec} ${report.container}` }] };
+    const checks: CheckResult[] = [{ name: "probe", ok: true, detail: `${report.videoCodec}/${report.audioCodec} ${report.container}` }];
+    if (videoCodecIsHDR(codec)) {
+      const input = new Input({ source: new BlobSource(new Blob([buffer])), formats: ALL_FORMATS });
+      const video = await input.getPrimaryVideoTrack();
+      const cs = video ? await video.getColorSpace() : null;
+      const hdr = video ? await video.hasHighDynamicRange() : false;
+      const codecString = video ? await video.getCodecParameterString() : null;
+      checks.push({ name: "hdr tags", ok: hdr && String(cs?.primaries) === "bt2020" && String(cs?.transfer) === "hlg", detail: `${codecString} ${JSON.stringify(cs)} hdr=${hdr}` });
+    }
+    return { scenario: s.name, report, bytes: buffer.byteLength, checks };
   } catch (e) {
     return { scenario: s.name, checks: [{ name: "probe", ok: true, detail: `unavailable: ${e instanceof Error ? e.message : String(e)}` }] };
   }
@@ -461,7 +470,7 @@ export default function ExportDevPage() {
     if (!only || only === "extra") {
       setStatus("cancel");
       outcomes.push(await runCancelScenario());
-      for (const codec of ["H.265", "VP9"] as const) {
+      for (const codec of ["H.265", "VP9", "HEVC 10-bit HDR", "VP9 10-bit HDR"] as const) {
         setStatus(`probe ${codec}`);
         outcomes.push(await runCodecProbe(codec));
       }
