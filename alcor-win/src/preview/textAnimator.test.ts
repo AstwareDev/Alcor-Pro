@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { makeTextAnimation, type TextAnimationPreset, type WordTiming } from "../model/textAnimation";
 import { textAnimatorClipEntry, textAnimatorWordState } from "./textAnimator";
-import { textTokenTimings, textTypewriterVisibleText, textWords } from "./textRenderer";
+import { textTokenTimings, textTypewriterVisibleText, textWords, typewriterLines } from "./textRenderer";
 
 function highlightAmount(preset: TextAnimationPreset, word: WordTiming, nextWord: WordTiming | undefined, frame: number): number {
   const animation = makeTextAnimation({ preset, perWordFrames: 6, highlight: { r: 1, g: 0, b: 0, a: 1 } });
@@ -80,5 +80,20 @@ describe("TextFrameRenderer typewriter", () => {
   it("caret blinks every 15 frames while typing", () => {
     expect(textTypewriterVisibleText("ONE TWO", undefined, 90, 0)).toBe("|");
     expect(textTypewriterVisibleText("ONE TWO", undefined, 90, 15)).toBe("O");
+  });
+});
+
+describe("typewriterLines", () => {
+  const line = (start: number, text: string, x: number) => ({ start, end: start + text.length, text, width: 10, x, baseline: 0 });
+  const lines = [line(0, "Hello ", 40), line(6, "world", 55)];
+
+  it("keepsEachLineAtItsAlignedXWhileRevealing", () => {
+    expect(typewriterLines(lines, "Hel").map((l) => [l.text, l.x])).toEqual([["Hel", 40]]);
+    expect(typewriterLines(lines, "Hello wo").map((l) => [l.text, l.x])).toEqual([["Hello ", 40], ["wo", 55]]);
+  });
+
+  it("putsTheCaretOnTheLastRevealedLineAndShowsItOnAnEmptyReveal", () => {
+    expect(typewriterLines(lines, "Hello w|").map((l) => l.text)).toEqual(["Hello ", "w|"]);
+    expect(typewriterLines(lines, "|").map((l) => [l.text, l.x])).toEqual([["|", 40]]);
   });
 });

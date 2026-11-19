@@ -429,6 +429,23 @@ function frameLines(
   return placed;
 }
 
+/** Trims fully laid-out lines to the revealed prefix; the blinking caret (`|` after the prefix) rides the last revealed line. */
+export function typewriterLines(lines: readonly PlacedLine[], visible: string): PlacedLine[] {
+  const caret = visible.endsWith("|");
+  const revealed = caret ? visible.length - 1 : visible.length;
+  let last = -1;
+  lines.forEach((l, i) => {
+    if (l.start < revealed || i === 0) last = i;
+  });
+  const out: PlacedLine[] = [];
+  lines.forEach((l, i) => {
+    if (i > last) return;
+    const text = l.text.slice(0, Math.max(0, Math.min(revealed - l.start, l.text.length)));
+    out.push({ ...l, text: i === last && caret ? text + "|" : text });
+  });
+  return out;
+}
+
 function drawLineGlyphs(ctx: Ctx2D, m: LineMetrics, text: string, x: number, baseline: number, mode: "fill" | "stroke"): void {
   ctx.save();
   ctx.translate(x, baseline);
@@ -628,9 +645,8 @@ export class TextRenderer {
       drawWords(glyphs, style, m, lines, t.tokens, t.wordStates, fontSize);
     } else if (t.mode === "typewriter") {
       if (t.typewriterVisible !== "") {
-        // Left-anchor so the text reveals rightward in place rather than re-centering as it grows.
-        const lines = frameLines(glyphs, m, t.typewriterVisible, boxes.text, "left", t.content);
-        drawTextGlyphs(glyphs, style, m, lines);
+        // Place the full text with the style's alignment, then reveal each line from its own left edge in place.
+        drawTextGlyphs(glyphs, style, m, typewriterLines(frameLines(glyphs, m, t.content, boxes.text, style.alignment), t.typewriterVisible));
       }
     } else {
       drawTextGlyphs(glyphs, style, m, frameLines(glyphs, m, t.content, boxes.text, style.alignment));
