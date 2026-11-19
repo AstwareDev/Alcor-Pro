@@ -1,7 +1,7 @@
 import { openUrl } from "@tauri-apps/plugin-opener";
 import ExternalLink from "lucide-solid/icons/external-link";
 import { createSignal, For, onMount, Show } from "solid-js";
-import { httpFetch, secretDelete, secretHas, secretSet } from "../platform/backend";
+import { httpFetch, secretBuiltin, secretDelete, secretHas, secretSet } from "../platform/backend";
 import "../generation/providers";
 import { allProviders, providersWithKeys } from "../generation/providers/registry";
 import type { Provider } from "../generation/providers/types";
@@ -115,10 +115,12 @@ const routingKeyProviders: AgentKeyProvider[] = [
 function AgentKeyRow(props: { provider: AgentKeyProvider }) {
   const [draft, setDraft] = createSignal("");
   const [has, setHas] = createSignal(false);
+  const [builtin, setBuiltin] = createSignal(false);
   const [busy, setBusy] = createSignal(false);
   const [result, setResult] = createSignal<Result | undefined>();
   const reload = async (): Promise<void> => {
     setHas(await secretHas(props.provider.secret).catch(() => false));
+    setBuiltin(await secretBuiltin(props.provider.secret).catch(() => false));
   };
   onMount(() => void reload());
 
@@ -158,7 +160,7 @@ function AgentKeyRow(props: { provider: AgentKeyProvider }) {
     <div class="key-row">
       <div class="key-row-head">
         <span class="settings-row-title">{props.provider.displayName}</span>
-        <span class="key-status" classList={{ on: has() }}>{has() ? "Key stored" : "No key"}</span>
+        <span class="key-status" classList={{ on: has() || builtin() }}>{has() ? "Your key" : builtin() ? "Built in" : "No key"}</span>
         <span class="settings-spacer" />
         <button type="button" class="link-button" onClick={() => void openUrl(props.provider.keyUrl)}>
           Get key <ExternalLink size={11} />
@@ -167,13 +169,13 @@ function AgentKeyRow(props: { provider: AgentKeyProvider }) {
       <div class="key-row-controls">
         <input
           class="settings-input" type="password" autocomplete="off" spellcheck={false}
-          placeholder={has() ? "Enter a new key to replace the stored one" : props.provider.placeholder}
+          placeholder={has() ? "Enter a new key to replace the stored one" : builtin() ? "Optional: your own key replaces the built-in one" : props.provider.placeholder}
           aria-label={`${props.provider.displayName} API key`} value={draft()}
           onInput={(e) => setDraft(e.currentTarget.value)}
           onKeyDown={(e) => { if (e.key === "Enter" && draft().trim()) void save(); }}
         />
         <CapsuleButton variant="prominent" disabled={busy() || !draft().trim()} onClick={() => void save()}>Save</CapsuleButton>
-        <CapsuleButton disabled={busy() || !has()} onClick={() => void test()}>Test</CapsuleButton>
+        <CapsuleButton disabled={busy() || !(has() || builtin())} onClick={() => void test()}>Test</CapsuleButton>
         <CapsuleButton disabled={busy() || !has()} onClick={() => void remove()}>Remove</CapsuleButton>
       </div>
       <Show when={result()}>
@@ -194,7 +196,7 @@ export function ApiKeysPane() {
       </SettingsSection>
       <SettingsSection title="Library sounds">
         <div class="settings-row-subtitle">
-          A free Freesound key lets the Library search sounds. Only high-quality MP3 previews are downloaded (full-quality downloads need OAuth).
+          The Library searches Freesound for sounds. Official Alcor Pro downloads include a key; add your own free key to use yours instead. Only high-quality MP3 previews are downloaded (full-quality downloads need OAuth).
         </div>
         <For each={agentKeyProviders}>{(p) => <AgentKeyRow provider={p} />}</For>
       </SettingsSection>

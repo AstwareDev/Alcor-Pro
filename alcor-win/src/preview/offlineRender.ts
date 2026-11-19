@@ -2,6 +2,7 @@ import {
   ALL_FORMATS, Input, UrlSource, VideoSampleSink,
   type VideoSample,
 } from "mediabunny";
+import { openLottieUrl, type LottieSource } from "../lottie/lottieSource";
 import type { MediaAsset } from "../model/mediaAsset";
 import type { Timeline } from "../model/timeline";
 import {
@@ -178,6 +179,7 @@ export class Feeder implements TextureProvider {
   private readonly cursors = new Map<string, VideoCursor>();
   private readonly cursorFailed = new Set<string>();
   private readonly images = new Map<string, Promise<ImageBitmap | null>>();
+  private readonly lotties = new Map<string, Promise<LottieSource | null>>();
   private frames = new Map<string, SourceFrame>();
   private readonly warned = new Set<string>();
 
@@ -233,6 +235,20 @@ export class Feeder implements TextureProvider {
     return p;
   }
 
+  /** One player per layer: two layers of the same animation can show different frames in one render. */
+  private lottie(layer: MediaLayer): Promise<LottieSource | null> {
+    let p = this.lotties.get(layer.key);
+    if (!p) {
+      const asset = this.inputs.asset(layer.mediaRef);
+      p = asset ? openLottieUrl(asset.url, layer.natSize) : Promise.resolve(null);
+      void p.then((source) => {
+        if (!source && asset) this.warnOnce(layer.mediaRef, `${asset.name} could not be read as a Lottie animation and was skipped.`);
+      });
+      this.lotties.set(layer.key, p);
+    }
+    return p;
+  }
+
   /** Decodes the frame each media layer shows, then drops cursors whose layer left the graph. */
   async prepare(layers: readonly MediaLayer[]): Promise<void> {
     const next = new Map<string, SourceFrame>();
@@ -245,12 +261,18 @@ export class Feeder implements TextureProvider {
         const bitmap = await this.image(layer.mediaRef);
         if (bitmap) frame = { source: bitmap, width: bitmap.width, height: bitmap.height, version: layer.mediaRef, premultiplied: false };
       } else {
-        this.warnOnce(layer.mediaRef, "Lottie animations are not supported in video export and were skipped.");
+        frame = (await this.lottie(layer))?.frameAt(layer.sourceTime) ?? null;
       }
       if (frame) next.set(layer.key, frame);
     }));
     this.frames = next;
     const live = new Set(layers.map((l) => l.key));
+    for (const [key, p] of this.lotties) {
+      if (live.has(key)) continue;
+      this.lotties.delete(key);
+      this.compositor.forgetLayer(key);
+      void p.then((source) => source?.dispose());
+    }
     for (const [key, cursor] of this.cursors) {
       if (live.has(key)) continue;
       this.cursors.delete(key);
@@ -266,6 +288,8 @@ export class Feeder implements TextureProvider {
     await Promise.all(cursors.map((c) => c.close()));
     for (const p of this.images.values()) void p.then((b) => b?.close());
     this.images.clear();
+    for (const p of this.lotties.values()) void p.then((source) => source?.dispose());
+    this.lotties.clear();
   }
 }
 

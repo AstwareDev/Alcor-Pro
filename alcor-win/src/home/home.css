@@ -188,7 +188,7 @@
 .samples-chevron { color: var(--text-tertiary); transition: transform var(--anim-transition); }
 .samples-chevron.open { transform: rotate(90deg); }
 .samples-row { display: flex; gap: var(--sp-md); overflow-x: auto; scrollbar-width: none; }
-.sample-cell { flex: none; width: var(--project-card-w); box-sizing: content-box; }
+.sample-cell { position: relative; flex: none; width: var(--project-card-w); box-sizing: content-box; }
 .sample-card { display: block; width: 100%; padding: 0; text-align: left; }
 .card-art.blurred { filter: blur(4px); }
 .sample-download {
@@ -203,3 +203,15 @@
   font-weight: var(--fw-medium);
 }
 .sample-download progress { width: 100%; }
+.sample-cancel {
+  position: absolute;
+  top: var(--sp-md);
+  right: var(--sp-md);
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-md);
+  background: rgb(0 0 0 / var(--op-high));
+  color: var(--overlay-primary);
+}

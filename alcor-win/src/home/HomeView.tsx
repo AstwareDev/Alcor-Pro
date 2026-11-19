@@ -30,9 +30,9 @@ export function HomeView(props: {
   const [services] = createResource(() => props.services ?? createHomeServices());
   const dialogs = createDialogHost();
 
-  const openSample = async (sample: SampleSummary, onProgress: (fraction: number) => void) => {
+  const openSample = async (sample: SampleSummary, onProgress: (fraction: number) => void, signal?: AbortSignal) => {
     const s = services();
-    if (s) props.onOpenProject(await s.samples.prepare(sample, onProgress));
+    if (s) props.onOpenProject(await s.samples.prepare(sample, onProgress, signal));
   };
   const onboarding = new OnboardingStore({
     sampleAvailable: () => (services()?.samples.list.length ?? 0) > 0,

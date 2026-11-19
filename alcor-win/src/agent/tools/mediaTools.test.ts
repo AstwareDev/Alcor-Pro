@@ -135,7 +135,7 @@ describe("get_media", () => {
   });
 });
 
-function installBackend(options: { transcript?: TranscriptionResult; transcribeError?: string } = {}) {
+function installBackend(options: { transcript?: TranscriptionResult; transcribeError?: string; lottieFails?: boolean } = {}) {
   const transcribeCalls: InspectTranscribeRequest[] = [];
   const frameTimes: number[][] = [];
   const backend: InspectMediaBackend = {
@@ -144,6 +144,10 @@ function installBackend(options: { transcript?: TranscriptionResult; transcribeE
       frameTimes.push([...times]);
       return times.map((t) => ({ timestamp: t, base64: "RlJN" }));
     },
+    lottieFrames: async (_path, _size, count) => options.lottieFails === true ? null : ({
+      framerate: 30, frameCount: 60, duration: 2,
+      frames: Array.from({ length: count }, (_, i) => ({ frameIndex: Math.floor(((i + 0.5) * 60) / count), base64: "TFRU" })),
+    }),
     overview: async () => ({ base64: "U0hU", timestamps: [0.5, 12.34567] }),
     transcribe: async (req) => {
       transcribeCalls.push(req);
@@ -294,12 +298,29 @@ describe("inspect_media", () => {
     ]);
   });
 
-  it("lottieReportsUnsupportedInsteadOfFakingFrames", async () => {
+  it("lottieReturnsSampledFramesWithFramerateAndDuration", async () => {
+    installBackend();
+    const h = new ToolHarness();
+    const a = h.addAsset({ type: "lottie", duration: 2 });
+    io.addFile(a.url, "{}");
+    const result = await h.runRaw("inspect_media", { mediaRef: a.id, maxFrames: 3 });
+    expect(result.isError).toBe(false);
+    expect(result.content.filter((b) => b.kind === "image")).toHaveLength(3);
+    const meta = JSON.parse(ToolHarness.allText(result)) as Record<string, unknown>;
+    expect(meta.framerate).toBe(30);
+    expect(meta.frameCount).toBe(60);
+    expect(meta.durationSeconds).toBe(2);
+    expect(meta.sampledFrameIndices).toEqual([10, 30, 50]);
+    expect(meta.note).toContain("over gray");
+  });
+
+  it("lottieFailsWhenFramesCannotBeRendered", async () => {
+    installBackend({ lottieFails: true });
     const h = new ToolHarness();
     const a = h.addAsset({ type: "lottie", duration: 2 });
     io.addFile(a.url, "{}");
     const result = await h.runRaw("inspect_media", { mediaRef: a.id });
     expect(result.isError).toBe(true);
-    expect(ToolHarness.textOf(result)).toContain("Lottie rendering isn't available");
+    expect(ToolHarness.textOf(result)).toContain("Failed to render Lottie frames");
   });
 });

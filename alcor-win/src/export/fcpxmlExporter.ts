@@ -431,7 +431,7 @@ function buildFCPXML(input: FCPXMLExportInput): string {
 
   function libraryNode(clips: EmittableClip[]): XmlNode {
     return xmlNode("library", {
-      children: [xmlNode("event", { attributes: [["name", "Palmier Export"]], children: [projectNode(clips)] })],
+      children: [xmlNode("event", { attributes: [["name", "Alcor Export"]], children: [projectNode(clips)] })],
     });
   }
 

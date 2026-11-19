@@ -31,7 +31,7 @@ export function OfflinePreviewOverlay(props: { editor: Editor; frame: () => numb
           <div class="preview-offline-title">{o().isUnprocessable ? "Couldn't Prepare Media" : "Media Offline"}</div>
           <p class="preview-offline-text">
             {o().isUnprocessable
-              ? "Palmier loaded this clip's source file but couldn't prepare it for playback. The file may be corrupt or in an unsupported format."
+              ? "Alcor Pro loaded this clip's source file but couldn't prepare it for playback. The file may be corrupt or in an unsupported format."
               : "Alcor Pro couldn't load this clip's source file. It may be missing, on an ejected drive, or unreadable."}
           </p>
           <Show when={o().path}>{(path) => <p class="preview-offline-path" title={path()}>{path()}</p>}</Show>

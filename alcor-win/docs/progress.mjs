@@ -82,7 +82,7 @@ function architectureSvg() {
 <rect width="${W}" height="${H}" rx="12" fill="${c.surface}"/>
 <text x="24" y="34" ${font} font-size="18" font-weight="600" fill="${c.ink}">Architecture</text>
 ${group(20, 52, 560, 448, "WebView2 · SolidJS + TypeScript")}
-${box(36, 82, 250, 110, "UI panels", ["Home · Media · Preview · Inspector", "Timeline (canvas) · Prompt bar", "Export · Settings · Library"])}
+${box(36, 82, 250, 110, "UI panels", ["Home · Media · Preview · Inspector", "Timeline (canvas) · Floating prompt bar", "Export · Settings · Library"])}
 ${box(314, 82, 250, 110, "Editor core", ["DocumentStore (Immer, undo)", "Mutations — one per user intent", "Shared by UI and agent tools"], c.bar)}
 ${box(36, 222, 250, 120, "Rendering", ["Frame graph (pure)", "WebGL2 compositor + effect shaders", "WebCodecs decode · WebAudio"])}
 ${box(314, 222, 250, 120, "Export worker", ["mediabunny mux + WebCodecs encode", "H.264 · H.265 · VP9 · AAC", "FCPXML · Premiere XML"])}

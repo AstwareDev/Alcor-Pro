@@ -103,7 +103,7 @@ export const mediaDefinitions: ToolDefinition[] = [
                         "description": "Exactly one of url, path, bytes, or matte must be set. mimeType is required when bytes is set; for url it acts as a type-inference override.",
                         "properties": {
                             "url": {"type": "string", "description": "HTTPS URL. Pre-signed URLs are fine but must not expire mid-download."},
-                            "path": {"type": "string", "description": "Absolute local file or directory path, readable by the Palmier process. Files are referenced in place and must remain available. A directory is imported recursively and its folder structure is replicated as media folders."},
+                            "path": {"type": "string", "description": "Absolute local file or directory path, readable by the Alcor Pro process. Files are referenced in place and must remain available. A directory is imported recursively and its folder structure is replicated as media folders."},
                             "bytes": {"type": "string", "description": "Base64-encoded media data. Prefer url or path for anything over ~10MB."},
                             "matte": {
                                 "type": "object",

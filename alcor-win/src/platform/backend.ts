@@ -39,6 +39,8 @@ export const appPaths = (): Promise<AppPaths> => invoke("app_paths");
 export const secretSet = (name: string, value: string): Promise<void> => invoke("secret_set", { name, value });
 export const secretDelete = (name: string): Promise<void> => invoke("secret_delete", { name });
 export const secretHas = (name: string): Promise<boolean> => invoke("secret_has", { name });
+/** Whether this build bundles a key for `name` (used only when the user has none stored). */
+export const secretBuiltin = (name: string): Promise<boolean> => invoke("secret_builtin", { name });
 export const secretListPresent = (names: string[]): Promise<string[]> =>
   invoke("secret_list_present", { names });
 

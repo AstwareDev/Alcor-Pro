@@ -88,7 +88,7 @@ export function TimelinePane(props: {
   let resizeStart: { x: number; width: number } | undefined;
 
   return (
-    <div class="timeline-pane">
+    <div class="timeline-pane" data-tour="timeline">
       <Show when={isTimelineTabBarExpanded(editor)}>
         <TimelineTabBar editor={editor} />
       </Show>

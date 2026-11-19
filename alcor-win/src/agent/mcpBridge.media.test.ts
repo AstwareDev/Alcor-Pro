@@ -66,6 +66,7 @@ describe("MCP media tools", () => {
     setInspectBackend({
       readImage: async () => null,
       videoFrames: async () => "noVideoTrack",
+      lottieFrames: async () => null,
       overview: async () => { throw new Error("unused"); },
       transcribe: async () => transcriptOf([["unused", 0, 1, ["unused"]]]),
     });

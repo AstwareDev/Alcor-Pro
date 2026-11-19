@@ -1,9 +1,11 @@
-import { Match, Switch, type JSX } from "solid-js";
+import { Match, onMount, Switch, type JSX } from "solid-js";
 import { Split, type SplitPane } from "../ui/Split";
 import { Layout } from "../model/constants";
 import { layoutPreset, panelHidden, setFocusedPanel, type FocusedPanel } from "./workspace";
 import type { Editor } from "./editor";
 import { TitleBar } from "./TitleBar";
+import { TourOverlay } from "../tour/TourOverlay";
+import { tour } from "../tour/tour";
 import "./EditorView.css";
 
 export interface EditorPanels {
@@ -31,7 +33,7 @@ export function EditorView(props: {
     max,
     hidden: () => panelHidden(id),
     content: () => (
-      <div class="editor-leaf" onPointerDown={() => setFocusedPanel(id)}>
+      <div class="editor-leaf" data-panel={id} onPointerDown={() => setFocusedPanel(id)}>
         {props.panels[id]()}
       </div>
     ),
@@ -107,6 +109,8 @@ export function EditorView(props: {
     />
   );
 
+  onMount(() => void tour.startIfFirstRun());
+
   return (
     <div class="editor">
       <TitleBar title={props.title} editor={props.editor} onExport={props.onExport} onHome={props.onHome} onOpenSettings={props.onOpenSettings} />
@@ -117,6 +121,7 @@ export function EditorView(props: {
           <Match when={layoutPreset() === "vertical"}>{verticalLayout()}</Match>
         </Switch>
       </div>
+      <TourOverlay controller={tour} onOpenSettings={props.onOpenSettings} />
     </div>
   );
 }

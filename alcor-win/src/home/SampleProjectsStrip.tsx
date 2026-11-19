@@ -1,5 +1,6 @@
 import ChevronRight from "lucide-solid/icons/chevron-right";
 import Film from "lucide-solid/icons/film";
+import X from "lucide-solid/icons/x";
 import { createSignal, For, Show } from "solid-js";
 import type { SampleSummary } from "../onboarding/sampleProjects";
 
@@ -22,7 +23,7 @@ interface Download {
 /** Port of SampleProjectsStrip: a collapsible row of sample cards; renders nothing when there are no samples. */
 export function SampleProjectsStrip(props: {
   samples: readonly SampleSummary[];
-  open: (sample: SampleSummary, onProgress: (fraction: number) => void) => Promise<void>;
+  open: (sample: SampleSummary, onProgress: (fraction: number) => void, signal?: AbortSignal) => Promise<void>;
 }) {
   const [expanded, setExpanded] = createSignal(readExpanded());
   const [download, setDownload] = createSignal<Download | null>(null);
@@ -37,16 +38,22 @@ export function SampleProjectsStrip(props: {
     }
   };
 
+  let abort: AbortController | undefined;
+
   const start = async (sample: SampleSummary) => {
     if (download() !== null && download()?.failed !== true) return;
+    const controller = new AbortController();
+    abort = controller;
     setDownload({ slug: sample.slug, progress: 0, failed: false });
     try {
-      await props.open(sample, (progress) => setDownload((d) => (d ? { ...d, progress } : d)));
+      await props.open(sample, (progress) => setDownload((d) => (d ? { ...d, progress } : d)), controller.signal);
       setDownload(null);
     } catch {
-      setDownload((d) => (d ? { ...d, failed: true } : d));
+      setDownload(controller.signal.aborted ? null : (d) => (d ? { ...d, failed: true } : d));
     }
   };
+
+  const cancel = () => abort?.abort();
 
   return (
     <Show when={props.samples.length > 0}>
@@ -80,6 +87,11 @@ export function SampleProjectsStrip(props: {
                         )}
                       </Show>
                     </button>
+                    <Show when={active() && !active()?.failed}>
+                      <button type="button" class="sample-cancel" title="Cancel download" aria-label="Cancel download" onClick={cancel}>
+                        <X size={11} />
+                      </button>
+                    </Show>
                   </div>
                 );
               }}

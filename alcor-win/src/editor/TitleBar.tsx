@@ -1,3 +1,4 @@
+import CircleHelp from "lucide-solid/icons/circle-question-mark";
 import Cog from "lucide-solid/icons/cog";
 import House from "lucide-solid/icons/house";
 import Keyboard from "lucide-solid/icons/keyboard";
@@ -16,6 +17,7 @@ import { WindowControls } from "../ui/WindowControls";
 import { AlcorBrand } from "../ui/AlcorBrand";
 import { openShortcutsSheet, ShortcutsSheetHost } from "../help/ShortcutsSheet";
 import { ProjectActivityButton } from "./ProjectActivityButton";
+import { tour } from "../tour/tour";
 import {
   inspectorPanelVisible,
   mediaPanelVisible,
@@ -113,6 +115,9 @@ export function TitleBar(props: { title: string; editor?: Editor; onExport: () =
         <Show when={props.editor}>
           <ProjectActivityButton editor={props.editor as Editor} />
         </Show>
+        <button class="titlebar-icon hover-highlight" title="Quick Tour" aria-label="Quick Tour" onClick={() => tour.start()}>
+          <CircleHelp size={15} />
+        </button>
         <button class="titlebar-icon hover-highlight" title="Keyboard Shortcuts (?)" aria-label="Keyboard Shortcuts" onClick={openShortcutsSheet}>
           <Keyboard size={15} />
         </button>
@@ -129,7 +134,7 @@ export function TitleBar(props: { title: string; editor?: Editor; onExport: () =
         <Show when={props.editor && projectSessionIfOpen(props.editor)}>
           <SaveButton editor={props.editor as Editor} />
         </Show>
-        <button class="titlebar-capsule" title="Export (Ctrl+E)" onClick={props.onExport}>
+        <button class="titlebar-capsule" data-tour="export" title="Export (Ctrl+E)" onClick={props.onExport}>
           <Show when={exporting()} fallback={<Share size={13} />}>
             <ExportActivityDot />
           </Show>

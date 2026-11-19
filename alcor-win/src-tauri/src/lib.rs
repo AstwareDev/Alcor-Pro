@@ -1,3 +1,4 @@
+mod builtin_keys;
 mod export_file;
 mod fsio;
 mod http;
@@ -47,6 +48,7 @@ pub fn run() {
             secrets::secret_set,
             secrets::secret_delete,
             secrets::secret_has,
+            secrets::secret_builtin,
             secrets::secret_list_present,
             secrets::custom_endpoint_set,
             secrets::custom_endpoint_remove,

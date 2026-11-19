@@ -24,7 +24,7 @@ export interface HomeServices {
   samples: {
     list: readonly SampleSummary[];
     /** Downloads the sample if it is not cached yet and resolves with its package path. */
-    prepare(sample: SampleSummary, onProgress: (fraction: number) => void): Promise<string>;
+    prepare(sample: SampleSummary, onProgress: (fraction: number) => void, signal?: AbortSignal): Promise<string>;
   };
 }
 
@@ -55,7 +55,7 @@ export async function createHomeServices(): Promise<HomeServices> {
     isOpen: isProjectOpen,
     samples: {
       list: sampleProjectList,
-      prepare: async (sample, onProgress) => openableSamplePath(await createSampleDeps(), sample, onProgress),
+      prepare: async (sample, onProgress, signal) => openableSamplePath(await createSampleDeps(), sample, onProgress, signal),
     },
     thumbnailSrc: (projectPath) =>
       `${convertFileSrc(nativePath(joinPath(projectPath, Project.thumbnailFilename)))}?v=${thumbnailCacheBuster(projectPath)}`,

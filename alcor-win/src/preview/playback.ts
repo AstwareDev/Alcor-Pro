@@ -2,6 +2,7 @@ import { wetMediaRefs, wetPathFor } from "../denoise/denoiseState";
 import { isWetMediaRef } from "../denoise/denoiseMix";
 import { createEffect, createRoot, createSignal, on, untrack, type Accessor } from "solid-js";
 import type { Editor } from "../editor/editor";
+import { openLottieUrl, type LottieSource } from "../lottie/lottieSource";
 import { mediaUrl } from "../media/mediaUrl";
 import { timelineTotalFrames, type Timeline } from "../model/timeline";
 import type { CubeLUT } from "./effects/lutLoader";
@@ -44,6 +45,12 @@ interface AudioSlot {
   usedTick: number;
 }
 
+interface LottieEntry {
+  source: LottieSource | null;
+  disposed: boolean;
+  usedTick: number;
+}
+
 interface ImageEntry {
   frame: SourceFrame | null;
   failed: boolean;
@@ -81,6 +88,7 @@ export class PlaybackEngine {
   private readonly idleVideos: VideoSlot[] = [];
   private readonly audios = new Map<string, AudioSlot>();
   private readonly images = new Map<string, ImageEntry>();
+  private readonly lotties = new Map<string, LottieEntry>();
   private readonly mediaScratch: MediaLayer[] = [];
   private readonly provider: TextureProvider;
   private audioCtx: AudioContext | null = null;
@@ -290,6 +298,8 @@ export class PlaybackEngine {
       if (src instanceof ImageBitmap) src.close();
     }
     this.images.clear();
+    for (const entry of this.lotties.values()) this.releaseLottie(entry);
+    this.lotties.clear();
     void this.audioCtx?.close();
     this.compositor.dispose();
   }
@@ -554,6 +564,7 @@ export class PlaybackEngine {
 
   private mediaFrame(layer: MediaLayer): SourceFrame | null {
     if (layer.mediaType === "image") return this.imageFrame(layer.mediaRef);
+    if (layer.mediaType === "lottie") return this.lottieFrame(layer);
     if (layer.mediaType !== "video") return null;
     const slot = this.videos.get(`${layer.key}|${layer.mediaRef}`);
     if (!slot || slot.failed) return null;
@@ -568,6 +579,32 @@ export class PlaybackEngine {
     f.height = el.videoHeight;
     f.version = slot.frameVersion;
     return f;
+  }
+
+  private lottieFrame(layer: MediaLayer): SourceFrame | null {
+    let entry = this.lotties.get(layer.mediaRef);
+    if (!entry) {
+      const created: LottieEntry = { source: null, disposed: false, usedTick: this.tick };
+      entry = created;
+      this.lotties.set(layer.mediaRef, created);
+      const url = this.resolveUrl(layer.mediaRef);
+      if (url) {
+        void openLottieUrl(url, layer.natSize).then((source) => {
+          if (created.disposed) source?.dispose();
+          else if (source) {
+            created.source = source;
+            this.invalidate();
+          }
+        });
+      }
+    }
+    entry.usedTick = this.tick;
+    return entry.source?.frameAt(layer.sourceTime) ?? null;
+  }
+
+  private releaseLottie(entry: LottieEntry): void {
+    entry.disposed = true;
+    entry.source?.dispose();
   }
 
   private imageFrame(mediaRef: string): SourceFrame | null {
@@ -597,6 +634,11 @@ export class PlaybackEngine {
 
   /** Clips no longer on screen release their element to a small idle pool keyed by URL. */
   private retireIdle(): void {
+    for (const [ref, entry] of this.lotties) {
+      if (this.tick - entry.usedTick <= idleSlotTicks) continue;
+      this.releaseLottie(entry);
+      this.lotties.delete(ref);
+    }
     for (const [key, slot] of this.videos) {
       if (this.tick - slot.usedTick < 2) continue;
       slot.el.pause();

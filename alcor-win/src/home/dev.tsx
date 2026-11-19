@@ -48,8 +48,12 @@ async function fakeServices(): Promise<HomeServices> {
     thumbnailSrc: (p) => thumbs.get(p),
     samples: {
       list: [{ slug: "demo", title: "Sample Project", posterUrl: thumb("#7b4397", "#dc2430"), resolveUrl: "about:blank" }],
-      prepare: async (_, onProgress) => {
-        onProgress(1);
+      prepare: async (_, onProgress, signal) => {
+        for (let i = 1; i <= 10; i++) {
+          await new Promise((resolve) => setTimeout(resolve, 300));
+          if (signal?.aborted) throw new Error("cancelled");
+          onProgress(i / 10);
+        }
         return `${dir}/Sample Project.palmier`;
       },
     },

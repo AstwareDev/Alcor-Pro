@@ -71,7 +71,7 @@ describe("FCPXMLExporter", () => {
     expect(xml).toContain("name=\"FFVideoFormat1080p30\"");
     expect(xml).toContain("colorSpace=\"1-1-1 (Rec. 709)\"");
     expect(xml).toContain("<library>");
-    expect(xml).toContain("<event name=\"Palmier Export\">");
+    expect(xml).toContain("<event name=\"Alcor Export\">");
     expect(xml).toContain(`<project name="${timeline.name}">`);
     expect(xml).toContain("<sequence format=\"r1\" duration=\"0s\"");
     expect(xml).toContain("<spine/>");

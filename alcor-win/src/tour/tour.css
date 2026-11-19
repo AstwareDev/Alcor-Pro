@@ -1,0 +1,66 @@
+/* Editor/Tour/TourOverlay.swift in Darkroom: a dimmed workspace with one lime-outlined cut-out and a surface card. */
+.tour { position: fixed; inset: 0; z-index: 1200; animation: tour-in var(--anim-transition) var(--ease-out); }
+@keyframes tour-in { from { opacity: 0; } }
+
+.tour-scrim { position: absolute; inset: 0; }
+.tour-scrim.plain { background: rgb(0 0 0 / var(--op-strong)); }
+
+/* The cut-out is the element's own huge shadow, so the scrim needs no mask or per-frame work. */
+.tour-spot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border: var(--bw-thick) solid var(--accent-primary);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 100vmax rgb(0 0 0 / var(--op-strong));
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.24s var(--ease-out), width 0.24s var(--ease-out), height 0.24s var(--ease-out), opacity var(--anim-transition);
+}
+.tour-spot.shown { opacity: 1; }
+
+.tour-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+  padding: var(--sp-lg);
+  border: var(--bw-hairline) solid var(--border-primary);
+  border-radius: var(--radius-md-lg);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-lg);
+  transform: translate(calc(var(--tour-x) - 50%), calc(var(--tour-y) - 50%));
+  transition: transform 0.24s var(--ease-out);
+}
+.tour-card.bookend { width: 480px; max-width: calc(100vw - var(--sp-xxl)); padding: var(--sp-xxl); gap: var(--sp-md); }
+
+.tour-step { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: var(--fw-medium); color: var(--text-tertiary); }
+.tour-title { margin: 0; font-size: var(--fs-md); font-weight: var(--fw-semibold); color: var(--text-primary); }
+.tour-title.display { font-family: var(--font-display); font-size: var(--fs-title2); font-weight: var(--fw-light); letter-spacing: var(--tracking-tight); }
+.tour-card.bookend .tour-title:not(.display) { font-size: var(--fs-title1); }
+.tour-text { margin: 0; font-size: var(--fs-sm-md); line-height: 1.45; color: var(--text-secondary); }
+
+.tour-links { display: flex; flex-direction: column; margin-top: var(--sp-xs); }
+.tour-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-sm-md) 0;
+  font-size: var(--fs-sm-md);
+  color: var(--text-primary);
+  border-top: var(--bw-hairline) solid var(--border-subtle);
+}
+.tour-link svg { color: var(--text-muted); }
+
+.tour-actions { display: flex; align-items: center; gap: var(--sp-sm); margin-top: var(--sp-xs); }
+.tour-card.bookend .tour-actions { margin-top: var(--sp-lg); }
+.tour-spacer { flex: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tour, .tour-spot, .tour-card { animation: none; transition: none; }
+}

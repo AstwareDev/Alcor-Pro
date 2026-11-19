@@ -28,7 +28,7 @@ Alcor Pro started as a Windows port of the macOS editor [Palmier Pro](https://gi
 | Inspector | 92% | Video, Adjust (with histograms), Audio, Text, Multicam, AI Edit tabs |
 | Media panel | 92% | Folders, import, visual search, mattes, extract audio, save clip or range as media |
 | Projects & home | 92% | Autosave, project thumbnails, onboarding; sample projects still need redistributable media |
-| AI generation | 90% | Bring your own keys: fal.ai, ElevenLabs, OpenAI, Google, Replicate; one prompt bar with automatic routing |
+| AI generation | 90% | Bring your own keys: fal.ai, ElevenLabs, OpenAI, Google, Replicate; one floating prompt bar (a pill at the bottom of the timeline that expands on hover) with automatic routing |
 | Preview & compositor | 88% | WebGL2, 16 blend modes, 22 effect shaders, transitions, adjustment layers; no Lottie or HDR |
 | Export | 88% | H.264, H.265, VP9, AAC/Opus, audio-only, FCPXML, Premiere XML; no ProRes or HDR |
 | Visual search | 85% | SigLIP on this PC (207 MB, downloaded on request); one result per file rather than per shot |
@@ -92,9 +92,16 @@ pnpm tauri dev
 pnpm tauri build
 ```
 
+Checks: `pnpm typecheck`, `pnpm exec vitest run` (editor and app tests), and `pnpm test:branding` (Node's built-in runner
+for `scripts/*.test.mjs`, which Vitest skips).
+
 ```bash
 pnpm test
 ```
+
+Builds from this source ship without a Freesound key, so each user adds their own in Settings → API keys. To bundle
+one into your own builds, put `ALCOR_FREESOUND_KEY=<key>` in `src-tauri/.env` (git-ignored) or set it as an
+environment variable before building. A key the user stores themselves always takes priority.
 
 ### App identity and icons
 

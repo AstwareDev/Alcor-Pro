@@ -2,7 +2,7 @@ import { openUrl } from "@tauri-apps/plugin-opener";
 import { addMediaAsset } from "../media/mediaLibrary";
 import { mediaUrl } from "../media/mediaUrl";
 import {
-  appPaths, fsExists, fsList, fsMkdir, fsReadText, fsRemove, fsRename, fsWriteText, httpCancel, httpDownload, httpFetch, secretHas,
+  appPaths, fsExists, fsList, fsMkdir, fsReadText, fsRemove, fsRename, fsWriteText, httpCancel, httpDownload, httpFetch, secretBuiltin, secretHas,
 } from "../platform/backend";
 import { lutLoader } from "../platform/luts";
 import { newId } from "../util/id";
@@ -28,6 +28,10 @@ async function readBytes(path: string): Promise<Uint8Array> {
   if (!response.ok) throw new Error(`Could not read ${path}`);
   return new Uint8Array(await response.arrayBuffer());
 }
+
+/** The user's own Freesound key, or one bundled into this build. */
+const hasSoundKey = async (): Promise<boolean> =>
+  (await secretHas(freesoundSecretName).catch(() => false)) || (await secretBuiltin(freesoundSecretName).catch(() => false));
 
 export const tauriLibraryServices: LibraryServices = {
   storage: localStorage,
@@ -57,13 +61,13 @@ export const tauriLibraryServices: LibraryServices = {
     return response.bodyText;
   },
   async fetchSoundSearch(url) {
-    if (!(await secretHas(freesoundSecretName))) throw new MissingKeyError();
+    if (!(await hasSoundKey())) throw new MissingKeyError();
     const response = await httpFetch({ url, timeoutMs: 20_000, auth: { secret: freesoundSecretName, query: "token" } });
     if (response.status === 401 || response.status === 403) throw new Error("Freesound rejected the API key.");
     if (response.status < 200 || response.status >= 300) throw new Error(`Freesound returned HTTP ${response.status}.`);
     return JSON.parse(response.bodyText) as unknown;
   },
-  hasSoundKey: () => secretHas(freesoundSecretName).catch(() => false),
+  hasSoundKey,
   async importSound(editor, path) {
     return (await addMediaAsset(editor, path))?.id;
   },

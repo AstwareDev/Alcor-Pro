@@ -491,6 +491,7 @@ export function PromptBar(props: {
     <div
       ref={root}
       class="promptbar"
+      data-tour="promptBar"
       classList={{ open: open() }}
       onFocusIn={() => setFocused(true)}
       onFocusOut={(e) => setFocused(root.contains(e.relatedTarget as Node | null))}

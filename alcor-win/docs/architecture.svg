@@ -8,7 +8,7 @@
 <rect x="36" y="82" width="250" height="110" rx="10" fill="#202125" stroke="#3a3b40" stroke-width="1"/>
 <text x="50" y="106" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">UI panels</text>
 <text x="50" y="126" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Home · Media · Preview · Inspector</text>
-<text x="50" y="143" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Timeline (canvas) · Prompt bar</text>
+<text x="50" y="143" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Timeline (canvas) · Floating prompt bar</text>
 <text x="50" y="160" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="11.5" fill="#c3c2b7">Export · Settings · Library</text>
 <rect x="314" y="82" width="250" height="110" rx="10" fill="#202125" stroke="#3987e5" stroke-width="1"/>
 <text x="328" y="106" font-family="Segoe UI, system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="600" fill="#f0efec">Editor core</text>

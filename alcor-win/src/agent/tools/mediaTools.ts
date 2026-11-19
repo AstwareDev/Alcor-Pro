@@ -233,7 +233,7 @@ export async function inspectMedia(ctx: ToolContext, args: ToolArgs): Promise<To
     case "image": return readImage(asset);
     case "video": return readVideo(asset, args, mapping, language);
     case "audio": return readAudio(asset, args, mapping, language);
-    case "lottie": throw new ToolError(`Failed to render Lottie frames from ${asset.name}: Lottie rendering isn't available in the Windows build.`);
+    case "lottie": return readLottie(asset, args);
     case "subtitle": return readSubtitle(asset);
     case "text": throw new ToolError("Text clips are not stored as media assets.");
     case "sequence": throw new ToolError("Sequences are timelines, not media assets. Use get_timeline.");
@@ -278,6 +278,22 @@ async function readImage(asset: MediaAsset): Promise<ToolResult> {
     { kind: "text", text: encodeMeta(meta) },
   ];
   return { content, isError: false };
+}
+
+async function readLottie(asset: MediaAsset, args: ToolArgs): Promise<ToolResult> {
+  const count = Math.max(1, Math.min(argInt(args, "maxFrames") ?? defaultReadVideoFrames, readVideoMaxFrames));
+  const size = asset.sourceWidth !== undefined && asset.sourceHeight !== undefined ? { width: asset.sourceWidth, height: asset.sourceHeight } : undefined;
+  const sample = await inspectBackend().lottieFrames(asset.url, size, count);
+  if (!sample || sample.frames.length === 0) throw new ToolError(`Failed to render Lottie frames from ${asset.name}`);
+  const meta = baseMeta(asset);
+  meta.framerate = sample.framerate;
+  meta.frameCount = sample.frameCount;
+  meta.durationSeconds = jsonRounded(sample.duration, 3);
+  meta.sampledFrameIndices = sample.frames.map((f) => f.frameIndex);
+  meta.coordinateGrid = inspectGridNote;
+  meta.note = "Lottie frames sampled evenly across the animation; transparent areas composited over gray.";
+  const images: ToolBlock[] = sample.frames.map((f) => ({ kind: "image", base64: f.base64, mediaType: "image/jpeg" }));
+  return { content: [...images, { kind: "text", text: encodeMeta(meta) }], isError: false };
 }
 
 type TranscriptOutcome = { ok: true; transcript: TranscriptionResult } | { ok: false; error: string };

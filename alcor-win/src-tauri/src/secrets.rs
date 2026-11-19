@@ -115,14 +115,15 @@ impl Secrets {
         self.allowed_hosts(name).map(|_| ())
     }
 
+    /// The user's stored key, else the key bundled into this build (only for builtin names).
     pub fn read(&self, name: &str) -> R<String> {
         self.check_name(name)?;
-        entry(name)?
-            .get_password()
-            .map_err(|e| match e {
-                keyring::Error::NoEntry => format!("no API key stored for '{name}'"),
-                _ => format!("credential store error for '{name}'"),
-            })
+        match entry(name)?.get_password() {
+            Ok(key) => Ok(key),
+            Err(keyring::Error::NoEntry) => crate::builtin_keys::get(name)
+                .ok_or_else(|| format!("no API key stored for '{name}'")),
+            Err(_) => Err(format!("credential store error for '{name}'")),
+        }
     }
 
     fn save_custom(&self, map: &HashMap<String, String>) -> R<()> {
@@ -185,6 +186,13 @@ pub async fn secret_delete(state: tauri::State<'_, Secrets>, name: String) -> R<
 pub async fn secret_has(state: tauri::State<'_, Secrets>, name: String) -> R<bool> {
     state.check_name(&name)?;
     blocking(move || Ok(present(&name))).await
+}
+
+/// Whether this build bundles a key for `name`. The value itself never reaches the webview.
+#[tauri::command]
+pub fn secret_builtin(state: tauri::State<'_, Secrets>, name: String) -> R<bool> {
+    state.check_name(&name)?;
+    Ok(crate::builtin_keys::has(&name))
 }
 
 #[tauri::command]

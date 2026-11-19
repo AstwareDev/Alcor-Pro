@@ -1,4 +1,6 @@
 import { ALL_FORMATS, CanvasSink, Input, UrlSource } from "mediabunny";
+import { lottieFrameIndex, lottieSampleTimes } from "../../lottie/lottieFrames";
+import { openLottieUrl } from "../../lottie/lottieSource";
 import { mediaUrl } from "../../media/mediaUrl";
 import { fitWithin } from "../../media/thumbnailMath";
 import {
@@ -41,6 +43,13 @@ export interface SampledFrame {
   base64: string;
 }
 
+export interface LottieSample {
+  framerate: number;
+  frameCount: number;
+  duration: number;
+  frames: { frameIndex: number; base64: string }[];
+}
+
 export interface OverviewSheet {
   base64: string;
   timestamps: number[];
@@ -58,6 +67,8 @@ export interface InspectMediaBackend {
   readImage(path: string): Promise<EncodedStill | null>;
   /** Frames at `times` (source seconds); "noVideoTrack" when nothing decodable. Undecodable times are skipped. */
   videoFrames(path: string, times: readonly number[]): Promise<SampledFrame[] | "noVideoTrack">;
+  /** `count` frames sampled evenly across a Lottie animation, composited over gray; null when it can't be rendered. */
+  lottieFrames(path: string, size: { width: number; height: number } | undefined, count: number): Promise<LottieSample | null>;
   /** Storyboard of visually distinct moments; throws with a readable message on failure. */
   overview(path: string, start: number, end: number): Promise<OverviewSheet>;
   transcribe(req: InspectTranscribeRequest): Promise<TranscriptionResult>;
@@ -214,6 +225,29 @@ async function videoFrames(path: string, times: readonly number[]): Promise<Samp
   }
 }
 
+const lottieBackdrop = "#808080";
+
+async function lottieFrames(path: string, size: { width: number; height: number } | undefined, count: number): Promise<LottieSample | null> {
+  const source = await openLottieUrl(mediaUrl(path), size);
+  if (!source) return null;
+  try {
+    const frames: LottieSample["frames"] = [];
+    for (const t of lottieSampleTimes(source.duration, count)) {
+      const frame = source.frameAt(t);
+      const fit = fitWithin(frame.width, frame.height, frameMaxDimension);
+      const { canvas, ctx } = newCanvas(fit.width, fit.height);
+      ctx.fillStyle = lottieBackdrop;
+      ctx.fillRect(0, 0, fit.width, fit.height);
+      ctx.drawImage(frame.source as OffscreenCanvas, 0, 0, fit.width, fit.height);
+      drawGridOverlay(ctx, fit.width, fit.height);
+      frames.push({ frameIndex: lottieFrameIndex(t, source.totalFrames, source.duration), base64: toBase64(await encodeBlob(canvas, "image/jpeg", readVideoJPEGQuality)) });
+    }
+    return { framerate: source.framerate, frameCount: source.totalFrames, duration: source.duration, frames };
+  } finally {
+    source.dispose();
+  }
+}
+
 function lumaGrid(source: CanvasImageSource): number[] {
   const { canvas, ctx } = newCanvas(lumaCells, lumaCells);
   ctx.imageSmoothingQuality = "high";
@@ -305,7 +339,7 @@ async function transcribe(req: InspectTranscribeRequest): Promise<TranscriptionR
   return transcribeCached(request);
 }
 
-export const defaultInspectBackend: InspectMediaBackend = { readImage, videoFrames, overview: renderOverview, transcribe };
+export const defaultInspectBackend: InspectMediaBackend = { readImage, videoFrames, lottieFrames, overview: renderOverview, transcribe };
 
 let current: InspectMediaBackend = defaultInspectBackend;
 
